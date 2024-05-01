@@ -139,5 +139,11 @@
   <ItemGroup>
     <Resource Include="Resource\message-delta.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\profile-delta.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\bg-delta.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

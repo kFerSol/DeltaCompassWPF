@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeltaCompassWPF.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -35,6 +36,12 @@ namespace DeltaCompassWPF
         private void btnMinimizar_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void btnPerfil_Click(object sender, RoutedEventArgs e)
+        {
+            PaginaPerfil pp = new PaginaPerfil();
+            main.Navigate(pp);
         }
 
         private void btnPerfil_MouseEnter(object sender, MouseEventArgs e)
