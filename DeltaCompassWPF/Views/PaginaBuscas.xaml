@@ -1,0 +1,86 @@
+﻿<Page x:Class="DeltaCompassWPF.Views.PaginaBuscas"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DeltaCompassWPF.Views"
+      xmlns:controls="clr-namespace:DeltaCompassWPF.Views.UserControls"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Background="#1C1C1C"
+      Title="PaginaBuscas">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="52"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Left" 
+                    Margin="35, 20, 0, 0">
+            <StackPanel Orientation="Vertical" Width="50" Margin="0, 0, 30, 0">
+                <Button x:Name="btnBuscarCla" Background="#1C1C1C" MouseEnter="BtnBuscarCla_MouseEnter" 
+                        MouseLeave="BtnBuscarCla_MouseLeave" Click="btnBuscarCla_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label x:Name="lblCla" Content="Clã" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="15"
+                           HorizontalAlignment="Center" Padding="0"/>
+                </Button>
+                <Border x:Name="bordaCla" BorderBrush="#2E2BC2" BorderThickness="0, 0, 0, 3" Width="40" 
+                        Background="#1C1C1C" Visibility="Visible"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Button x:Name="btnBuscarUsuario" Background="#1C1C1C" MouseEnter="BtnBuscarUsuario_MouseEnter"
+                        MouseLeave="BtnBuscarUsuario_MouseLeave" Click="btnBuscarUsuario_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label x:Name="lblUsuario" Content="Usuário" FontFamily="..\fonts\#Poppins" Foreground="White" 
+                           FontSize="15" HorizontalAlignment="Center" Padding="0"/>
+                </Button>
+                <Border x:Name="bordaUsuario" BorderBrush="#2E2BC2" BorderThickness="0, 0, 0, 3" Width="70" 
+                        Background="#1C1C1C" Visibility="Hidden"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right"
+                    Margin="0, 15, 50, 0">
+            <Image Source="..\resource\filter-deltaw.png" Width="40"/>
+            <controls:ControlTextboxPesquisa/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Grid.Column="1" Width="500" HorizontalAlignment="Left" Margin="20, 20, 20, 40">
+            <Border Background="#272727" CornerRadius="15" BorderThickness="2" 
+                    BorderBrush="#2E2BC2" Width="450"/>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -7,26 +7,30 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="865" WindowStyle="None" WindowStartupLocation="CenterScreen"
         MinHeight="550" MinWidth="850" Padding="0" Margin="0" ResizeMode="CanResizeWithGrip" AllowsTransparency="True">
+    <!--Eventos de expandir e encolher a sidebar-->
     <Window.Resources>
         <Storyboard x:Key="MenuOpen">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="50"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
+                                           Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="55"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="MenuClose">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value="50"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
+                                           Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="55"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="250"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
 
+    <!--Gatilhos para os eventos de expandir e encolher a sidebar-->
     <Window.Triggers>
-        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="expandirSidebar">
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btnEncolher">
             <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
         </EventTrigger>
-        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="expandirSidebar">
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="btnExpandir">
             <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
         </EventTrigger>
     </Window.Triggers>
@@ -34,26 +38,387 @@
     <Grid x:Name="fundo">
         <!--Criação das colunas e linhas-->
         <Grid.ColumnDefinitions>
-            <!--Coluna da Sidebar-->
-            <ColumnDefinition Width="50"/>
-            <!--Coluna das páginas que serão abertas-->
-            <ColumnDefinition />
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <!--Linha da Titlebar-->
             <RowDefinition Height="30"/>
-            <!--Linha de todo o resto-->
-            <RowDefinition />
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <!--Panel da Titlebar que utiliza duas coluna-->
-        <Grid Background="#1C1C1C" Grid.Column="0" Grid.Row="1">
-            <Border BorderThickness="0,0,1.8,0" BorderBrush="#2E2BC2">
-                <StackPanel Background="#1C1C1C">
-                    <Button x:Name="expandirSidebar" Background="#1C1C1C" Height="50">
-                        <Image Source="resource\minus-delta.png" />
+        
+        <!--Frame que mostrará outras páginas-->
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" >
+            <Frame Navigated="main_Navigated" NavigationUIVisibility="Hidden" x:Name="main"/>
+        </Grid>
+         
+        <!--SideBar-->   
+        <Grid x:Name="GridMenu" SizeChanged="GridMenu_SizeChanged" HorizontalAlignment="Left" Background="#1C1C1C" 
+              Width="55" Grid.Column="0" Grid.Row="1">
+            <!--Sidebar extendida-->
+            <Border x:Name="sideExtendida" Visibility="Collapsed" BorderThickness="0,0,1.8,0" BorderBrush="#2E2BC2">
+                <StackPanel Background="#1C1C1C" Width="250" HorizontalAlignment="Center">
+
+                    <!--Botão da página de home extendida-->
+                    <Button Background="#1C1C1C" Height="60" Width="200">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#101010" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Border BorderBrush="White" BorderThickness="0, 0, 0, 2" Width="140">
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="40" Width="200">
+                                <Image Source="resource\Delta-logoClean.png" Width="25" HorizontalAlignment="Center" 
+                                       Margin="35, 0, 0, 0"/>
+                                <Label VerticalAlignment="Center" FontFamily="fonts\#Poppins" FontSize="13" 
+                                       Foreground="White">
+                                    DeltaCompass
+                                </Label>
+                            </StackPanel>
+                        </Border>
                     </Button>
 
-                    <Button x:Name="btnPerfil" ToolTip="Perfil do Usuário" Click="btnPerfil_Click" MouseEnter="btnPerfil_MouseEnter" MouseLeave="btnPerfil_MouseLeave" Background="#4A4A4A" Margin="0, 65, 0, 0" Width="40" Height="40">
+                    <!--Botão que encolhe a sidebar-->
+                    <Button x:Name="btnEncolher" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                        Background="#1C1C1C" Width="50" Height="50">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#101010" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#262626" TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Image Source="resource\menu.png" Width="30"/>
+                    </Button>
+
+                    <!--Botão extendido da página de perfil-->
+                    <Button x:Name="btnPerfilExtendido" Click="btnPerfil_Click" Height="60" Width="250" 
+                            Margin="0, 46, 0, 0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                            HorizontalAlignment="Left">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#1C1C1C" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#262626" TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <StackPanel Orientation="Horizontal" Width="250">
+                            <Border x:Name="perfilBordaEx" CornerRadius="2" BorderThickness="1.5" Width="40" Height="40" Margin="10, 0, 0, 0">
+                                <Button x:Name="btnPerfilEx" ToolTip="Perfil do Usuário" Background="#4A4A4A">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background" Value="#101010" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                          VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <Image Width="30" Source="resource\user-delta.png" />
+                                </Button>
+                            </Border>
+                            <Label VerticalAlignment="Center" Foreground="White" FontSize="13" FontFamily="fonts\#Poppins">
+                                Perfil de Usuário
+                            </Label>
+                        </StackPanel>
+                    </Button>
+
+                    <!--Botão extendido da página de conversão-->
+                    <Button x:Name="btnConversaoExtendido" Click="btnConversao_Click" Height="60" Width="250" 
+                            MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                            HorizontalAlignment="Left">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#1C1C1C" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#262626" TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <StackPanel Orientation="Horizontal" Width="250">
+                            <Border x:Name="bordaConversaoEx" CornerRadius="2" BorderThickness="1.5" Width="40" Height="40" Margin="10, 0, 0, 0">
+                                <Button x:Name="btnConversaoEx" ToolTip="Conversão de Sensibilidade" Background="#4A4A4A">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background" Value="#101010" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                                          VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <Image Width="30" Source="resource\sync-delta.png" />
+                                </Button>
+                            </Border>
+                            <Label VerticalAlignment="Center" Foreground="White" FontSize="13" FontFamily="fonts\#Poppins">
+                                Conversão Automatizada
+                            </Label>
+                        </StackPanel>
+                    </Button>
+
+                    <!--Botão extendido da página de buscas-->
+                    <Button x:Name="btnBuscarExtendido" Click="btnBuscar_Click" Height="60" Width="250" 
+                            MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                            HorizontalAlignment="Left">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#1C1C1C" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#262626" TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <StackPanel Orientation="Horizontal" Width="250">
+                            <Border x:Name="bordaBuscasEx" CornerRadius="2" BorderThickness="1.5" Width="40" Height="40" Margin="10, 0, 0, 0">
+                                <Button x:Name="btnBuscasEx" ToolTip="Buscar Usuários/Clãs" Background="#4A4A4A">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background" Value="#101010" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                                          VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <Image Width="30" Source="resource\users-delta.png" />
+                                </Button>
+                            </Border>
+                            <Label VerticalAlignment="Center" Foreground="White" FontSize="13" FontFamily="fonts\#Poppins">
+                                Buscar Usuários/Clãs
+                            </Label>
+                        </StackPanel>
+                    </Button>
+
+                    <!--Botão extendido da página de clã-->
+                    <Button x:Name="btnClaExtendido" Click="btnCla_Click" Height="60" Width="250" 
+                            MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                            HorizontalAlignment="Left">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#1C1C1C" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#262626" TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <StackPanel Orientation="Horizontal" Width="250">
+                            <Border x:Name="bordaClaEx" CornerRadius="2" BorderThickness="1.5" Width="40" Height="40" Margin="10, 0, 0, 0">
+                                <Button x:Name="btnClaEx" ToolTip="Clã" Background="#4A4A4A">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background" Value="#101010" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                                          VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <Image Width="30" Source="resource\shield-delta.png" />
+                                </Button>
+                            </Border>
+                            <Label VerticalAlignment="Center" Foreground="White" FontSize="13" FontFamily="fonts\#Poppins">
+                                Perfil de Clã
+                            </Label>
+                        </StackPanel>
+                    </Button>
+
+                    <!--Botão extendido da página de suporte-->
+                    <Button x:Name="btnSuporteExtendido" Click="btnSuporte_Click" Height="50" Width="250" 
+                            Margin="0, 25, 0, 0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                            HorizontalAlignment="Left">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#1C1C1C" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#262626" TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <StackPanel Orientation="Horizontal" Width="250">
+                            <Border x:Name="bordaSuporteEx" CornerRadius="2" BorderThickness="1.5" Width="40" Height="40" Margin="10, 0, 0, 0">
+                                <Button x:Name="btnSuporteEx" ToolTip="Página de Suporte" Background="#1C1C1C">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background" Value="#101010" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                                          VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <Image Width="30" Source="resource\message-delta.png" />
+                                </Button>
+                            </Border>
+                            <Label VerticalAlignment="Center" Foreground="White" FontSize="13" FontFamily="fonts\#Poppins">
+                                Fale Conosco
+                            </Label>
+                        </StackPanel>
+                    </Button>
+
+                    <!--Botão extendido da página de configuração-->
+                    <Button x:Name="btnConfiguracaoExtendido" Click="btnConfiguracao_Click" Height="50" Width="250" 
+                            MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                            HorizontalAlignment="Left">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#1C1C1C" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#262626" TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <StackPanel Orientation="Horizontal" Width="250">
+                            <Border x:Name="bordaConfiguracaoEx" CornerRadius="2" BorderThickness="1.5" Width="40" Height="40" Margin="10, 0, 0, 0">
+                                <Button x:Name="btnConfiguracaooEx" ToolTip="Configurações" Background="#1C1C1C">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background" Value="#101010" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                          VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <Image Width="30" Source="resource\slider-delta.png" />
+                                </Button>
+                            </Border>
+                            <Label VerticalAlignment="Center" Foreground="White" FontSize="13" FontFamily="fonts\#Poppins">
+                                Configurações
+                            </Label>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!--Sidebar encolhida-->
+            <Border x:Name="sideEncolhida" BorderThickness="0,0,1.8,0" BorderBrush="#2E2BC2">
+                <!--Corpo da sidebar-->
+                <StackPanel Visibility="Visible" Background="#1C1C1C" HorizontalAlignment="Left" Width="55">
+                    <!--Botão da home-->
+                    <Button x:Name="btnHome" Background="#1C1C1C">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#101010" />
@@ -73,11 +438,14 @@
                                 </Setter>
                             </Style>
                         </Button.Style>
-                        <Image Width="30" Source="resource\user-delta.png" />
+                        <StackPanel Margin="0, 10, 0, 5">
+                            <Image Source="resource\delta-logoClean.png" Height="35"/>
+                            <TextBlock FontFamily="fonts\#Poppins" Foreground="White" FontSize="7">DeltaCompass</TextBlock>
+                        </StackPanel>
                     </Button>
 
-
-                    <Button x:Name="btnConversao" ToolTip="Conversão de Sensibilidade" MouseEnter="btnConversao_MouseEnter" MouseLeave="btnConversao_MouseLeave" Background="#4A4A4A" Margin="0, 20, 0, 0" Width="40" Height="40">
+                    <!--Botão de expandir a sidebar-->
+                    <Button x:Name="btnExpandir" Background="#1C1C1C" Height="50">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#101010" />
@@ -97,57 +465,107 @@
                                 </Setter>
                             </Style>
                         </Button.Style>
-                        <Image Width="30" Source="resource\sync-delta.png" />
+                        <Image Source="resource\menu.png" Width="30"/>
                     </Button>
 
-                    <Button x:Name="btnBuscar" ToolTip="Buscar usuários/clãs" MouseEnter="btnBuscar_MouseEnter" MouseLeave="btnBuscar_MouseLeave" Background="#4A4A4A" Margin="0, 20, 0, 0" Width="40" Height="40">
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Background" Value="#101010" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#2E2BC2" TargetName="Border"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                        <Image Width="30" Source="resource\users-delta.png" />
-                    </Button>
+                    <!--Botão da página de perfil-->
+                    <Border x:Name="perfilBorda" CornerRadius="2" BorderThickness="1.5" Margin="0, 55, 0, 0" 
+                            Width="40" Height="40">
+                        <Button x:Name="btnPerfil" ToolTip="Perfil do Usuário" Click="btnPerfil_Click" 
+                                MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                                Background="#4A4A4A">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background" Value="#101010" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#2E2BC2" 
+                                                                TargetName="Border"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <Image x:Name="perfilIcon" Width="30" Source="resource\user-delta.png" />
+                        </Button>
+                    </Border>
 
-                    <Button x:Name="btnCla" ToolTip="Clã" MouseEnter="btnCla_MouseEnter" MouseLeave="btnCla_MouseLeave" Background="#4A4A4A" Margin="0, 20, 0, 0" Width="40" Height="40">
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Background" Value="#101010" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#2E2BC2" TargetName="Border"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                        <Image Width="30" Source="resource\shield-delta.png" />
-                    </Button>
+                    <!--Botão da página de conversão-->
+                    <Border x:Name="conversaoBorda" CornerRadius="2" BorderThickness="1.5" Margin="0, 20, 0, 0" 
+                            Width="40" Height="40">
+                        <Button x:Name="btnConversao" ToolTip="Conversão de Sensibilidade" Click="btnConversao_Click" 
+                                MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                                Background="#4A4A4A">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background" Value="#101010" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#2E2BC2" 
+                                                                TargetName="Border"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <Image Width="30" Source="resource\sync-delta.png" />
+                        </Button>
+                    </Border>
 
-                    <DockPanel>
-                        <Button x:Name="btnConfiguracao" DockPanel.Dock="bottom" Background="#1C1C1C" Height="50">
+                    <!--Botão da página de busca de usuários ou clãs-->
+                    <Border x:Name="buscarBorda" CornerRadius="2" BorderThickness="1.5" Margin="0, 20, 0, 0"
+                            Width="40" Height="40">
+                        <Button x:Name="btnBuscar" ToolTip="Buscar usuários/clãs" Click="btnBuscar_Click" 
+                                MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                                Background="#4A4A4A">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background" Value="#101010" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#2E2BC2" 
+                                                            TargetName="Border"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <Image Width="30" Source="resource\users-delta.png" />
+                        </Button>
+                    </Border>
+
+                    <!--Botão da página de criação de clã ou perfil do clã-->
+                    <Border x:Name="claBorda" CornerRadius="2" BorderThickness="1.5" Margin="0, 20, 0, 0"
+                            Width="40" Height="40">
+                        <Button x:Name="btnCla" ToolTip="Clã" Click="btnCla_Click" MouseEnter="sidebarBtn_MouseEnter" 
+                                MouseLeave="sidebarBtn_MouseLeave" Background="#4A4A4A">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
                                     <Setter Property="Background" Value="#101010" />
@@ -167,9 +585,16 @@
                                     </Setter>
                                 </Style>
                             </Button.Style>
-                            <Image Width="30" Source="resource\slider-delta.png" />
+                            <Image Width="30" Source="resource\shield-delta.png" />
                         </Button>
-                        <Button x:Name="btnSuporte" DockPanel.Dock="bottom" Background="#1C1C1C" Margin="0, 85, 0, 0" Height="50">
+                    </Border>
+
+                    <!--Painel que separa os ultimos botões-->
+                    <DockPanel VerticalAlignment="Bottom" Margin="0, 35, 0, 0">
+                        <!--Botão da página de configuração-->
+                        <Button x:Name="btnConfiguracao" Click="btnConfiguracao_Click" MouseEnter="sidebarBtn_MouseEnter" 
+                                MouseLeave="sidebarBtn_MouseLeave" DockPanel.Dock="bottom" Background="#1C1C1C" 
+                                Height="50">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
                                     <Setter Property="Background" Value="#101010" />
@@ -177,11 +602,41 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Button}">
                                                 <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" Value="#2E2BC2" TargetName="Border"/>
+                                                        <Setter Property="Background" Value="#2E2BC2" 
+                                                                TargetName="Border"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <Image Width="30" Source="resource\slider-delta.png" />
+                        </Button>
+                        
+                        <!--Botão da página de suporte-->
+                        <Button x:Name="btnSuporte" Click="btnSuporte_Click" MouseEnter="sidebarBtn_MouseEnter" 
+                                MouseLeave="sidebarBtn_MouseLeave" DockPanel.Dock="bottom" Background="#1C1C1C"  
+                                Height="50">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background" Value="#101010" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#2E2BC2" 
+                                                                TargetName="Border"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -195,11 +650,10 @@
                 </StackPanel>
             </Border>
         </Grid>
-
-        <Frame NavigationUIVisibility="Hidden" Grid.Column="1" Grid.Row="2" x:Name="main" />
         
         <!--Panel da Titlebar que utiliza duas coluna-->
-        <DockPanel Margin="0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Background="#101010" LastChildFill="False">
+        <DockPanel MouseLeftButtonDown="DockPanel_MouseLeftButtonDown" Margin="0" Grid.Column="0" Grid.Row="0" 
+                   Grid.ColumnSpan="3" Background="#101010" LastChildFill="False">
             <!--Botão de fechar a página-->
             <Button Click="btnClose_Click" Background="#101010" x:Name="btnClose" Width="45" DockPanel.Dock="Right">
                 <Button.Style>
@@ -224,7 +678,8 @@
                 <Image Source="resource\close-delta.png" />
             </Button>
             <!--Botão de minimizar a página-->
-            <Button Click="btnMinimizar_Click" Background="#101010" x:Name="btnMinimizar" Width="45" DockPanel.Dock="Right">
+            <Button Click="btnMinimizar_Click" Background="#101010" x:Name="btnMinimizar" Width="45" 
+                    DockPanel.Dock="Right">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="#101010" />

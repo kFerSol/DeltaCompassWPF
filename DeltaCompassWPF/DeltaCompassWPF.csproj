@@ -55,11 +55,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\PaginaBuscas.xaml.cs">
+      <DependentUpon>PaginaBuscas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaginaConfiguracao.xaml.cs">
+      <DependentUpon>PaginaConfiguracao.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PaginaConversao.xaml.cs">
       <DependentUpon>PaginaConversao.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PaginaCriacaoCla.xaml.cs">
+      <DependentUpon>PaginaCriacaoCla.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PaginaPerfil.xaml.cs">
       <DependentUpon>PaginaPerfil.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaginaPerfilCla.xaml.cs">
+      <DependentUpon>PaginaPerfilCla.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaginaPerfilOutro.xaml.cs">
+      <DependentUpon>PaginaPerfilOutro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaginaSuporte.xaml.cs">
+      <DependentUpon>PaginaSuporte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ControlTextboxPesquisa.xaml.cs">
+      <DependentUpon>ControlTextboxPesquisa.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -73,11 +94,39 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PaginaBuscas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PaginaConfiguracao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PaginaConversao.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PaginaCriacaoCla.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PaginaPerfil.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PaginaPerfilCla.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PaginaPerfilOutro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PaginaSuporte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ControlTextboxPesquisa.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,6 +149,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\Poppins-Regular.ttf" />
+    <Resource Include="Fonts\MODES___.TTF" />
+    <Resource Include="Fonts\Poppins-Light.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -134,9 +186,6 @@
     <Resource Include="Resource\slider-delta.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resource\users-delta.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resource\message-delta.png" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +193,34 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\bg-delta.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Delta-logoClean.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\users-delta.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\apex-logo.png" />
+    <Resource Include="Resource\cslogo.png" />
+    <Resource Include="Resource\MWIII-logo.png" />
+    <Resource Include="Resource\portal-logo.png" />
+    <Resource Include="Resource\rainbow-logo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\delta-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\edit-box-delta.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\filter-deltaw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\search-delta.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
