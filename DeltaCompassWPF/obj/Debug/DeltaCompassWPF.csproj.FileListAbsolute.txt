@@ -71,3 +71,20 @@ C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao2\DeltaCompassWP
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao2\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlTextboxPesquisa.g.cs
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao2\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlTextboxPesquisa.baml
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao2\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaBuscas.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaConfiguracao.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaCriacaoCla.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaPerfilCla.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaPerfilOutro.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaSuporte.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlTextboxPesquisa.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaBuscas.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaConfiguracao.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaCriacaoCla.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaPerfilCla.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaPerfilOutro.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\PaginaSuporte.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlTextboxPesquisa.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlTextBox.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlTextBox.baml

@@ -79,9 +79,7 @@
                                 <Image Source="resource\Delta-logoClean.png" Width="25" HorizontalAlignment="Center" 
                                        Margin="35, 0, 0, 0"/>
                                 <Label VerticalAlignment="Center" FontFamily="fonts\#Poppins" FontSize="13" 
-                                       Foreground="White">
-                                    DeltaCompass
-                                </Label>
+                                       Foreground="White" Content="DeltaCompass"/>
                             </StackPanel>
                         </Border>
                     </Button>
@@ -440,7 +438,7 @@
                         </Button.Style>
                         <StackPanel Margin="0, 10, 0, 5">
                             <Image Source="resource\delta-logoClean.png" Height="35"/>
-                            <TextBlock FontFamily="fonts\#Poppins" Foreground="White" FontSize="7">DeltaCompass</TextBlock>
+                            <TextBlock FontFamily="fonts\#Poppins" Foreground="White" FontSize="6" Margin="0, 2, 0, 0">DeltaCompass</TextBlock>
                         </StackPanel>
                     </Button>
 
