@@ -46,7 +46,8 @@
                     Background="#1C1C1C" Visibility="Visible"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center"
+                    Margin="0, 0, 0, 50">
             <Border BorderThickness="3" BorderBrush="#2E2BC2" Width="200" Height="200"
                     CornerRadius="100">
                 <Ellipse>
@@ -87,8 +88,16 @@
         <StackPanel Grid.Row="1" Grid.Column="2">
             <Label Content="Nome:" HorizontalAlignment="Left" Foreground="White" FontSize="16" FontFamily="..\Fonts\#Poppins"/>
             <Grid HorizontalAlignment="Left">
-                <Controls:ControlTextBox Largura="300" Placeholder="Nome do Usuário"/>
+                <Controls:ControlTextBox Largura="300" Placeholder="Entre 3-20 Caracteres" Altura="33" CaracterMaximo="20"
+                                         AlinhamentoVertical="Center" AlturaText="25"/>
             </Grid>
+            <Label Content="Biografia:" HorizontalAlignment="Left" Foreground="White" FontSize="16" FontFamily="..\Fonts\#Poppins"
+                   Margin="0, 10, 0, 0"/>
+            <Grid HorizontalAlignment="Left">
+                <Controls:ControlTextBox Largura="300" Placeholder="" Altura="110" Wrap="Wrap" Return="True" AlinhamentoVertical="Top"
+                                         AlturaText="110"/>
+            </Grid>
+            <TextBox TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
         </StackPanel>
     </Grid>
 </Page>

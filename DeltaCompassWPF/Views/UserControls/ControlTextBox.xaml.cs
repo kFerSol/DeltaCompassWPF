@@ -27,8 +27,14 @@ namespace DeltaCompassWPF.Views.UserControls
         }
 
         public string Placeholder { get; set; }
-
         public double Largura { get; set; }
+        public string Wrap { get; set; }
+        public bool Return { get; set; }
+        public double Altura { get; set; }
+        public string AlinhamentoVertical { get; set; }
+        public double AlturaText { get; set; }
+
+        public int CaracterMaximo { get; set; }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
