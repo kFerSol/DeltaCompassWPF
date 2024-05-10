@@ -79,6 +79,9 @@
     <Compile Include="Views\PaginaSuporte.xaml.cs">
       <DependentUpon>PaginaSuporte.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\ControlButton.xaml.cs">
+      <DependentUpon>ControlButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\ControlTextBox.xaml.cs">
       <DependentUpon>ControlTextBox.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PaginaSuporte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ControlButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

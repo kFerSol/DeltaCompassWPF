@@ -33,6 +33,8 @@ namespace DeltaCompassWPF.Views.UserControls
         public double Altura { get; set; }
         public string AlinhamentoVertical { get; set; }
         public double AlturaText { get; set; }
+        public string ScrollVisibility { get; set; }
+        public string AlinhamentoHorizontal { get; set; }
 
         public int CaracterMaximo { get; set; }
 

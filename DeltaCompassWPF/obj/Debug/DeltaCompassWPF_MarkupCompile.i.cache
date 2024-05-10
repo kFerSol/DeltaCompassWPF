@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\etec\Documents\DeltaCompassWPF\DeltaCompassWPF\App.xaml
-11977463543
+12-1941253197
 
-161089116681
+17376897865
 13-1310406943
-MainWindow.xaml;Views\PaginaBuscas.xaml;Views\PaginaConfiguracao.xaml;Views\PaginaConversao.xaml;Views\PaginaCriacaoCla.xaml;Views\PaginaPerfil.xaml;Views\PaginaPerfilCla.xaml;Views\PaginaPerfilOutro.xaml;Views\PaginaSuporte.xaml;Views\UserControls\ControlTextBox.xaml;Views\UserControls\ControlTextboxPesquisa.xaml;
+MainWindow.xaml;Views\PaginaBuscas.xaml;Views\PaginaConfiguracao.xaml;Views\PaginaConversao.xaml;Views\PaginaCriacaoCla.xaml;Views\PaginaPerfil.xaml;Views\PaginaPerfilCla.xaml;Views\PaginaPerfilOutro.xaml;Views\PaginaSuporte.xaml;Views\UserControls\ControlButton.xaml;Views\UserControls\ControlTextBox.xaml;Views\UserControls\ControlTextboxPesquisa.xaml;
 
 True
 
