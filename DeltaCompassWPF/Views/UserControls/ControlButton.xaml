@@ -32,7 +32,8 @@
                         </Setter>
                     </Style>
                 </Button.Style>
-                <Label Content="{Binding btnTexto}" FontFamily="..\..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
+                <Label Content="{Binding BtnTexto}" FontFamily="..\..\fonts\#ModeSeven" Foreground="White" FontSize="15"
+                       Width="{Binding Largura}"/>
             </Button>
         </Border>
     </Grid>

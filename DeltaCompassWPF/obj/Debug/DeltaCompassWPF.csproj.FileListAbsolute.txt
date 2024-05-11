@@ -125,3 +125,5 @@ C:\Users\etec\Documents\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCompassWP
 C:\Users\etec\Documents\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCompassWPF.csproj.CoreCompileInputs.cache
 C:\Users\etec\Documents\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCompassWPF.exe
 C:\Users\etec\Documents\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCompassWPF.pdb
+C:\Users\etec\Documents\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlButton.g.cs
+C:\Users\etec\Documents\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlButton.baml

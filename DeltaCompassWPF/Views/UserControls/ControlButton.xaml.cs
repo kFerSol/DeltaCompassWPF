@@ -25,14 +25,21 @@ namespace DeltaCompassWPF.Views.UserControls
             InitializeComponent();
         }
 
+        public string BtnTexto { get; set; }
+        public double Largura { get; set; }
+
         private void btnBorda_MouseEnter(object sender, MouseEventArgs e)
         {
-           
+            btnBorda.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            botao.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            this.Cursor = Cursors.Hand;
         }
 
         private void btnBorda_MouseLeave(object sender, MouseEventArgs e)
         {
-
+            btnBorda.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            botao.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            this.Cursor = Cursors.Arrow;
         }
 
         private void BtnCursor_MouseEnter(Object sender, MouseEventArgs e)
@@ -44,6 +51,5 @@ namespace DeltaCompassWPF.Views.UserControls
         {
             this.Cursor = Cursors.Arrow;
         }
-        public string btnText { get; set; }
     }
 }
