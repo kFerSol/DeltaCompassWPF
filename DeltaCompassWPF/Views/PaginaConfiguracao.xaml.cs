@@ -24,5 +24,55 @@ namespace DeltaCompassWPF.Views
         {
             InitializeComponent();
         }
+
+        private void BtnConfigGeral_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lblGeral.Foreground = new SolidColorBrush(Colors.DarkGray);
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void BtnConfigGeral_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lblGeral.Foreground = new SolidColorBrush(Colors.White);
+            this.Cursor = Cursors.Arrow;
+        }
+
+        private void BtnConfigPerfil_MouseEnter(Object sender, MouseEventArgs e)
+        {
+            lblPerfil.Foreground = new SolidColorBrush(Colors.DarkGray);
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void BtnConfigPerfil_MouseLeave(Object sender, MouseEventArgs e)
+        {
+            lblPerfil.Foreground = new SolidColorBrush(Colors.White);
+            this.Cursor = Cursors.Arrow;
+        }
+
+        private void BtnConfigGeral_Click(Object sender, RoutedEventArgs e)
+        {
+            bordaGeral.Visibility = Visibility.Visible;
+            bordaPerfil.Visibility = Visibility.Hidden;
+            scrollConfigGeral.Visibility = Visibility.Visible;
+            scrollConfigPerfil.Visibility = Visibility.Collapsed;
+        }
+
+        private void BtnConfigPerfil_Click(Object sender, RoutedEventArgs e)
+        {
+            bordaGeral.Visibility = Visibility.Hidden;
+            bordaPerfil.Visibility = Visibility.Visible;
+            scrollConfigGeral.Visibility = Visibility.Collapsed;
+            scrollConfigPerfil.Visibility = Visibility.Visible;
+        }
+
+        private void SalvarBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ControlTextBox_TextValueChangedEvent(object sender, EventArgs e)
+        {
+
+        }
     }
 }

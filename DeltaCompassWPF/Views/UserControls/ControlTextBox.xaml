@@ -15,7 +15,8 @@
                 <TextBox x:Name="txtInput"  FontSize="16" BorderThickness="0" VerticalAlignment="{Binding AlinhamentoVertical}" Margin="5, 0, 5, 0" 
                          Background="Transparent" FontFamily="../../Fonts/#Poppins" TextChanged="TextBox_TextChanged" Padding="0, 5, 0, 5"
                          TextWrapping="{Binding Wrap}" AcceptsReturn="{Binding Return}" MaxLength="{Binding CaracterMaximo}"
-                         Height="{Binding AlturaText}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="{Binding ScrollVisibility}"/>
+                         Height="{Binding AlturaText}" HorizontalScrollBarVisibility="Disabled" 
+                         VerticalScrollBarVisibility="{Binding ScrollVisibility}" IsReadOnly="{Binding ReadOnly}"/>
             </Grid>
         </Border>
     </Grid>

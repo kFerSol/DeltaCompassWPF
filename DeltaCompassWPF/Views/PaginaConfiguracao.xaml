@@ -3,12 +3,313 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DeltaCompassWPF.Views"
+      xmlns:local="clr-namespace:DeltaCompassWPF.ViewModels"
+      xmlns:Controls="clr-namespace:DeltaCompassWPF.Views.UserControls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      Background="#1C1C1C"
       Title="PaginaConfiguracao">
-
+    <Page.DataContext>
+        <local:UsuarioViewModel/>
+    </Page.DataContext>
+    
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="52"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Left" 
+                    Margin="20, 20, 0, 0" Width="250">
+            <StackPanel Orientation="Vertical" Width="150" Margin="0, 0, 30, 0">
+                <Button x:Name="btnConfigGeral" Background="#1C1C1C" MouseEnter="BtnConfigGeral_MouseEnter" 
+                        MouseLeave="BtnConfigGeral_MouseLeave" Click="BtnConfigGeral_Click"
+                        Width="200">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label x:Name="lblGeral" Content="Configuração Geral" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="15"
+                           HorizontalAlignment="Center" Padding="0" Width="200"/>
+                </Button>
+                <Border x:Name="bordaGeral" BorderBrush="#2E2BC2" BorderThickness="0, 0, 0, 3" Width="60" 
+                        Background="#1C1C1C" Visibility="Visible"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Button x:Name="btnConfigPerfil" Background="#1C1C1C" MouseEnter="BtnConfigPerfil_MouseEnter"
+                        MouseLeave="BtnConfigPerfil_MouseLeave" Click="BtnConfigPerfil_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label x:Name="lblPerfil" Content="Perfil" FontFamily="..\fonts\#Poppins" Foreground="White" 
+                           FontSize="15" HorizontalAlignment="Center" Padding="0"/>
+                </Button>
+                <Border x:Name="bordaPerfil" BorderBrush="#2E2BC2" BorderThickness="0, 0, 0, 3" Width="50" 
+                        Background="#1C1C1C" Visibility="Hidden"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ScrollViewer x:Name="scrollConfigGeral" Grid.Row="1" Grid.Column="1" Margin="20, 20, 0, 0" Visibility="Collapsed">
+            <StackPanel>
+                <StackPanel Width="auto" HorizontalAlignment="Left">
+                    <Label Content="Atualizações do Software" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"/>
+                    <Label Content="Não há nenhuma atualização disponível." FontFamily="..\fonts\#Poppins" Foreground="LightGray"
+                           FontSize="14" FontWeight="Thin" Padding="5, 0, 0, 0"/>
+                    <Border BorderBrush="LightGray" BorderThickness="0.5" Width="auto"/>
+                </StackPanel>
+
+                <StackPanel Width="auto" HorizontalAlignment="Left">
+                    <Label Content="Conta" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" Margin="0, 20, 0, 0"/>
+                    <Border BorderBrush="#2E2BC2" BorderThickness="1.5" Height="auto" CornerRadius="15" Width="350">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Border BorderThickness="0, 0, 1.5, 0" BorderBrush="#2E2BC2" Width="100">
+                                    <Label Content="E-mail" FontFamily="..\fonts\#Poppins" FontSize="14" Foreground="White" Margin="5"
+                                           FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </Border>
+                                <Label Content="exemplo@exemplo.com" FontFamily="..\fonts\#Poppins" Foreground="White" Margin="10,5"
+                                       FontSize="14" FontWeight="Thin"/>
+                            </StackPanel>
+                            <Border BorderBrush="#2E2BC2" BorderThickness="1.5"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Border BorderThickness="0, 0, 1.5, 0" BorderBrush="#2E2BC2" Width="100">
+                                    <Label Content="Telefone" FontFamily="..\fonts\#Poppins" FontSize="14" Foreground="White" Margin="5"
+                                           FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </Border>
+                                <Label Content="+55 (00) 00000-0000" FontFamily="..\fonts\#Poppins" Foreground="White" Margin="10,5"
+                                       FontSize="14" FontWeight="Thin"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <Label Content="Segurança" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" Margin="0, 20, 0, 0"
+                       Padding="5, 5, 5, 0"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Senha" FontFamily="..\fonts\#Poppins" FontSize="14" Foreground="White" FontWeight="Bold" 
+                           Padding="5, 0, 5, 5"/>
+                    <Label Content="Alterar senha" FontFamily="..\fonts\#Poppins" FontSize="14" Foreground="White" FontWeight="Thin"
+                           Margin="20, 0, 0, 0" Padding="5, 0, 5, 5"/>
+                </StackPanel>
+                <Label Content="Autenticação de dois fatores" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
+                       Padding="5, 0, 5, 5"/>
+
+                <StackPanel HorizontalAlignment="Left">
+                    <Label Content="Idioma do Software" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" 
+                           Margin="0, 20, 0, 0" Padding="5, 5, 5, 0"/>
+                    <Border Background="#262626" CornerRadius="15" Width="auto" Height="auto" Padding="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Português" FontFamily="..\fonts\#Poppins" FontSize="14" Foreground="White"
+                                   Grid.Row="0" Grid.Column="0"/>
+                            <Label Content="Inglês" FontFamily="..\fonts\#Poppins" FontSize="14" Foreground="White"
+                                   Grid.Row="1" Grid.Column="0"/>
+                            <RadioButton VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Margin="350, 0, 0, 0"/>
+                            <RadioButton VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="350, 0, 0, 0"/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <ScrollViewer x:Name="scrollConfigPerfil" Grid.Row="1" Grid.Column="1" Margin="20, 20, 0, 0" 
+                      VerticalScrollBarVisibility="Auto" Visibility="Visible">
+            <StackPanel Width="auto" HorizontalAlignment="Left">
+                <Label Content="Foto de Perfil" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"/>
+                <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0">
+                    <Border BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="100" Width="100" Height="100">
+                        <Border.Background>
+                            <ImageBrush ImageSource="..\resource\profile-delta.jpg"/>
+                        </Border.Background>
+                    </Border>
+                    <Controls:ControlButton Margin="20" Largura="100"/>
+                </StackPanel>
+                
+                <Label Content="Plano de Fundo" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"
+                       Margin="0, 20, 0, 0"/>
+                <StackPanel Orientation="Horizontal">
+                    <Border BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" Width="250" Height="80">
+                        <Border.Background>
+                            <ImageBrush ImageSource="..\resource\bg-delta.png"/>
+                        </Border.Background>
+                    </Border>
+                    <Controls:ControlButton VerticalAlignment="Center" Margin="20, 20, 0, 0" Largura="100"/>
+                </StackPanel>
+
+                <Label Content="Usuário" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"
+                       Margin="0, 20, 0, 0"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Nome de Perfil:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
+                           Grid.Row="0" Grid.Column="0"/>
+                    <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                            VerticalAlignment="Center" Width="300" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                        <Grid>
+                            <Label x:Name="placeNome" Content="" FontSize="16" FontFamily="../fonts/#Poppins" 
+                                   Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                            <TextBox x:Name="txtNome"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                     Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="20"
+                                     Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                                     Text="{Binding Usuario.Nome}"/>
+                        </Grid>
+                    </Border>
+                
+                    <Label Content="Apelido do Perfil:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
+                           Grid.Row="1" Grid.Column="0" Margin="0, 5, 0, 0"/>
+                    <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                            VerticalAlignment="Center" Width="300" Grid.Row="1" Grid.Column="1" Margin="0, 5, 0, 0"
+                            HorizontalAlignment="Left">
+                        <Grid>
+                            <Label x:Name="placeApelido" Content="" FontSize="16" FontFamily="../fonts/#Poppins" 
+                                   Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                            <TextBox x:Name="txtApelido"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                     Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="20"
+                                     Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                                     Text="{Binding Usuario.ApelidoPerfil}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Label Content="Biografia" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"
+                       Margin="0, 20, 0, 0"/>
+                <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                        VerticalAlignment="Center" Width="350" Height="110" HorizontalAlignment="Left">
+                    <Grid>
+                        <Label x:Name="placeBiografia" Content="" FontSize="16" FontFamily="../fonts/#Poppins" 
+                               Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                        <TextBox x:Name="txtBiografia"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                 Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="255"
+                                 Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                                 Text="{Binding Usuario.Biografia}"/>
+                    </Grid>
+                </Border>
+
+                <Label Content="Monitor" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"
+                       Margin="0, 20, 0, 0"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Modelo do Monitor:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
+                           Grid.Row="0" Grid.Column="0"/>
+                    <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                            VerticalAlignment="Center" Width="300" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                        <Grid>
+                            <Label x:Name="placeModeloMonitor" Content="" FontSize="16" FontFamily="../fonts/#Poppins" 
+                                   Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                            <TextBox x:Name="txtModeloMonitor"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                     Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="45"
+                                     Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                                     Text="{Binding Usuario.ModeloMonitor}"/>
+                        </Grid>
+                    </Border>
+                    
+                    <Label Content="Largura de Resolução:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
+                           Grid.Row="1" Grid.Column="0" Margin="0, 5, 0, 0"/>
+                    <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                            VerticalAlignment="Center" Width="80" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
+                        <Grid>
+                            <Label x:Name="placeResolucaoX" Content="" FontSize="16" FontFamily="../fonts/#Poppins" 
+                                   Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                            <TextBox x:Name="txtResolucaoX"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                     Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="5"
+                                     Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                                     Text="{Binding Usuario.ResolucaoX}"/>
+                        </Grid>
+                    </Border>
+                    <Label Content="Altura de Resolução:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
+                           Grid.Row="2" Grid.Column="0" Margin="0, 5, 0, 0"/>
+                    <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                            VerticalAlignment="Center" Width="80" Grid.Row="2" Grid.Column="1" Margin="0, 5, 0, 0"
+                            HorizontalAlignment="Left">
+                        <Grid>
+                            <Label x:Name="placeResolucaoY" Content="" FontSize="16" FontFamily="../fonts/#Poppins" 
+                                   Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                            <TextBox x:Name="txtResolucaoY"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                     Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="5"
+                                     Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                                     Text="{Binding Usuario.ResolucaoY}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Label Content="Mouse" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"
+                       Margin="0, 20, 0, 0"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Modelo do Mouse:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
+                           Grid.Row="0" Grid.Column="0"/>
+                    <Controls:ControlTextBox Largura="300" Placeholder="" Altura="33" CaracterMaximo="20"
+                                             AlinhamentoVertical="Center" AlturaText="35" ScrollVisibility="Disable"
+                                             Grid.Row="0" Grid.Column="1" Texto="{Binding Usuario.ModeloMouse}"/>
+                    <Label Content="DPI do Mouse:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
+                           Grid.Row="1" Grid.Column="0" Margin="0, 5, 0, 0"/>
+                    <Controls:ControlTextBox Largura="80" Placeholder="" Altura="33" CaracterMaximo="4"
+                                             AlinhamentoVertical="Center" AlturaText="35" ScrollVisibility="Disable"
+                                             Grid.Row="1" Grid.Column="1" Margin="0, 5, 0, 0" HorizontalAlignment="Left"
+                                             Texto="{Binding Usuario.DpiMouse}"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        <Button x:Name="salvarBtn" Grid.Row="2" Grid.Column="1" Height="30" Width="150" Command="{Binding SalvarCommand}">
+            <Label Content="Salvar"/>
+        </Button>
     </Grid>
 </Page>

@@ -45,8 +45,8 @@
                FontFamily="..\fonts\#ModeSeven" FontSize="18" VerticalAlignment="Bottom"/>
 
         <!--Lugar onde ficará os slots de configurações-->
-        <ScrollViewer Grid.Row="3" Grid.Column="2" Grid.RowSpan="4" Margin="0, 0, 40, 15">
-            <ItemsControl ItemsSource="{Binding Configuracao}">
+        <ScrollViewer Grid.Row="3" Grid.Column="2" Grid.RowSpan="4" Margin="0, 0, 40, 15" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Slots}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"/>
@@ -56,12 +56,19 @@
                     <DataTemplate>
                         <Border Grid.Row="0" Grid.Column="0" Background="#141414" BorderThickness="2" 
                                 BorderBrush="#2E2BC2" CornerRadius="25" Margin="10">
-                            <Image Source="..\resource\cslogo.png"/>
+                            <Image Source="{Binding LogoJogo}"/>
                         </Border>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsAddButton}" Value="True">
+                                
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        <Button Grid.Column="2" Grid.Row="6" Content="Adicionar Slot" Command="{Binding AddSlot}"
+                Click="Button_Click"/>
 
         <!--Nome do usuário-->
         <Grid Grid.Row="3" Grid.Column="1">

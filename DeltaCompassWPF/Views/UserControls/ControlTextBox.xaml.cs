@@ -20,6 +20,9 @@ namespace DeltaCompassWPF.Views.UserControls
     /// </summary>
     public partial class ControlTextBox : UserControl
     {
+        public static readonly DependencyProperty TextoProperty =
+            DependencyProperty.Register("Texto", typeof(string), typeof(ControlTextBox), new PropertyMetadata("", TextValueChanged));
+
         public ControlTextBox()
         {
             InitializeComponent();
@@ -35,6 +38,12 @@ namespace DeltaCompassWPF.Views.UserControls
         public double AlturaText { get; set; }
         public string ScrollVisibility { get; set; }
         public string AlinhamentoHorizontal { get; set; }
+        public bool ReadOnly {  get; set; }
+        public string Texto 
+        {
+            get { return (string)GetValue(TextoProperty); }
+            set { SetValue(TextoProperty, value); }
+        }
 
         public int CaracterMaximo { get; set; }
 
@@ -44,6 +53,19 @@ namespace DeltaCompassWPF.Views.UserControls
                 lblPlaceHolder.Visibility = Visibility.Hidden;
             else
                 lblPlaceHolder.Visibility = Visibility.Visible;
+
+            Texto = txtInput.Text;
+            TextValueChangedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler TextValueChangedEvent;
+
+        private static void TextValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if(d is ControlTextBox controlTextBox)
+            {
+                controlTextBox.txtInput.Text = e.NewValue.ToString();
+            }
         }
     }
 }

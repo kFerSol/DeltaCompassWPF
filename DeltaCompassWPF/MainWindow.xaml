@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:DeltaCompassWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="865" WindowStyle="None" WindowStartupLocation="CenterScreen"
-        MinHeight="550" MinWidth="850" Padding="0" Margin="0" ResizeMode="CanResizeWithGrip" AllowsTransparency="True">
+        MinHeight="550" MinWidth="850" Padding="0" Margin="0" ResizeMode="CanResizeWithGrip" AllowsTransparency="True"
+        Loaded="Window_Loaded">
     <!--Eventos de expandir e encolher a sidebar-->
     <Window.Resources>
         <Storyboard x:Key="MenuOpen">

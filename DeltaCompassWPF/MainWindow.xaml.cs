@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using DeltaCompassWPF.Database;
 
 namespace DeltaCompassWPF
 {
@@ -32,6 +33,11 @@ namespace DeltaCompassWPF
         PaginaPerfilCla ppc = new PaginaPerfilCla();
         PaginaPerfilOutro ppo = new PaginaPerfilOutro();
         PaginaSuporte ps = new PaginaSuporte();
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var conexao = new Conexao();
+        }
 
         //Construtor
         public MainWindow()
