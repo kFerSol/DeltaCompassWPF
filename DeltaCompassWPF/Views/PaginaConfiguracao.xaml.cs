@@ -65,14 +65,18 @@ namespace DeltaCompassWPF.Views
             scrollConfigPerfil.Visibility = Visibility.Visible;
         }
 
-        private void SalvarBtn_Click(object sender, RoutedEventArgs e)
+        private void bordaSalvarPerfil_MouseEnter(object sender, MouseEventArgs e)
         {
-
+            bordaSalvarPerfil.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            btnSalvarPerfil.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            this.Cursor = Cursors.Hand;
         }
 
-        private void ControlTextBox_TextValueChangedEvent(object sender, EventArgs e)
+        private void bordaSalvarPerfil_MouseLeave(object sender, MouseEventArgs e)
         {
-
+            bordaSalvarPerfil.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            btnSalvarPerfil.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            this.Cursor = Cursors.Arrow;
         }
     }
 }

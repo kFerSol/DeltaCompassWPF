@@ -46,14 +46,13 @@ namespace DeltaCompassWPF.ViewModels
                 {
                     connection.Open();
                     string query = 
-                        "INSERT INTO tb_usuario (id_usuario, nm_cadastro, ds_email, nm_apelido, nr_telefone, ds_bio, dpi_usuario, " +
+                        "INSERT INTO tb_usuario (nm_cadastro, ds_email, nm_apelido, nr_telefone, ds_bio, dpi_usuario, " +
                         "nm_monitor, nm_mouse, nr_resolucaoY, nr_resolucaoX) " +
-                        "VALUES (@Id, @Nome, @Email, @Apelido, @Telefone, @Biografia, @DpiMouse, " +
+                        "VALUES (@Nome, @Email, @Apelido, @Telefone, @Biografia, @DpiMouse, " +
                         "@ModeloMonitor, @ModeloMouse, @ResolucaoY, @ResolucaoX)";
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@Id", "2");
                         command.Parameters.AddWithValue("@Nome", Usuario.Nome);
                         command.Parameters.AddWithValue("@Email", Usuario.Email);
                         command.Parameters.AddWithValue("@Apelido", Usuario.ApelidoPerfil);

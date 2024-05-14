@@ -197,3 +197,37 @@ C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao3\DeltaCompassWP
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao3\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao3\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao3\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCom.3B420105.Up2Date
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlButton.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\BouncyCastle.Cryptography.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\Google.Protobuf.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\MySql.Data.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Buffers.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.IO.Pipelines.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Memory.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\ZstdSharp.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\BouncyCastle.Cryptography.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\Google.Protobuf.pdb
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\Google.Protobuf.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\K4os.Compression.LZ4.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\K4os.Compression.LZ4.Streams.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\K4os.Hash.xxHash.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\MySql.Data.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Buffers.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.IO.Pipelines.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Memory.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlButton.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCompassWPF.csproj.CopyComplete

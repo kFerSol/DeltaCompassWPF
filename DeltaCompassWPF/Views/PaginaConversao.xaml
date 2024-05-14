@@ -112,11 +112,7 @@
         </StackPanel>
 
         <!--Botão de aplicar a conversão-->
-        <Grid Grid.Row="2" Grid.Column="3" >
-            <Controls:ControlButton Largura="100" BtnTexto="Aplicar"/>
-        </Grid>
-        
-        <!--<Border x:Name="bordaAplicar" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
+        <Border x:Name="bordaAplicar" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
                 VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="34" Width="140" Margin="0, 0, 20, 20"
                 MouseEnter="BordaAplicar_MouseEnter" MouseLeave="BordaAplicar_MouseLeave">
             <Button x:Name="btnAplicar" ToolTip="Trocar jogos" Background="#2E2BC2" MouseEnter="BtnCursor_MouseEnter" 
@@ -144,6 +140,6 @@
                 </Button.Style>
                 <Label Content="Aplicar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
             </Button>
-        </Border>-->
+        </Border>
     </Grid>
 </Page>
