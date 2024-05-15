@@ -45,11 +45,34 @@ namespace DeltaCompassWPF.ViewModels
                 using(MySqlConnection connection = new MySqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    string query = 
-                        "INSERT INTO tb_usuario (nm_cadastro, ds_email, nm_apelido, nr_telefone, ds_bio, dpi_usuario, " +
-                        "nm_monitor, nm_mouse, nr_resolucaoY, nr_resolucaoX) " +
-                        "VALUES (@Nome, @Email, @Apelido, @Telefone, @Biografia, @DpiMouse, " +
-                        "@ModeloMonitor, @ModeloMouse, @ResolucaoY, @ResolucaoX)";
+                    string query =
+                        "UPDATE tb_usuario SET ";
+                    List<string> campos = new List<string>();
+                    if (!string.IsNullOrEmpty(Usuario.Nome))
+                        campos.Add("nm_cadastro = @Nome");
+                    if (!string.IsNullOrEmpty(Usuario.ApelidoPerfil))
+                        campos.Add("nm_apelido = @Apelido");
+                    if (!string.IsNullOrEmpty(Usuario.Biografia))
+                        campos.Add("ds_bio = @Biografia");
+                    if (!string.IsNullOrEmpty(Usuario.ModeloMonitor))
+                        campos.Add("nm_monitor = @ModeloMonitor");
+                    if (!string.IsNullOrEmpty(Usuario.ModeloMouse))
+                        campos.Add("nm_mouse = @ModeloMouse");
+                    #pragma warning disable CS0472 // O resultado da expressão é sempre o mesmo, pois um valor deste tipo nunca é 'null' 
+                    if (Usuario.ResolucaoY != null)
+                        campos.Add("nr_resolucaoY = @ResolucaoY");
+                    #pragma warning restore CS0472 // O resultado da expressão é sempre o mesmo, pois um valor deste tipo nunca é 'null'
+                    #pragma warning disable CS0472 // O resultado da expressão é sempre o mesmo, pois um valor deste tipo nunca é 'null' 
+                    if (Usuario.ResolucaoY != null)
+                        campos.Add("nr_resolucaoX = @ResolucaoX");
+                    #pragma warning restore CS0472 // O resultado da expressão é sempre o mesmo, pois um valor deste tipo nunca é 'null'
+                    #pragma warning disable CS0472 // O resultado da expressão é sempre o mesmo, pois um valor deste tipo nunca é 'null' 
+                    if (Usuario.DpiMouse != null && Usuario.DpiMouse != 0)
+                        campos.Add("dpi_usuario = @DpiMouse");
+                    #pragma warning restore CS0472 // O resultado da expressão é sempre o mesmo, pois um valor deste tipo nunca é 'null'
+
+                    query += string.Join(", ", campos);
+                    query += " WHERE id_usuario = 1;";
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {

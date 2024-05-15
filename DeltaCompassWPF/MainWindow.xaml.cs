@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using DeltaCompassWPF.Database;
+using System.Windows.Media.Animation;
 
 namespace DeltaCompassWPF
 {
@@ -75,6 +76,35 @@ namespace DeltaCompassWPF
                 sideEncolhida.Visibility = Visibility.Collapsed;
                 sideExtendida.Visibility = Visibility.Visible;
             }
+        }
+
+        private void btnExpandir_Click(object sender, RoutedEventArgs e)
+        {
+            OverlayGrid.Visibility = Visibility.Visible;
+        }
+
+        private void btnEncolher_Click(object sender, RoutedEventArgs e)
+        {
+            OverlayGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void OverlayGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Point point = e.GetPosition(GridMenu);
+            if (point.X < 0 || point.Y < 0 || point.X >= GridMenu.ActualWidth || point.Y >= GridMenu.ActualHeight)
+            {
+                DoubleAnimation animation = new DoubleAnimation();
+                animation.From = GridMenu.ActualWidth;
+                animation.To = 55;
+                animation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
+                GridMenu.BeginAnimation(WidthProperty, animation);
+                OverlayGrid.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnHome_Click(object sender, RoutedEventArgs e)
+        {
+            main.Content = null;
         }
 
         private void btnPerfil_Click(object sender, RoutedEventArgs e)
@@ -311,7 +341,53 @@ namespace DeltaCompassWPF
                     btnBuscasEx.Background = corPadrao;
                     bordaBuscasEx.BorderBrush = null;
                     break;
+
+                case null:
+                    //Botão suporte
+                    btnSuporte.Background = fundo;
+                    btnSuporteEx.Background = fundo;
+                    btnSuporteExtendido.Background = fundo;
+                    //Botão configuração
+                    btnConfiguracao.Background = fundo;
+                    btnConfiguracaooEx.Background = fundo;
+                    btnConfiguracaoExtendido.Background = fundo;
+                    //Botão clã
+                    btnCla.Background = corPadrao;
+                    claBorda.BorderBrush = null;
+                    btnClaEx.Background = corPadrao;
+                    bordaClaEx.BorderBrush = null;
+                    //Botão perfil
+                    btnPerfil.Background = corPadrao;
+                    perfilBorda.BorderBrush = null;
+                    btnPerfilEx.Background = corPadrao;
+                    perfilBordaEx.BorderBrush = null;
+                    //Botão conversão
+                    btnConversao.Background = corPadrao;
+                    conversaoBorda.BorderBrush = null;
+                    btnConversaoEx.Background = corPadrao;
+                    bordaConversaoEx.BorderBrush = null;
+                    //Botão buscas
+                    btnBuscar.Background = corPadrao;
+                    buscarBorda.BorderBrush = null;
+                    btnBuscasEx.Background = corPadrao;
+                    bordaBuscasEx.BorderBrush = null;
+                    break;
             }
+        }
+
+        //Eventos página home.
+        private void btnCadastro_Click(object sender, RoutedEventArgs e)
+        {
+            JanelaCadastro jc = new JanelaCadastro();
+            jc.Owner = this;
+            jc.Show();
+        }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            JanelaLogin jl = new JanelaLogin();
+            jl.Owner = this;
+            jl.Show();
         }
         #endregion
     }

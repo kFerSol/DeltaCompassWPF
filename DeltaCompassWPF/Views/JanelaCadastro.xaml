@@ -1,0 +1,29 @@
+﻿<Window x:Class="DeltaCompassWPF.Views.JanelaCadastro"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DeltaCompassWPF.Views"
+        mc:Ignorable="d"
+        Title="JanelaCadastro" Height="431" Width="350" WindowStartupLocation="CenterOwner"
+        x:Name="janela" MouseLeftButtonDown="janela_MouseLeftButtonDown" WindowStyle="None"
+        Background="#313131" ResizeMode="NoResize" AllowsTransparency="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="0, 0, 0, 2" BorderBrush="#2E2BC2">
+            <DockPanel Background="#101010" LastChildFill="False">
+                <Grid DockPanel.Dock="Right">
+                    <Rectangle x:Name="btnFechar" Width="35" Height="auto"/>
+                    <Image Source="..\resource\close-delta.png" MouseEnter="btnFechar_MouseEnter" 
+                           MouseLeave="btnFechar_MouseLeave" MouseDown="btnFechar_MouseDown"/>
+                </Grid>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

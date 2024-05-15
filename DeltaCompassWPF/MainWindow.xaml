@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="865" WindowStyle="None" WindowStartupLocation="CenterScreen"
         MinHeight="550" MinWidth="850" Padding="0" Margin="0" ResizeMode="CanResizeWithGrip" AllowsTransparency="True"
+        Background="#1C1C1C"
         Loaded="Window_Loaded">
     <!--Eventos de expandir e encolher a sidebar-->
     <Window.Resources>
@@ -14,14 +15,14 @@
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
                                            Storyboard.TargetName="GridMenu">
                 <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="55"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="55"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="MenuClose">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
                                            Storyboard.TargetName="GridMenu">
                 <EasingDoubleKeyFrame KeyTime="0" Value="55"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="250"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
@@ -49,7 +50,161 @@
         
         <!--Frame que mostrará outras páginas-->
         <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" >
+            <Label Foreground="White" Content="Home" FontSize="22" Margin="100, 20, 0, 0" FontFamily="\fonts\#ModeSeven"/>
+            <Grid Margin="150, 60, 100, 40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Button Background="White" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="5"
+                        BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave"
+                        Click="btnConversao_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Gray" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Converter Sensibilidade" FontFamily="/fonts/#Poppins" FontSize="18" 
+                           FontWeight="Bold" Margin="0, 160, 0, 0"/>
+                </Button>
+                
+                <Button Background="White" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Margin="5"
+                        BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                        Click="btnCla_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Gray" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Criar Clã" FontFamily="/fonts/#Poppins" FontSize="18" 
+                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 120, 0, 0"/>
+                </Button>
+
+                <Button Background="White" Grid.Column="1" Grid.Row="0" Margin="5"
+                        BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                        Click="btnBuscar_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Gray" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Procurar Outros Usuarios" FontFamily="/fonts/#Poppins" FontSize="18" 
+                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 80, 0, 0"/>
+                </Button>
+
+                <Button x:Name="btnCadastro" Background="White" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="5"
+                        BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                        Click="btnCadastro_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Gray" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Cadastrar Conta" FontFamily="/fonts/#Poppins" FontSize="18" 
+                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 90, 0, 0"/>
+                </Button>
+
+                <Button x:Name="btnLogin" Background="White" Grid.Column="1" Grid.Row="3" Margin="5"
+                        BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave"
+                        Click="btnLogin_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Gray" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Entrar na Conta" FontFamily="/fonts/#Poppins" FontSize="18" 
+                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 40, 0, 0"/>
+                </Button>
+            </Grid>
             <Frame Navigated="main_Navigated" NavigationUIVisibility="Hidden" x:Name="main"/>
+            <Grid x:Name="OverlayGrid" Background="Black" Opacity="0.5" Visibility="Collapsed"
+                  MouseDown="OverlayGrid_MouseDown"/>
         </Grid>
          
         <!--SideBar-->   
@@ -60,7 +215,7 @@
                 <StackPanel Background="#1C1C1C" Width="250" HorizontalAlignment="Center">
 
                     <!--Botão da página de home extendida-->
-                    <Button Background="#1C1C1C" Height="60" Width="200">
+                    <Button Background="#1C1C1C" Height="60" Width="200" Click="btnHome_Click">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#101010" />
@@ -87,7 +242,7 @@
 
                     <!--Botão que encolhe a sidebar-->
                     <Button x:Name="btnEncolher" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
-                        Background="#1C1C1C" Width="50" Height="50">
+                            Background="#1C1C1C" Width="50" Height="50" Click="btnEncolher_Click">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#101010" />
@@ -417,7 +572,7 @@
                 <!--Corpo da sidebar-->
                 <StackPanel Visibility="Visible" Background="#1C1C1C" HorizontalAlignment="Left" Width="55">
                     <!--Botão da home-->
-                    <Button x:Name="btnHome" Background="#1C1C1C">
+                    <Button x:Name="btnHome" Background="#1C1C1C" Click="btnHome_Click">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#101010" />
@@ -444,7 +599,7 @@
                     </Button>
 
                     <!--Botão de expandir a sidebar-->
-                    <Button x:Name="btnExpandir" Background="#1C1C1C" Height="50">
+                    <Button x:Name="btnExpandir" Background="#1C1C1C" Height="50" Click="btnExpandir_Click">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#101010" />

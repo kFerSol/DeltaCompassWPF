@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao3\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\
+C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao4\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\
 DeltaCompassWPF
 none
 false
 DEBUG;TRACE
-C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao3\DeltaCompassWPF\DeltaCompassWPF\App.xaml
-12-1941253197
+C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao4\DeltaCompassWPF\DeltaCompassWPF\App.xaml
+14766313879
 
-232094107844
-33-871886881
-MainWindow.xaml;Views\PaginaBuscas.xaml;Views\PaginaConfiguracao.xaml;Views\PaginaConversao.xaml;Views\PaginaCriacaoCla.xaml;Views\PaginaPerfil.xaml;Views\PaginaPerfilCla.xaml;Views\PaginaPerfilOutro.xaml;Views\PaginaSuporte.xaml;Views\UserControls\ControlButton.xaml;Views\UserControls\ControlTextBox.xaml;Views\UserControls\ControlTextboxPesquisa.xaml;
+251800464760
+33-81411045
+MainWindow.xaml;Views\JanelaCadastro.xaml;Views\JanelaLogin.xaml;Views\PaginaBuscas.xaml;Views\PaginaConfiguracao.xaml;Views\PaginaConversao.xaml;Views\PaginaCriacaoCla.xaml;Views\PaginaPerfil.xaml;Views\PaginaPerfilCla.xaml;Views\PaginaPerfilOutro.xaml;Views\PaginaSuporte.xaml;Views\UserControls\ControlButton.xaml;Views\UserControls\ControlTextBox.xaml;Views\UserControls\ControlTextboxPesquisa.xaml;
 
-False
+True
 

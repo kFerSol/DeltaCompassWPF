@@ -113,6 +113,12 @@
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="ViewModels\PerfilViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
+    <Compile Include="Views\JanelaCadastro.xaml.cs">
+      <DependentUpon>JanelaCadastro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JanelaLogin.xaml.cs">
+      <DependentUpon>JanelaLogin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PaginaBuscas.xaml.cs">
       <DependentUpon>PaginaBuscas.xaml</DependentUpon>
     </Compile>
@@ -158,6 +164,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\JanelaCadastro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JanelaLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PaginaBuscas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -78,7 +78,7 @@
             </StackPanel>
         </StackPanel>
 
-        <ScrollViewer x:Name="scrollConfigGeral" Grid.Row="1" Grid.Column="1" Margin="20, 20, 0, 0" Visibility="Collapsed">
+        <ScrollViewer x:Name="scrollConfigGeral" Grid.Row="1" Grid.Column="1" Margin="20, 20, 0, 0" Visibility="Visible">
             <StackPanel>
                 <StackPanel Width="auto" HorizontalAlignment="Left">
                     <Label Content="Atualizações do Software" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"/>
@@ -150,7 +150,7 @@
         </ScrollViewer>
 
         <ScrollViewer x:Name="scrollConfigPerfil" Grid.Row="1" Grid.Column="1" Margin="20, 20, 0, 0" 
-                      VerticalScrollBarVisibility="Auto" Visibility="Visible">
+                      VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
             <StackPanel Width="auto" HorizontalAlignment="Left">
                 <Label Content="Foto de Perfil" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"/>
                 <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0">
@@ -296,15 +296,31 @@
                     </Grid.RowDefinitions>
                     <Label Content="Modelo do Mouse:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
                            Grid.Row="0" Grid.Column="0"/>
-                    <Controls:ControlTextBox Largura="300" Placeholder="" Altura="33" CaracterMaximo="20"
-                                             AlinhamentoVertical="Center" AlturaText="35" ScrollVisibility="Disable"
-                                             Grid.Row="0" Grid.Column="1" Texto="{Binding Usuario.ModeloMouse}"/>
+                    <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                            VerticalAlignment="Center" Width="300" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                        <Grid>
+                            <Label x:Name="placeModeloMouse" Content="" FontSize="16" FontFamily="../fonts/#Poppins" 
+                                   Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                            <TextBox x:Name="txtModeloMouse"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                     Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="45"
+                                     Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                                     Text="{Binding Usuario.ModeloMouse}"/>
+                        </Grid>
+                    </Border>
+
                     <Label Content="DPI do Mouse:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
                            Grid.Row="1" Grid.Column="0" Margin="0, 5, 0, 0"/>
-                    <Controls:ControlTextBox Largura="80" Placeholder="" Altura="33" CaracterMaximo="4"
-                                             AlinhamentoVertical="Center" AlturaText="35" ScrollVisibility="Disable"
-                                             Grid.Row="1" Grid.Column="1" Margin="0, 5, 0, 0" HorizontalAlignment="Left"
-                                             Texto="{Binding Usuario.DpiMouse}"/>
+                    <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                            VerticalAlignment="Center" Width="80" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
+                        <Grid>
+                            <Label x:Name="placeDpi" Content="" FontSize="16" FontFamily="../fonts/#Poppins" 
+                                   Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                            <TextBox x:Name="txtDpi"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                     Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="4"
+                                     Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                                     Text="{Binding Usuario.DpiMouse}"/>
+                        </Grid>
+                    </Border>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
