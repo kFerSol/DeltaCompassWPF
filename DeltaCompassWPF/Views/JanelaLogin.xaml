@@ -5,9 +5,87 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeltaCompassWPF.Views"
         mc:Ignorable="d"
-        Title="JanelaLogin" Height="431" Width="350" WindowStartupLocation="CenterOwner"
-        Background="#313131">
+        Title="JanelaLogin" Height="431" Width="400" WindowStartupLocation="CenterOwner"
+        MouseLeftButtonDown="janela_MouseLeftButtonDown" WindowStyle="None"
+        Background="#313131" ResizeMode="NoResize" AllowsTransparency="True"
+        x:Name="janela">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         
+        <Border BorderThickness="0, 0, 0, 2" BorderBrush="#2E2BC2" Grid.Row="0" Grid.Column="0">
+            <DockPanel Background="#101010" LastChildFill="False">
+                <Grid DockPanel.Dock="Right">
+                    <Rectangle x:Name="btnFechar" Width="35" Height="auto"/>
+                    <Image Source="..\resource\close-delta.png" MouseEnter="btnFechar_MouseEnter" 
+                           MouseLeave="btnFechar_MouseLeave" MouseDown="btnFechar_MouseDown"/>
+                </Grid>
+            </DockPanel>
+        </Border>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="60, 50">
+            <Label Content="Entrar" FontFamily="../fonts/#Poppins" Foreground="White" FontSize="17"/>
+            <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                    VerticalAlignment="Center" Width="auto">
+                <Grid>
+                    <Label x:Name="placeLogin" Content="Nome, Email ou telefone." FontSize="16" FontFamily="../fonts/#Poppins" 
+                           Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                    <TextBox x:Name="txtLogin"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                             Background="Transparent" FontFamily="../fonts/#Poppins"
+                             Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                             TextChanged="txtLogin_TextChanged"/>
+                </Grid>
+            </Border>
+            
+            <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                    VerticalAlignment="Center" Width="auto" Margin="0, 20, 0, 0">
+                <Grid>
+                    <Label x:Name="placeSenha" Content="Insira a senha." FontSize="16" FontFamily="../fonts/#Poppins" 
+                           Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                    <PasswordBox x:Name="txtSenha"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                 Background="Transparent" FontFamily="../fonts/#Poppins" Padding="0, 5, 0, 5" 
+                                 PasswordChanged="txtSenha_PasswordChanged"/>
+                </Grid>
+            </Border>
+            <RadioButton Content="Lembrar senha" Foreground="White" FontFamily="../fonts/#Poppins"
+                         HorizontalAlignment="Center" Margin="0, 10, 0, 0"/>
+
+            <Label Content="Esqueci minha senha" Foreground="White" FontSize="12" HorizontalAlignment="Center"/>
+            <Border x:Name="bordaEntrar" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
+                    VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="auto" Width="140" Margin="0, 10, 0, 20"
+                    MouseEnter="bordaEntrar_MouseEnter" MouseLeave="bordaEntrar_MouseLeave">
+                <Button x:Name="btnEntrar" Background="#2E2BC2">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#16145C" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Entrar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
+                </Button>
+            </Border>
+
+            <Label Content="Ainda não está cadastrado? Crie uma conta." Foreground="White" FontSize="12" HorizontalAlignment="Center"/>
+        </StackPanel>
     </Grid>
 </Window>

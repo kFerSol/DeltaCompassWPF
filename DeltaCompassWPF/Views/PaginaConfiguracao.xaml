@@ -325,7 +325,7 @@
             </StackPanel>
         </ScrollViewer>
         <Border x:Name="bordaSalvarPerfil" Grid.Row="2" Grid.Column="1" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
-                VerticalAlignment="Bottom" Height="34" Width="140" Margin="0, 0, 20, 20" Background="#2E2BC2"
+                VerticalAlignment="Bottom" Height="auto" Width="140" Margin="0, 0, 20, 20" Background="#2E2BC2"
                 MouseEnter="bordaSalvarPerfil_MouseEnter" MouseLeave="bordaSalvarPerfil_MouseLeave">
             <Button x:Name="btnSalvarPerfil" ToolTip="Salvar Alterações" Background="Transparent" Command="{Binding SalvarCommand}">
                 <Button.Style>

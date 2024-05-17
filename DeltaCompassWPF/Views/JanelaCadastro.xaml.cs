@@ -43,5 +43,51 @@ namespace DeltaCompassWPF.Views
         {
             Close();
         }
+
+        private void bordaCadastrar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            bordaCadastrar.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            btnCadastrar.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void bordaCadastrar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            bordaCadastrar.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            btnCadastrar.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            this.Cursor = Cursors.Arrow;
+        }
+
+        private void txtNome_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(txtNome.Text != "")
+                placeNome.Visibility = Visibility.Collapsed;
+            else
+                placeNome.Visibility = Visibility.Visible;
+        }
+
+        private void txtEmail_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtEmail.Text != "")
+                placeEmail.Visibility = Visibility.Collapsed;
+            else
+                placeEmail.Visibility = Visibility.Visible;
+        }
+
+        private void txtSenha_TextChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtSenha.Password != "")
+                placeSenha.Visibility = Visibility.Collapsed;
+            else
+                placeSenha.Visibility = Visibility.Visible;
+        }
+
+        private void txtConfirmarSenha_TextChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtConfirmarSenha.Password != "")
+                placeConfirmarSenha.Visibility = Visibility.Collapsed;
+            else
+                placeConfirmarSenha.Visibility = Visibility.Visible;
+        }
     }
 }

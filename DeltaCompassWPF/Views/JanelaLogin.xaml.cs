@@ -23,5 +23,55 @@ namespace DeltaCompassWPF.Views
         {
             InitializeComponent();
         }
+
+        private void janela_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void btnFechar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            btnFechar.Fill = new SolidColorBrush(Color.FromArgb(255, 46, 43, 194));
+        }
+
+        private void btnFechar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            btnFechar.Fill = new SolidColorBrush(Color.FromArgb(255, 16, 16, 16));
+        }
+
+        private void btnFechar_MouseDown(object sender, MouseEventArgs e)
+        {
+            Close();
+        }
+
+        private void txtLogin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtLogin.Text != "")
+                placeLogin.Visibility = Visibility.Collapsed;
+            else
+                placeLogin.Visibility = Visibility.Visible;
+        }
+
+        private void txtSenha_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtSenha.Password != "")
+                placeSenha.Visibility = Visibility.Collapsed;
+            else
+                placeSenha.Visibility = Visibility.Visible;
+        }
+
+        private void bordaEntrar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            bordaEntrar.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            btnEntrar.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void bordaEntrar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            bordaEntrar.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            btnEntrar.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            this.Cursor = Cursors.Arrow;
+        }
     }
 }

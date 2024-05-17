@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeltaCompassWPF.Views"
         mc:Ignorable="d"
-        Title="JanelaCadastro" Height="431" Width="350" WindowStartupLocation="CenterOwner"
+        Title="JanelaCadastro" Height="431" Width="400" WindowStartupLocation="CenterOwner"
         x:Name="janela" MouseLeftButtonDown="janela_MouseLeftButtonDown" WindowStyle="None"
         Background="#313131" ResizeMode="NoResize" AllowsTransparency="True">
     <Grid>
@@ -16,7 +16,7 @@
             <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border BorderThickness="0, 0, 0, 2" BorderBrush="#2E2BC2">
+        <Border BorderThickness="0, 0, 0, 2" BorderBrush="#2E2BC2" Grid.Row="0" Grid.Column="0">
             <DockPanel Background="#101010" LastChildFill="False">
                 <Grid DockPanel.Dock="Right">
                     <Rectangle x:Name="btnFechar" Width="35" Height="auto"/>
@@ -25,5 +25,85 @@
                 </Grid>
             </DockPanel>
         </Border>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="60, 20">
+            <Label Content="Cadastrar" FontFamily="../fonts/#Poppins" Foreground="White" FontSize="17"/>
+            <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                    VerticalAlignment="Center" Width="auto">
+                <Grid>
+                    <Label x:Name="placeNome" Content="Nome de usuário." FontSize="16" FontFamily="../fonts/#Poppins" 
+                           Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                    <TextBox x:Name="txtNome"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                             Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="20"
+                             Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                             TextChanged="txtNome_TextChanged" Text="{Binding Usuario.Nome}"/>
+                </Grid>
+            </Border>
+            <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                    VerticalAlignment="Center" Width="auto" Margin="0, 20, 0, 0">
+                <Grid>
+                    <Label x:Name="placeEmail" Content="Insira o email." FontSize="16" FontFamily="../fonts/#Poppins" 
+                           Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                    <TextBox x:Name="txtEmail"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                             Background="Transparent" FontFamily="../fonts/#Poppins" Padding="0, 5, 0, 5" 
+                             HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
+                             TextChanged="txtEmail_TextChanged" Text="{Binding Usuario.Email}"/>
+                </Grid>
+            </Border>
+            <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                    VerticalAlignment="Center" Width="auto" Margin="0, 20, 0, 0">
+                <Grid>
+                    <Label x:Name="placeSenha" Content="Crie uma senha." FontSize="16" FontFamily="../fonts/#Poppins" 
+                           Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                    <PasswordBox x:Name="txtSenha"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                             Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="20"
+                             Padding="0, 5, 0, 5" PasswordChanged="txtSenha_TextChanged"/>
+                </Grid>
+            </Border>
+            <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
+                    VerticalAlignment="Center" Width="auto" Margin="0, 20, 0, 0">
+                <Grid>
+                    <Label x:Name="placeConfirmarSenha" Content="Confirme a senha." FontSize="16" FontFamily="../fonts/#Poppins" 
+                           Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
+                    <PasswordBox x:Name="txtConfirmarSenha"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
+                                 Background="Transparent" FontFamily="../fonts/#Poppins"
+                                 Padding="0, 5, 0, 5" PasswordChanged="txtConfirmarSenha_TextChanged"/>
+                </Grid>
+            </Border>
+            <RadioButton Content="Concordo com os termos de usuário." Foreground="White" FontFamily="../fonts/#Poppins"
+                         HorizontalAlignment="Center" Margin="0, 10, 0, 0"/>
+
+            <Border x:Name="bordaCadastrar" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
+                    VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="34" Width="140" Margin="0, 10, 20, 20"
+                    MouseEnter="bordaCadastrar_MouseEnter" MouseLeave="bordaCadastrar_MouseLeave">
+                <Button x:Name="btnCadastrar" Background="#2E2BC2" Command="{Binding CadastrarCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#16145C" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Cadastrar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
+                </Button>
+            </Border>
+
+            <Label Content="Já tem uma conta? Clique aqui para fazer o Login" Foreground="White" FontSize="12"/>
+        </StackPanel>
+        
     </Grid>
 </Window>

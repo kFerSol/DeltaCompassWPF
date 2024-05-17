@@ -305,3 +305,7 @@ C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao4\DeltaCompassWP
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao4\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaLogin.g.cs
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao4\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaCadastro.baml
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao4\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaLogin.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaCadastro.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaLogin.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaCadastro.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaLogin.baml

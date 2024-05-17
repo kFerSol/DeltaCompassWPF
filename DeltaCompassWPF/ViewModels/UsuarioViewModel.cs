@@ -31,11 +31,38 @@ namespace DeltaCompassWPF.ViewModels
         }
 
         public ICommand SalvarCommand { get; private set; }
+        public ICommand CadastrarCommand { get; private set; }
 
         public UsuarioViewModel()
         {
             SalvarCommand = new RelayCommand(Salvar, Verificar);
+            CadastrarCommand = new RelayCommand(Cadastrar, Verificar);
             Usuario = new Usuario();
+        }
+
+        private void Cadastrar(object parameter)
+        {
+            try
+            {
+                using(MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    string query = "INSERT tb_usuario(nm_cadastro, ds_email, ds_senha, nr_telefone) VALUE(@Nome, @Email, @Leitada, @Telefone);";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Nome", Usuario.Nome);
+                        command.Parameters.AddWithValue("@Email", Usuario.Email);
+                        //command.Parameters.AddWithValue("@Senha", Usuario.Senha);
+                        command.Parameters.AddWithValue("@Telefone", Usuario.Telefone);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private void Salvar(object parameter)
