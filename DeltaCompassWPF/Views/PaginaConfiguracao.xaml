@@ -10,8 +10,58 @@
       Background="#1C1C1C"
       Title="PaginaConfiguracao">
     <Page.DataContext>
-        <local:UsuarioViewModel/>
+        <local:ConfigurarPerfilViewModel/>
     </Page.DataContext>
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                            <Border Background="Transparent"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <Border Background="#232323" CornerRadius="8"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="CustomScrollBarStyle" TargetType="{x:Type ScrollBar}">
+                <Setter Property="Background" Value="#424242"/>
+                <Setter Property="Width" Value="4"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid>
+                                <Border Background="{TemplateBinding Background}" CornerRadius="5"/>
+                                <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ScrollBarLineButton}" Command="{x:Static ScrollBar.LineUpCommand}"/>
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource ScrollBarThumb}" Margin="2,0"/>
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ScrollBarLineButton}" Command="{x:Static ScrollBar.LineDownCommand}"/>
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -78,7 +128,11 @@
             </StackPanel>
         </StackPanel>
 
-        <ScrollViewer x:Name="scrollConfigGeral" Grid.Row="1" Grid.Column="1" Margin="20, 20, 0, 0" Visibility="Visible">
+        <ScrollViewer x:Name="scrollConfigGeral" Grid.Row="1" Grid.Column="1" Margin="20, 20, 20, 0" Visibility="Visible"
+                      VerticalScrollBarVisibility="Auto">
+            <ScrollViewer.Resources>
+                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomScrollBarStyle}"/>
+            </ScrollViewer.Resources>
             <StackPanel>
                 <StackPanel Width="auto" HorizontalAlignment="Left">
                     <Label Content="Atualizações do Software" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"/>
@@ -96,7 +150,7 @@
                                     <Label Content="E-mail" FontFamily="..\fonts\#Poppins" FontSize="14" Foreground="White" Margin="5"
                                            FontWeight="Bold" HorizontalAlignment="Center"/>
                                 </Border>
-                                <Label Content="exemplo@exemplo.com" FontFamily="..\fonts\#Poppins" Foreground="White" Margin="10,5"
+                                <Label Content="{Binding Email}" FontFamily="..\fonts\#Poppins" Foreground="White" Margin="10,5"
                                        FontSize="14" FontWeight="Thin"/>
                             </StackPanel>
                             <Border BorderBrush="#2E2BC2" BorderThickness="1.5"/>
@@ -149,8 +203,11 @@
             </StackPanel>
         </ScrollViewer>
 
-        <ScrollViewer x:Name="scrollConfigPerfil" Grid.Row="1" Grid.Column="1" Margin="20, 20, 0, 0" 
+        <ScrollViewer x:Name="scrollConfigPerfil" Grid.Row="1" Grid.Column="1" Margin="20, 20, 20, 0" 
                       VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
+            <ScrollViewer.Resources>
+                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomScrollBarStyle}"/>
+            </ScrollViewer.Resources>
             <StackPanel Width="auto" HorizontalAlignment="Left">
                 <Label Content="Foto de Perfil" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"/>
                 <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0">
@@ -194,7 +251,7 @@
                             <TextBox x:Name="txtNome"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
                                      Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="20"
                                      Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
-                                     Text="{Binding Usuario.Nome}"/>
+                                     Text=""/>
                         </Grid>
                     </Border>
                 
@@ -209,7 +266,7 @@
                             <TextBox x:Name="txtApelido"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
                                      Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="20"
                                      Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
-                                     Text="{Binding Usuario.ApelidoPerfil}"/>
+                                     Text="{Binding Usuario.ApelidoPerfil, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -224,7 +281,7 @@
                         <TextBox x:Name="txtBiografia"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
                                  Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="255"
                                  Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
-                                 Text="{Binding Usuario.Biografia}"/>
+                                 Text="{Binding Usuario.Biografia, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                 </Border>
 
@@ -250,7 +307,7 @@
                             <TextBox x:Name="txtModeloMonitor"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
                                      Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="45"
                                      Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
-                                     Text="{Binding Usuario.ModeloMonitor}"/>
+                                     Text="{Binding Usuario.ModeloMonitor, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Border>
                     
@@ -264,7 +321,7 @@
                             <TextBox x:Name="txtResolucaoX"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
                                      Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="5"
                                      Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
-                                     Text="{Binding Usuario.ResolucaoX}"/>
+                                     Text="{Binding Usuario.ResolucaoX, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Border>
                     <Label Content="Altura de Resolução:" FontFamily="..\fonts\#Poppins" Foreground="LightGray" FontSize="14"
@@ -278,7 +335,7 @@
                             <TextBox x:Name="txtResolucaoY"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
                                      Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="5"
                                      Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
-                                     Text="{Binding Usuario.ResolucaoY}"/>
+                                     Text="{Binding Usuario.ResolucaoY, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -304,7 +361,7 @@
                             <TextBox x:Name="txtModeloMouse"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
                                      Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="45"
                                      Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
-                                     Text="{Binding Usuario.ModeloMouse}"/>
+                                     Text="{Binding Usuario.ModeloMouse, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Border>
 
@@ -316,9 +373,9 @@
                             <Label x:Name="placeDpi" Content="" FontSize="16" FontFamily="../fonts/#Poppins" 
                                    Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
                             <TextBox x:Name="txtDpi"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
-                                     Background="Transparent" FontFamily="../fonts/#Poppins" MaxLength="4"
+                                     Background="Transparent" FontFamily="../fo nts/#Poppins" MaxLength="4"
                                      Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
-                                     Text="{Binding Usuario.DpiMouse}"/>
+                                     Text="{Binding Usuario.DpiMouse, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -327,7 +384,10 @@
         <Border x:Name="bordaSalvarPerfil" Grid.Row="2" Grid.Column="1" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
                 VerticalAlignment="Bottom" Height="auto" Width="140" Margin="0, 0, 20, 20" Background="#2E2BC2"
                 MouseEnter="bordaSalvarPerfil_MouseEnter" MouseLeave="bordaSalvarPerfil_MouseLeave">
-            <Button x:Name="btnSalvarPerfil" ToolTip="Salvar Alterações" Background="Transparent" Command="{Binding SalvarCommand}">
+            <Button x:Name="btnSalvarPerfil" 
+                    ToolTip="Salvar Alterações" 
+                    Background="Transparent" 
+                    Command="{Binding SalvarConfigCommand}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="#101010" />

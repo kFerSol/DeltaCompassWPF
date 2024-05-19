@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeltaCompassWPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,13 @@ namespace DeltaCompassWPF.Views
         public JanelaLogin()
         {
             InitializeComponent();
+            var viewModel = new LoginViewModel();
+            DataContext = viewModel;
+
+            if(viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(this.Close);
+            }
         }
 
         private void janela_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -50,14 +58,6 @@ namespace DeltaCompassWPF.Views
                 placeLogin.Visibility = Visibility.Collapsed;
             else
                 placeLogin.Visibility = Visibility.Visible;
-        }
-
-        private void txtSenha_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            if (txtSenha.Password != "")
-                placeSenha.Visibility = Visibility.Collapsed;
-            else
-                placeSenha.Visibility = Visibility.Visible;
         }
 
         private void bordaEntrar_MouseEnter(object sender, MouseEventArgs e)

@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace DeltaCompassWPF.Models
 {
-    internal class Usuario : INotifyPropertyChanged
+    public class Usuario : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

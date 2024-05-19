@@ -4,11 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeltaCompassWPF.Views"
+        xmlns:viewModel="clr-namespace:DeltaCompassWPF.ViewModels"
+        xmlns:Controls="clr-namespace:DeltaCompassWPF.Views.UserControls"
         mc:Ignorable="d"
         Title="JanelaLogin" Height="431" Width="400" WindowStartupLocation="CenterOwner"
         MouseLeftButtonDown="janela_MouseLeftButtonDown" WindowStyle="None"
         Background="#313131" ResizeMode="NoResize" AllowsTransparency="True"
         x:Name="janela">
+    <Window.DataContext>
+        <viewModel:LoginViewModel />
+    </Window.DataContext>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -38,20 +44,15 @@
                     <TextBox x:Name="txtLogin"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
                              Background="Transparent" FontFamily="../fonts/#Poppins"
                              Padding="0, 5, 0, 5" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap"
-                             TextChanged="txtLogin_TextChanged"/>
+                             TextChanged="txtLogin_TextChanged" 
+                             Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </Border>
-            
-            <Border Background="#C2C2C2" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" 
-                    VerticalAlignment="Center" Width="auto" Margin="0, 20, 0, 0">
-                <Grid>
-                    <Label x:Name="placeSenha" Content="Insira a senha." FontSize="16" FontFamily="../fonts/#Poppins" 
-                           Foreground="#888888" Margin="5, 0, 5, 0"  Padding="2, 5, 0, 5"/>
-                    <PasswordBox x:Name="txtSenha"  FontSize="16" BorderThickness="0" Margin="5, 0, 5, 0" 
-                                 Background="Transparent" FontFamily="../fonts/#Poppins" Padding="0, 5, 0, 5" 
-                                 PasswordChanged="txtSenha_PasswordChanged"/>
-                </Grid>
-            </Border>
+
+            <Controls:BindablePasswordBox Width="auto" Margin="0, 20, 0, 0" 
+                                          Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Placeholder="Insira a senha"/>
+
             <RadioButton Content="Lembrar senha" Foreground="White" FontFamily="../fonts/#Poppins"
                          HorizontalAlignment="Center" Margin="0, 10, 0, 0"/>
 
@@ -59,7 +60,7 @@
             <Border x:Name="bordaEntrar" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
                     VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="auto" Width="140" Margin="0, 10, 0, 20"
                     MouseEnter="bordaEntrar_MouseEnter" MouseLeave="bordaEntrar_MouseLeave">
-                <Button x:Name="btnEntrar" Background="#2E2BC2">
+                <Button x:Name="btnEntrar" Background="#2E2BC2" Command="{Binding LoginCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#101010" />
@@ -85,7 +86,11 @@
                 </Button>
             </Border>
 
-            <Label Content="Ainda não está cadastrado? Crie uma conta." Foreground="White" FontSize="12" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="PaleVioletRed" 
+                       FontSize="12" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+
+            <Label Content="Ainda não está cadastrado? Crie uma conta." Foreground="White" 
+                   FontSize="12" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>

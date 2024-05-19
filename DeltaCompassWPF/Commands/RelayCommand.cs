@@ -9,10 +9,14 @@ namespace DeltaCompassWPF.Commands
 {
     public class RelayCommand : ICommand
     {
-        public event EventHandler CanExecuteChanged;
-
         private Action<object> _Execute {  get; set; }
         private Predicate<object> _CanExecute { get; set; }
+
+        public RelayCommand(Action<object> ExecuteMethod)
+        {
+            _Execute = ExecuteMethod;
+            _CanExecute = null;
+        }
 
         public RelayCommand(Action<object> ExecuteMethod, Predicate<object> CanExecuteMethod) 
         {
@@ -20,9 +24,15 @@ namespace DeltaCompassWPF.Commands
             _CanExecute = CanExecuteMethod;
         }
 
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
         public bool CanExecute(object parameter) 
         {
-            return _CanExecute(parameter);
+            return _CanExecute==null?true:_CanExecute(parameter);
         }
 
         public void Execute(object parameter) 
