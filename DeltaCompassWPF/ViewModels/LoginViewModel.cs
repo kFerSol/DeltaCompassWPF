@@ -69,6 +69,7 @@ namespace DeltaCompassWPF.ViewModels
         public ICommand LembrarSenhaCommand { get; }
 
         public Action CloseAction { get; set; }
+        public static Usuario CurrentUser { get; private set; }
 
         public LoginViewModel()
         {
@@ -82,10 +83,22 @@ namespace DeltaCompassWPF.ViewModels
             var isValidUser = _userRepository.AuthenticateUser(new NetworkCredential(Username, Password));
             if (isValidUser)
             {
+                var user = _userRepository.GetInformacoesAutenticadas(Username);
+                if(user == null)
+                {
+                    ErrorMessage = "Erro ao obter os detalhes do usuário.";
+                    return;
+                }
                 int userId = _userRepository.GetUserId(Username);
                 var identity = new CustomIdentity(Username, userId);
                 var principal = new CustomPrincipal(identity);
                 Thread.CurrentPrincipal = principal;
+                UserService.Instance.CurrentUser = user;
+
+                var perfilPagina = new PaginaPerfil();
+
+                ((MainWindow)Application.Current.MainWindow).main.Navigate(perfilPagina);
+
                 CloseAction?.Invoke();
             }
             else

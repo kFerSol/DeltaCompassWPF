@@ -1,4 +1,5 @@
 ﻿using DeltaCompassWPF.Models;
+using DeltaCompassWPF.Repositories.Authentication;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,20 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DeltaCompassWPF.Repositories
 {
     public class UserRepository : RepositoryBase, IUserRepository
     {
+        private readonly UserService _userService;
+
+        public UserRepository()
+        {
+            _userService = UserService.Instance;
+        }
+
         public void Add(Usuario usuario)
         {
             using(var connection = GetConnection())
@@ -48,6 +57,11 @@ namespace DeltaCompassWPF.Repositories
 
         public void Edit(Usuario usuario)
         { 
+            if(Thread.CurrentPrincipal is CustomPrincipal customPrincipal)
+            {
+                usuario.Id = customPrincipal.CustomIdentity.Id;
+            }
+
             using (MySqlConnection connection = GetConnection())
             {
                 connection.Open();
@@ -62,25 +76,23 @@ namespace DeltaCompassWPF.Repositories
                     campos.Add("nm_monitor = @ModeloMonitor");
                 if (!string.IsNullOrEmpty(usuario.ModeloMouse))
                     campos.Add("nm_mouse = @ModeloMouse");
-                #pragma warning disable CS0472
                 if (usuario.ResolucaoY != null)
                     campos.Add("nr_resolucaoY = @ResolucaoY");
-                #pragma warning restore CS0472
-                #pragma warning disable CS0472
                 if (usuario.ResolucaoY != null)
                     campos.Add("nr_resolucaoX = @ResolucaoX");
-                #pragma warning restore CS0472
-                #pragma warning disable CS0472
                 if (usuario.DpiMouse != null && usuario.DpiMouse != 0)
                     campos.Add("dpi_usuario = @DpiMouse");
-                #pragma warning restore CS0472
+
+                if (usuario.ImagemPerfil != null)
+                    campos.Add("img_perfil = @ImagemPerfil");
+                if (usuario.ImagemFundo != null)
+                    campos.Add("img_fundo = @ImagemFundo");
 
                 query += string.Join(", ", campos);
-                query += " WHERE id_usuario = 1;";
+                query += " WHERE id_usuario = @Id;";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Nome", usuario.Nome);
                     command.Parameters.AddWithValue("@Email", usuario.Email);
                     command.Parameters.AddWithValue("@Apelido", usuario.ApelidoPerfil);
                     command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
@@ -90,9 +102,36 @@ namespace DeltaCompassWPF.Repositories
                     command.Parameters.AddWithValue("@ModeloMouse", usuario.ModeloMouse);
                     command.Parameters.AddWithValue("@ResolucaoY", usuario.ResolucaoY);
                     command.Parameters.AddWithValue("@ResolucaoX", usuario.ResolucaoX);
+                    command.Parameters.AddWithValue("@Id", usuario.Id);
+
+                    if (usuario.ImagemPerfil != null)
+                        command.Parameters.AddWithValue("@ImagemPerfil", usuario.ImagemPerfil);
+                    if (usuario.ImagemFundo != null)
+                        command.Parameters.AddWithValue("@ImagemFundo", usuario.ImagemFundo);
                     command.ExecuteNonQuery();
                 }
             }
+            var currentUser = UserService.Instance.CurrentUser;
+            if (!string.IsNullOrEmpty(usuario.ApelidoPerfil))
+                currentUser.ApelidoPerfil = usuario.ApelidoPerfil;
+            if (!string.IsNullOrEmpty(usuario.Biografia))
+                currentUser.Biografia = usuario.Biografia;
+            if (!string.IsNullOrEmpty(usuario.ModeloMonitor))
+                currentUser.ModeloMonitor = usuario.ModeloMonitor;
+            if (!string.IsNullOrEmpty(usuario.ModeloMouse))
+                currentUser.ModeloMouse = usuario.ModeloMouse;
+            if (usuario.ResolucaoY != null)
+                currentUser.ResolucaoY = usuario.ResolucaoY;
+            if (usuario.ResolucaoX != null)
+                currentUser.ResolucaoX = usuario.ResolucaoX;
+            if (usuario.DpiMouse != null && usuario.DpiMouse != 0)
+                currentUser.DpiMouse = usuario.DpiMouse;
+            if (usuario.ImagemPerfil != null)
+                currentUser.ImagemPerfil = usuario.ImagemPerfil;
+            if (usuario.ImagemFundo != null)
+                currentUser.ImagemFundo = usuario.ImagemFundo;
+
+            _userService.CurrentUser = currentUser;
         }
 
         public IEnumerable<Usuario> GetByAll()
@@ -141,41 +180,39 @@ namespace DeltaCompassWPF.Repositories
 
         public Usuario GetInformacoesAutenticadas(string nome)
         {
-            Usuario usuario = new Usuario();
-            try
+            Usuario user = null;
+
+            using(var connection = GetConnection())
+            using(var command = new MySqlCommand())
             {
-                using (MySqlConnection connection = GetConnection())
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM tb_usuario WHERE nm_cadastro = @Username";
+                command.Parameters.Add("@Username", MySqlDbType.VarChar).Value = nome;
+
+                using( var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    string query = "SELECT * FROM tb_usuario WHERE nm_cadastro = @Username";
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    if(reader.Read())
                     {
-                        command.Parameters.AddWithValue("@Username", nome);
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        user = new Usuario()
                         {
-                            if (reader.Read())
-                            {
-                                usuario.Nome = reader["nm_cadastro"].ToString();
-                                usuario.Email = reader["ds_email"].ToString();
-                                usuario.ApelidoPerfil = reader["nm_apelido"].ToString();
-                                usuario.Biografia = reader["ds_bio"].ToString();
-                                usuario.DpiMouse = Convert.ToInt32(reader["dpi_usuario"]);
-                                usuario.ModeloMonitor = reader["nm_monitor"].ToString();
-                                usuario.ModeloMouse = reader["nm_mouse"].ToString();
-                                usuario.ResolucaoX = Convert.ToInt32(reader["nr_resolucaoX"]);
-                                usuario.ResolucaoY = Convert.ToInt32(reader["nr_resolucaoY"]);
-                            }
-                        }
+                            Id = reader.GetInt32("id_usuario"),
+                            Nome = reader.GetString("nm_cadastro"),
+                            Email = reader.GetString("ds_email"),
+                            ApelidoPerfil = reader.IsDBNull(reader.GetOrdinal("nm_apelido")) ? null : reader.GetString("nm_apelido"),
+                            Biografia = reader.IsDBNull(reader.GetOrdinal("ds_bio")) ? null : reader.GetString("ds_bio"),
+                            ModeloMonitor = reader.IsDBNull(reader.GetOrdinal("nm_monitor")) ? null : reader.GetString("nm_monitor"),
+                            ModeloMouse = reader.IsDBNull(reader.GetOrdinal("nm_mouse")) ? null : reader.GetString("nm_mouse"),
+                            ResolucaoX = reader.IsDBNull(reader.GetOrdinal("nr_resolucaoX")) ? (int?)null : reader.GetInt32("nr_resolucaoX"),
+                            ResolucaoY = reader.IsDBNull(reader.GetOrdinal("nr_resolucaoY")) ? (int?)null : reader.GetInt32("nr_resolucaoY"),
+                            DpiMouse = reader.IsDBNull(reader.GetOrdinal("dpi_usuario")) ? (int?)null : reader.GetInt32("dpi_usuario"),
+                            ImagemPerfil = reader.IsDBNull(reader.GetOrdinal("img_perfil")) ? null : (byte[])reader["img_perfil"],
+                            ImagemFundo = reader.IsDBNull(reader.GetOrdinal("img_fundo")) ? null : (byte[])reader["img_fundo"]
+                        };
                     }
                 }
             }
-            catch(Exception)
-            {
-                throw;
-            }
-            return usuario;
+            return user;
         }
     }
 }

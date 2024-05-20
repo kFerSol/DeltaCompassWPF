@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeltaCompassWPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace DeltaCompassWPF.Views
         public PaginaPerfil()
         {
             InitializeComponent();
+            DataContext = new PerfilViewModel();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

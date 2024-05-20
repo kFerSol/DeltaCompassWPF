@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeltaCompassWPF"
+        xmlns:conv="clr-namespace:DeltaCompassWPF.Repositories"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="865" WindowStyle="None" WindowStartupLocation="CenterScreen"
         MinHeight="550" MinWidth="850" Padding="0" Margin="0" ResizeMode="CanResizeWithGrip" AllowsTransparency="True"
@@ -11,6 +12,8 @@
         Loaded="Window_Loaded">
     <!--Eventos de expandir e encolher a sidebar-->
     <Window.Resources>
+        <conv:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <conv:InverseBoolVisibilityConverter x:Key="InverseBoolVisibilityConverter"/>
         <Storyboard x:Key="MenuOpen">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
                                            Storyboard.TargetName="GridMenu">
@@ -146,9 +149,38 @@
                            FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 80, 0, 0"/>
                 </Button>
 
+                <Button x:Name="btnHomePerfil" Background="White" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Margin="5"
+                        BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
+                        Click="btnPerfil_Click" Visibility="Collapsed">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Gray" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Perfil do Usuário" FontFamily="/fonts/#Poppins" FontSize="18" 
+                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 90, 0, 0"/>
+                </Button>
+
                 <Button x:Name="btnCadastro" Background="White" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
-                        Click="btnCadastro_Click">
+                        Click="btnCadastro_Click" IsVisibleChanged="btnCadastro_IsVisibleChanged"
+                        Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolVisibilityConverter}}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#101010" />
@@ -176,7 +208,8 @@
 
                 <Button x:Name="btnLogin" Background="White" Grid.Column="1" Grid.Row="3" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave"
-                        Click="btnLogin_Click">
+                        Click="btnLogin_Click"
+                        Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolVisibilityConverter}}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#101010" />

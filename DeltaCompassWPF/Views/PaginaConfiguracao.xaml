@@ -5,16 +5,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DeltaCompassWPF.ViewModels"
       xmlns:Controls="clr-namespace:DeltaCompassWPF.Views.UserControls"
+      xmlns:converters="clr-namespace:DeltaCompassWPF.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Background="#1C1C1C"
       Title="PaginaConfiguracao">
+
     <Page.DataContext>
         <local:ConfigurarPerfilViewModel/>
     </Page.DataContext>
 
     <Page.Resources>
         <ResourceDictionary>
+            <converters:BytesToImageBrushConverter x:Key="BytesToImageBrushConverter"/>
             <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>
                 <Setter Property="Template">
@@ -211,23 +214,79 @@
             <StackPanel Width="auto" HorizontalAlignment="Left">
                 <Label Content="Foto de Perfil" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"/>
                 <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0">
-                    <Border BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="100" Width="100" Height="100">
-                        <Border.Background>
-                            <ImageBrush ImageSource="..\resource\profile-delta.jpg"/>
-                        </Border.Background>
+                    <Border BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="100" Width="100" Height="100"
+                            Background="{Binding Usuario.ImagemPerfil, Converter={StaticResource BytesToImageBrushConverter}}">
                     </Border>
-                    <Controls:ControlButton Margin="20" Largura="100"/>
+                    <Border x:Name="bordaSalvarImagemPerfil" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
+                            VerticalAlignment="Center" Height="auto" Width="140" Margin="20, 0, 0, 0" Background="#2E2BC2"
+                            MouseEnter="bordaSalvarPerfil_MouseEnter_1" MouseLeave="bordaSalvarPerfil_MouseLeave_1">
+                        <Button x:Name="btnSalvarImagemPerfil" 
+                                ToolTip="Alterar foto de perfil" 
+                                Background="Transparent" 
+                                Command="{Binding TrocarImagemPerfilCommand}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background" Value="#101010" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#16145C" 
+                                            TargetName="Border"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <Label Content="Alterar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
+                        </Button>
+                    </Border>
                 </StackPanel>
                 
                 <Label Content="Plano de Fundo" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"
                        Margin="0, 20, 0, 0"/>
                 <StackPanel Orientation="Horizontal">
-                    <Border BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" Width="250" Height="80">
-                        <Border.Background>
-                            <ImageBrush ImageSource="..\resource\bg-delta.png"/>
-                        </Border.Background>
+                    <Border BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" Width="250" Height="80"
+                            Background="{Binding Usuario.ImagemFundo, Converter={StaticResource BytesToImageBrushConverter}}">
                     </Border>
-                    <Controls:ControlButton VerticalAlignment="Center" Margin="20, 20, 0, 0" Largura="100"/>
+                    <Border x:Name="bordaSalvarFundo" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
+                            VerticalAlignment="Center" Height="auto" Width="140" Margin="20, 0, 0, 0" Background="#2E2BC2"
+                            MouseEnter="bordaSalvarFundo_MouseEnter" MouseLeave="bordaSalvarFundo_MouseLeave">
+                        <Button x:Name="btnSalvarFundo" 
+                                ToolTip="Alterar foto de fundo" 
+                                Background="Transparent" 
+                                Command="{Binding TrocarImagemFundoCommand}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background" Value="#101010" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#16145C" 
+                                                                TargetName="Border"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <Label Content="Alterar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
+                        </Button>
+                    </Border>
                 </StackPanel>
 
                 <Label Content="Usuário" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"

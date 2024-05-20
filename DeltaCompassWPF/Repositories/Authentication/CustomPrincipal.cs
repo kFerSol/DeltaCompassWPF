@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeltaCompassWPF.Repositories.Authentication
 {
-    public class CustomPrincipal
+    public class CustomPrincipal : IPrincipal
     {
         public CustomPrincipal(CustomIdentity identity)
         {
@@ -17,6 +17,6 @@ namespace DeltaCompassWPF.Repositories.Authentication
         public IIdentity Identity { get; }
         public bool IsInRole(string roleName) => false;
 
-        public CustomIdentity CustomIdentify => (CustomIdentity)Identity;
+        public CustomIdentity CustomIdentity => (CustomIdentity)Identity;
     }
 }

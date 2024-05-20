@@ -108,6 +108,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\BytesToImageBrushConverter.cs" />
     <Compile Include="Database\Conexao.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="Models\IUserRepository.cs" />
@@ -115,12 +116,15 @@
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Repositories\Authentication\CustomIdentity.cs" />
     <Compile Include="Repositories\Authentication\CustomPrincipal.cs" />
+    <Compile Include="Repositories\BoolVisibilityConverter.cs" />
+    <Compile Include="Repositories\InverseBoolVisibilityConverter.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\UserService.cs" />
     <Compile Include="ViewModels\CadastrarViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ConfigurarPerfilViewModel.cs" />
-    <Compile Include="ViewModels\UsuarioViewModel.cs" />
+    <Compile Include="ViewModels\PerfilViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\JanelaCadastro.xaml.cs">
       <DependentUpon>JanelaCadastro.xaml</DependentUpon>

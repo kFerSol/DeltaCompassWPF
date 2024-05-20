@@ -23,11 +23,13 @@ namespace DeltaCompassWPF.Models
         private string _telefone;
         private string _senha;
         private string _biografia;
-        private int _dpiMouse;
+        private int? _dpiMouse;
         private string _modeloMonitor;
         private string _modeloMouse;
-        private int _resolucaoY;
-        private int _resolucaoX;
+        private int? _resolucaoY;
+        private int? _resolucaoX;
+        private byte[] _imagemPerfil;
+        private byte[] _imagemFundo;
 
         public int Id
         {
@@ -120,7 +122,7 @@ namespace DeltaCompassWPF.Models
             }
         }
 
-        public int DpiMouse
+        public int? DpiMouse
         {
             get { return _dpiMouse; }
             set
@@ -159,7 +161,7 @@ namespace DeltaCompassWPF.Models
             }
         }
 
-        public int ResolucaoY
+        public int? ResolucaoY
         {
             get { return _resolucaoY; }
             set
@@ -172,7 +174,7 @@ namespace DeltaCompassWPF.Models
             }
         }
 
-        public int ResolucaoX
+        public int? ResolucaoX
         {
             get { return _resolucaoX; }
             set
@@ -181,6 +183,31 @@ namespace DeltaCompassWPF.Models
                 {
                     _resolucaoX = value;
                     OnPropertyChanged("ResolucaoX");
+                }
+            }
+        }
+
+        public byte[] ImagemPerfil
+        {
+            get { return _imagemPerfil; }
+            set
+            {
+                if (_imagemPerfil != value)
+                {
+                    _imagemPerfil = value;
+                    OnPropertyChanged("ImagemPerfil");
+                }
+            }
+        }
+        public byte[] ImagemFundo
+        {
+            get { return _imagemFundo; }
+            set
+            {
+                if (_imagemFundo != value)
+                {
+                    _imagemFundo = value;
+                    OnPropertyChanged("ImagemPerfil");
                 }
             }
         }

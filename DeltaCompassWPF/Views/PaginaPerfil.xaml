@@ -4,11 +4,17 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DeltaCompassWPF.Views"
+      xmlns:viewModels="clr-namespace:DeltaCompassWPF.ViewModels"
+      xmlns:converters="clr-namespace:DeltaCompassWPF.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Background="#1C1C1C"
       Title="PaginaPerfil">
 
+    <Page.Resources>
+        <converters:BytesToImageBrushConverter x:Key="BytesToImageBrushConverter"/>
+    </Page.Resources>
+    
     <Grid>
         <!--Definição das colunas e linhas-->
         <Grid.ColumnDefinitions>
@@ -30,7 +36,7 @@
         <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1" Grid.Row="0">
             <Rectangle>
                 <Rectangle.Fill>
-                    <ImageBrush ImageSource="..\resource\bg-delta.png"/>
+                    <ImageBrush ImageSource="{Binding ImagemFundo, Converter={StaticResource BytesToImageBrushConverter}}"/>
                 </Rectangle.Fill>
             </Rectangle>
         </Grid>
@@ -74,7 +80,7 @@
         <Grid Grid.Row="3" Grid.Column="1">
             <StackPanel>
                 <Border BorderThickness="0, 0, 0, 0.5" BorderBrush="White" Width="160">
-                    <Label Content="Apelido do Usuário" Foreground="white" FontFamily="..\fonts\#Poppins" 
+                    <TextBlock Text="{Binding Apelido}" Foreground="white" FontFamily="..\fonts\#Poppins" 
                            FontWeight="Thin" FontSize="15" HorizontalAlignment="center" Padding="0, 2, 0, 0"/>
                 </Border>
                 <Label Content="Clã" Foreground="White" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
@@ -101,16 +107,13 @@
         </Grid>
         
         <!--Biografia-->
-        <Grid Grid.Row="5" Grid.Column="1">
+        <Grid Grid.Row="5" Grid.Column="1" Margin="30, 0">
             <StackPanel>
                 <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Regular" FontSize="15" 
                        HorizontalAlignment="center" Padding="0, 2, 0, 0" Content="Biografia"/>
                 <TextBlock Foreground="White" FontSize="13" FontFamily="..\fonts\#Poppins" FontWeight="Thin"
-                           HorizontalAlignment="Center" TextAlignment="Center" Padding="0">
-                    Sou jogador profissional <LineBreak/>
-                    de CS, venci a copa mundial <LineBreak/>
-                    de 2017.
-                </TextBlock>
+                           HorizontalAlignment="Center" TextAlignment="Center" Padding="0" Text="{Binding Biografia}"
+                           TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>
 
@@ -119,14 +122,34 @@
             <StackPanel>
                 <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Regular" FontSize="15" 
                        HorizontalAlignment="center" Padding="0, 2, 0, 0" Content="Informações"/>
-                <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
-                       HorizontalAlignment="center" Padding="0, 0, 0, 0" Content="Mouse: Modelo do Mouse"/>
-                <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
-                       HorizontalAlignment="center" Padding="0, 0, 0, 0" Content="Monitor: Modelo do Monitor"/>
-                <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
-                       HorizontalAlignment="center" Padding="0, 0, 0, 0" Content="Resolução: 15360 x 8640"/>
-                <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
-                       HorizontalAlignment="center" Padding="0, 0, 0, 0" Content="DPI: DPI do Mouse"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="center">
+                    <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                           Padding="0, 0, 0, 0" Content="Mouse: "/>
+                    <TextBlock Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                               Padding="0, 0, 0, 0" Text="{Binding Mouse}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="center">
+                    <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                           Padding="0, 0, 0, 0" Content="Monitor: "/>
+                    <TextBlock Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                               Padding="0, 0, 0, 0" Text="{Binding Monitor}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="center">
+                    <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                            Padding="0, 0, 0, 0" Content="Mouse: "/>
+                    <TextBlock Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                               Padding="0, 0, 0, 0" Text="{Binding ResolucaoX}"/>
+                    <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                           Padding="0, 0, 0, 0" Content="x"/>
+                    <TextBlock Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                               Padding="0, 0, 0, 0" Text="{Binding ResolucaoY}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="center">
+                    <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                           Padding="0, 0, 0, 0" Content="DPI: "/>
+                    <TextBlock Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                               Padding="0, 0, 0, 0" Text="{Binding Dpi}"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
 
@@ -136,7 +159,7 @@
                     CornerRadius="100">
                 <Ellipse>
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="..\resource\profile-delta.jpg"/>
+                        <ImageBrush ImageSource="{Binding ImagemPerfil, Converter={StaticResource BytesToImageBrushConverter}}"/>
                     </Ellipse.Fill>
                 </Ellipse>
             </Border>

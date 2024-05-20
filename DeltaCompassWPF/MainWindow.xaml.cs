@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 using System.Xml.Linq;
 using DeltaCompassWPF.Database;
 using System.Windows.Media.Animation;
+using DeltaCompassWPF.ViewModels;
+using DeltaCompassWPF.Repositories;
 
 namespace DeltaCompassWPF
 {
@@ -44,6 +46,8 @@ namespace DeltaCompassWPF
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = UserService.Instance;
+            btnHomePerfil.Visibility = Visibility.Collapsed;
         }
 
         #region Eventos
@@ -390,5 +394,11 @@ namespace DeltaCompassWPF
             jl.Show();
         }
         #endregion
+
+        private void btnCadastro_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(btnCadastro.Visibility == Visibility.Collapsed)
+                btnHomePerfil.Visibility = Visibility.Visible;
+        }
     }
 }

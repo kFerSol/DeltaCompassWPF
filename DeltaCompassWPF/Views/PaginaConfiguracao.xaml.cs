@@ -78,5 +78,33 @@ namespace DeltaCompassWPF.Views
             btnSalvarPerfil.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
             this.Cursor = Cursors.Arrow;
         }
+
+        private void bordaSalvarFundo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            bordaSalvarFundo.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            btnSalvarFundo.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void bordaSalvarFundo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            bordaSalvarFundo.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            btnSalvarFundo.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            this.Cursor = Cursors.Arrow;
+        }
+
+        private void bordaSalvarPerfil_MouseEnter_1(object sender, MouseEventArgs e)
+        {
+            bordaSalvarImagemPerfil.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            btnSalvarImagemPerfil.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void bordaSalvarPerfil_MouseLeave_1(object sender, MouseEventArgs e)
+        {
+            bordaSalvarImagemPerfil.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            btnSalvarImagemPerfil.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            this.Cursor = Cursors.Arrow;
+        }
     }
 }
