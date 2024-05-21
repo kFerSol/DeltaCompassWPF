@@ -39,6 +39,7 @@ namespace DeltaCompassWPF.Views
 
         private void BtnConfigPerfil_MouseEnter(Object sender, MouseEventArgs e)
         {
+
             lblPerfil.Foreground = new SolidColorBrush(Colors.DarkGray);
             this.Cursor = Cursors.Hand;
         }
@@ -139,6 +140,20 @@ namespace DeltaCompassWPF.Views
         {
             txtTelefone.Visibility = Visibility.Collapsed;
             lblTelefone.Visibility = Visibility.Visible;
+        }
+
+        private void bordaSalvarGeral_MouseEnter(object sender, MouseEventArgs e)
+        {
+            bordaSalvarGeral.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            btnSalvarGeral.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            Cursor = Cursors.Hand;
+        }
+
+        private void bordaSalvarGeral_MouseLeave(object sender, MouseEventArgs e)
+        {
+            bordaSalvarGeral.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            btnSalvarGeral.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            this.Cursor = Cursors.Arrow;
         }
     }
 }

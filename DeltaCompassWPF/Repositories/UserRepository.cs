@@ -89,36 +89,40 @@ namespace DeltaCompassWPF.Repositories
                 if (usuario.ImagemFundo != null)
                     campos.Add("img_fundo = @ImagemFundo");
 
-                query += string.Join(", ", campos);
-                query += " WHERE id_usuario = @Id;";
-
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                if(campos.Count > 0)
                 {
-                    if (usuario.Email != null || usuario.ApelidoPerfil != "")
-                        command.Parameters.AddWithValue("@Email", usuario.Email);
-                    if (usuario.ApelidoPerfil != null || usuario.ApelidoPerfil != "")
-                        command.Parameters.AddWithValue("@Apelido", usuario.ApelidoPerfil);
-                    if (usuario.Telefone != null || usuario.Telefone != "")
-                        command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
-                    if (usuario.Biografia != null || usuario.Biografia != "")
-                        command.Parameters.AddWithValue("@Biografia", usuario.Biografia);
-                    if (usuario.DpiMouse != null)
-                        command.Parameters.AddWithValue("@DpiMouse", usuario.DpiMouse);
-                    if (usuario.ModeloMonitor != null || usuario.ModeloMonitor != "")
-                        command.Parameters.AddWithValue("@ModeloMonitor", usuario.ModeloMonitor);
-                    if (usuario.ModeloMouse != null || usuario.ModeloMouse != "")
-                        command.Parameters.AddWithValue("@ModeloMouse", usuario.ModeloMouse);
-                    if (usuario.ResolucaoY != null)
-                        command.Parameters.AddWithValue("@ResolucaoY", usuario.ResolucaoY);
-                    if (usuario.ResolucaoX != null)
-                        command.Parameters.AddWithValue("@ResolucaoX", usuario.ResolucaoX);
-                    if (usuario.ImagemPerfil != null)
-                        command.Parameters.AddWithValue("@ImagemPerfil", usuario.ImagemPerfil);
-                    if (usuario.ImagemFundo != null)
-                        command.Parameters.AddWithValue("@ImagemFundo", usuario.ImagemFundo);
-                    command.Parameters.AddWithValue("@Id", usuario.Id);
-                    command.ExecuteNonQuery();
+                    query += string.Join(", ", campos);
+                    query += " WHERE id_usuario = @Id;";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        if (usuario.Email != null || usuario.ApelidoPerfil != "")
+                            command.Parameters.AddWithValue("@Email", usuario.Email);
+                        if (usuario.ApelidoPerfil != null || usuario.ApelidoPerfil != "")
+                            command.Parameters.AddWithValue("@Apelido", usuario.ApelidoPerfil);
+                        if (usuario.Telefone != null || usuario.Telefone != "")
+                            command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
+                        if (usuario.Biografia != null || usuario.Biografia != "")
+                            command.Parameters.AddWithValue("@Biografia", usuario.Biografia);
+                        if (usuario.DpiMouse != null)
+                            command.Parameters.AddWithValue("@DpiMouse", usuario.DpiMouse);
+                        if (usuario.ModeloMonitor != null || usuario.ModeloMonitor != "")
+                            command.Parameters.AddWithValue("@ModeloMonitor", usuario.ModeloMonitor);
+                        if (usuario.ModeloMouse != null || usuario.ModeloMouse != "")
+                            command.Parameters.AddWithValue("@ModeloMouse", usuario.ModeloMouse);
+                        if (usuario.ResolucaoY != null)
+                            command.Parameters.AddWithValue("@ResolucaoY", usuario.ResolucaoY);
+                        if (usuario.ResolucaoX != null)
+                            command.Parameters.AddWithValue("@ResolucaoX", usuario.ResolucaoX);
+                        if (usuario.ImagemPerfil != null)
+                            command.Parameters.AddWithValue("@ImagemPerfil", usuario.ImagemPerfil);
+                        if (usuario.ImagemFundo != null)
+                            command.Parameters.AddWithValue("@ImagemFundo", usuario.ImagemFundo);
+                        command.Parameters.AddWithValue("@Id", usuario.Id);
+                        command.ExecuteNonQuery();
+                    }
                 }
+                
             }
             var currentUser = UserService.Instance.CurrentUser;
             if (!string.IsNullOrEmpty(usuario.ApelidoPerfil))

@@ -20,6 +20,17 @@ namespace DeltaCompassWPF.ViewModels
         private int _dpiMouse;
         private ObservableCollection<SlotConfiguracao> _sensibilidades;
         private SlotConfiguracao _sensibilidadeAtual;
+        private double _resultado;
+
+        public double Resultado
+        {
+            get { return _resultado; }
+            set
+            {
+                _resultado = value;
+                OnPropertyChanged(nameof(Resultado));
+            }
+        }
 
         public SlotConfiguracao SensibilidadeAtual
         {
@@ -45,9 +56,10 @@ namespace DeltaCompassWPF.ViewModels
             set
             {
                 _jogoSelecionado1 = value;
+                AtualizarSensibilidadeAtual();
                 OnPropertyChanged(nameof(JogoSelecionado1));
                 Console.WriteLine("JogoSelecionado atualizado: " + (value?.Nome ?? "null"));
-                AtualizarSensibilidadeAtual();
+                AtualizarResultado();
             }
         }
         public Jogo JogoSelecionado2
@@ -57,6 +69,7 @@ namespace DeltaCompassWPF.ViewModels
             {
                 _jogoSelecionado2 = value;
                 OnPropertyChanged(nameof(JogoSelecionado2));
+                AtualizarResultado();
             }
         }
         public double Sensibilidade
@@ -97,6 +110,22 @@ namespace DeltaCompassWPF.ViewModels
             CarregarSensibilidades();
         }
 
+        private void AtualizarResultado()
+        {
+            if (string.IsNullOrEmpty(JogoSelecionado1.Nome) || string.IsNullOrEmpty(JogoSelecionado2.Nome))
+            {
+                switch (JogoSelecionado1.Nome)
+                {
+                    case ("Valorant"):
+                        Resultado = 438795375892;
+                        break;
+                    default:
+                        Resultado = 18;
+                        break;
+                }
+            }
+        }
+
         private void OnUserChanged(Usuario user)
         {
             OnPropertyChanged(nameof(IsLoggedIn));
@@ -118,7 +147,6 @@ namespace DeltaCompassWPF.ViewModels
                     {
                         Sensibilidades.Add(sensibilidade);
                     }
-                    AtualizarSensibilidadeAtual();
                 });
             }
             catch (Exception)

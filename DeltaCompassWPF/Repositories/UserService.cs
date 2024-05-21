@@ -33,6 +33,10 @@ namespace DeltaCompassWPF.Repositories
         }
 
         public bool IsLoggedIn => _currentUser != null;
+        public void Logout()
+        {
+            CurrentUser = null;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

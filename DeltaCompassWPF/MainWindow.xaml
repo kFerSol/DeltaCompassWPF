@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeltaCompassWPF"
         xmlns:conv="clr-namespace:DeltaCompassWPF.Repositories"
+        xmlns:converter="clr-namespace:DeltaCompassWPF.Converters"
+        xmlns:viewmodel="clr-namespace:DeltaCompassWPF.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="865" WindowStyle="None" WindowStartupLocation="CenterScreen"
         MinHeight="550" MinWidth="850" Padding="0" Margin="0" ResizeMode="CanResizeWithGrip" AllowsTransparency="True"
@@ -14,6 +16,7 @@
     <Window.Resources>
         <conv:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
         <conv:InverseBoolVisibilityConverter x:Key="InverseBoolVisibilityConverter"/>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <Storyboard x:Key="MenuOpen">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" 
                                            Storyboard.TargetName="GridMenu">
@@ -29,6 +32,10 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
+
+    <Window.DataContext>
+        <viewmodel:PerfilViewModel/>
+    </Window.DataContext>
 
     <!--Gatilhos para os eventos de expandir e encolher a sidebar-->
     <Window.Triggers>
@@ -54,16 +61,6 @@
         <!--Frame que mostrará outras páginas-->
         <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" >
             <Label Foreground="White" Content="Home" FontSize="22" Margin="100, 20, 0, 0" FontFamily="\fonts\#ModeSeven"/>
-            <StackPanel x:Name="btnSair" Orientation="Horizontal" Margin="0, 25, 50, 0" HorizontalAlignment="Right" 
-                        MouseEnter="btnSair_MouseEnter" MouseLeave="btnSair_MouseLeave" Height="30" VerticalAlignment="Top">
-                <StackPanel.InputBindings>
-                    <MouseBinding Gesture="LeftClick" Command="{Binding LogoutCommand}" />
-                </StackPanel.InputBindings>
-                <Grid x:Name="gridSair" VerticalAlignment="Top" Background="#4A4A4A">
-                    <Image Source="resource/logout.png" Width="25" Height="25" Margin="2"/>
-                </Grid>
-                <Label Foreground="White" Content="Sair da Conta" FontSize="16" FontFamily="\fonts\#ModeSeven" Margin="0, 2, 0, 0"/>
-            </StackPanel>
             <Grid Margin="150, 60, 100, 40">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -161,7 +158,8 @@
 
                 <Button x:Name="btnHomePerfil" Background="White" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
-                        Click="btnPerfil_Click" Visibility="Collapsed">
+                        Click="btnPerfil_Click" 
+                        Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#101010" />
@@ -190,7 +188,7 @@
                 <Button x:Name="btnCadastro" Background="White" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
                         Click="btnCadastro_Click" IsVisibleChanged="btnCadastro_IsVisibleChanged"
-                        Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolVisibilityConverter}}">
+                        Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#101010" />
@@ -219,7 +217,7 @@
                 <Button x:Name="btnLogin" Background="White" Grid.Column="1" Grid.Row="3" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave"
                         Click="btnLogin_Click"
-                        Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolVisibilityConverter}}">
+                        Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#101010" />

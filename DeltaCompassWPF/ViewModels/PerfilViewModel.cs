@@ -3,6 +3,7 @@ using DeltaCompassWPF.Models;
 using DeltaCompassWPF.Repositories;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows.Input;
 
 namespace DeltaCompassWPF.ViewModels
@@ -12,7 +13,7 @@ namespace DeltaCompassWPF.ViewModels
         private SlotConfiguracao _slotConfiguracao;
         private Usuario _currentUser;
         private ObservableCollection<SlotConfiguracao> _slots;
-        
+
         public SlotConfiguracao SlotConfiguracao
         {
             get { return _slotConfiguracao; }
@@ -35,21 +36,77 @@ namespace DeltaCompassWPF.ViewModels
             }
         }
 
+        private readonly UserService _userService;
+
+        public Usuario CurrentUser => _userService.CurrentUser;
+        public bool IsLoggedIn => _userService.IsLoggedIn;
+
         public ICommand SalvarSlotCommand { get; }
+        public ICommand LogoutCommand { get; }
 
         public PerfilViewModel()
         {
+            _userService = UserService.Instance;
             UserService.Instance.UserChanged += UpdateCurrentUser;
             UserService.Instance.UserDetailsChanged += UpdateCurrentUser;
-            UpdateCurrentUser(UserService.Instance.CurrentUser);
+            _userService.UserChanged += OnUserChanged;
+
             SalvarSlotCommand = new RelayCommand(ExecuteSalvarSlotCommand, CanExecuteSalvarSlotCommand);
+            LogoutCommand = new RelayCommand(ExecuteLogout);
+
             _slotRepository = new SlotRepository();
 
             Slots = new ObservableCollection<SlotConfiguracao>
             {
-                new SlotConfiguracao{ NomeJogo = null, ImagemJogo = null, Sensibilidade = 0, 
+                new SlotConfiguracao{ NomeJogo = null, ImagemJogo = null, Sensibilidade = 0,
                     ConfigurarCommand = new RelayCommand(AdicionarNovoSlot) }
             };
+
+            UpdateCurrentUser(UserService.Instance.CurrentUser);
+        }
+
+        private void ExecuteLogout(object obj)
+        {
+            UserService.Instance.Logout();
+            ResetUserProfile();
+        }
+
+        private void ResetUserProfile()
+        {
+            _currentUser = new Usuario
+            {
+                Nome = "Usuário não logado",
+                Email = "",
+                ApelidoPerfil = "",
+                Biografia = "",
+                ModeloMonitor = "",
+                ModeloMouse = "",
+                ResolucaoX = null,
+                ResolucaoY = null,
+                DpiMouse = null,
+                ImagemPerfil = null,
+                ImagemFundo = null
+            };
+
+            OnPropertyChanged(nameof(Nome));
+            OnPropertyChanged(nameof(Email));
+            OnPropertyChanged(nameof(Apelido));
+            OnPropertyChanged(nameof(Biografia));
+            OnPropertyChanged(nameof(Mouse));
+            OnPropertyChanged(nameof(Monitor));
+            OnPropertyChanged(nameof(ResolucaoX));
+            OnPropertyChanged(nameof(ResolucaoY));
+            OnPropertyChanged(nameof(Dpi));
+            OnPropertyChanged(nameof(ImagemPerfil));
+            OnPropertyChanged(nameof(ImagemFundo));
+            OnPropertyChanged(nameof(CurrentUser));
+            OnPropertyChanged(nameof(IsLoggedIn));
+        }
+
+        private void OnUserChanged(Usuario usuario)
+        {
+            OnPropertyChanged(nameof(IsLoggedIn));
+            OnPropertyChanged(nameof(CurrentUser));
         }
 
         private bool CanExecuteSalvarSlotCommand(object obj)

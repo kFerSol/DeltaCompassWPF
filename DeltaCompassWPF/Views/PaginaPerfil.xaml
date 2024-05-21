@@ -14,20 +14,25 @@
     <Page.Resources>
         <converters:BytesToImageBrushConverter x:Key="BytesToImageBrushConverter"/>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="ConfiguracaoSlotTemplate">
             <Border Width="130" Height="130" BorderBrush="#2E2BC2" BorderThickness="2" CornerRadius="10">
                 <StackPanel>
                     <Button Command="{Binding ConfigurarCommand}" Visibility="{Binding NomeJogo, Converter={StaticResource NullToVisibilityConverter}}">
                         <StackPanel>
                             <Image Source="{Binding ImagemJogo, Converter={StaticResource BytesToImageBrushConverter}}" Width="50" Height="50"
-                                   Visibility="{Binding ImagemJogo, Converter={StaticResource NullToVisibilityConverter}}"/>
-                            <TextBlock Text="{Binding NomeJogo}" Visibility="{Binding NomeJogo, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                   Visibility="{Binding IsLoggedIn, Converter={StaticResource NullToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding NomeJogo}" Visibility="{Binding IsLoggedIn, Converter={StaticResource NullToVisibilityConverter}}"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
             </Border>
         </DataTemplate>
     </Page.Resources>
+
+    <Page.DataContext>
+        <viewModels:PerfilViewModel/>
+    </Page.DataContext>
     
     <Grid>
         <!--Definição das colunas e linhas-->
@@ -57,8 +62,22 @@
         </Grid>
 
         <!--Texto-->
-        <Label Grid.Row="2" Grid.Column="2" Content="Configurações salvas" Foreground="White" 
-               FontFamily="..\fonts\#ModeSeven" FontSize="18" VerticalAlignment="Bottom"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left">
+            <Label Content="Configurações salvas" Foreground="White" 
+                   FontFamily="..\fonts\#ModeSeven" FontSize="18" VerticalAlignment="Bottom"/>
+        </StackPanel>
+        <StackPanel x:Name="btnSair" Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" 
+                    MouseEnter="btnSair_MouseEnter" MouseLeave="btnSair_MouseLeave" Height="30" VerticalAlignment="Bottom"
+                    Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"
+                    Margin="0, 0, 40, 0">
+            <StackPanel.InputBindings>
+                <MouseBinding Gesture="LeftClick" Command="{Binding LogoutCommand}" />
+            </StackPanel.InputBindings>
+            <Grid x:Name="gridSair" VerticalAlignment="Center" Background="#4A4A4A">
+                <Image Source="../resource/logout.png" Width="25" Height="25" Margin="2"/>
+            </Grid>
+            <Label Foreground="White" Content="Sair da Conta" FontSize="16" FontFamily="\fonts\#ModeSeven" Margin="0, 2, 0, 0"/>
+        </StackPanel>
 
         <!--Lugar onde ficará os slots de configurações-->
         <ScrollViewer Grid.Row="3" Grid.Column="2" Grid.RowSpan="4" Margin="0, 0, 40, 15" VerticalScrollBarVisibility="Auto">

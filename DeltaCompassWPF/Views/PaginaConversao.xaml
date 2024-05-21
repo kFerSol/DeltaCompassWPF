@@ -85,13 +85,9 @@
                             <ComboBox FontFamily="..\fonts\#Poppins" Foreground="Black" FontSize="16"
                                       Margin="5, 3" BorderThickness="0"
                                       ItemsSource="{Binding Jogos}"
+                                      DisplayMemberPath="Nome"
                                       SelectedValuePath="Id"
-                                      SelectedValue="{Binding JogoSelecionado1, Mode=TwoWay}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Nome}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
+                                      SelectedValue="{Binding JogoSelecionado1.Nome, Mode=TwoWay}">
                             </ComboBox>
                         </Grid>
                     </Border>
@@ -124,9 +120,9 @@
                     <Grid>
                         <TextBox FontFamily="..\fonts\#Poppins" Foreground="Black" Padding="3"
                                  FontSize="16" VerticalAlignment="Center" Width="80" BorderBrush="#2E2BC2"
-                                 Text="{Binding Sensibilidades}" 
+                                 Text="{Binding Sensibilidade}" 
                                  Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
-                        <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" Text="{Binding SensibilidadeAtual.Sensibilidade}" VerticalAlignment="Center"
+                        <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" Text="{Binding JogoSelecionado1.Nome}" VerticalAlignment="Center"
                                    Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"/>
                     </Grid>
                 </StackPanel>
@@ -152,7 +148,7 @@
                                       Margin="5, 3" BorderThickness="0"
                                       ItemsSource="{Binding Jogos}"
                                       SelectedValuePath="Id"
-                                      SelectedValue="{Binding JogoSelecionado2, Mode=TwoWay}">
+                                      SelectedValue="{Binding JogoSelecionado2.Nome, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Nome}"/>

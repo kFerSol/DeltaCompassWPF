@@ -39,7 +39,7 @@ namespace DeltaCompassWPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var conexao = new Conexao();
+            //var conexao = new Conexao();
         }
 
         //Construtor
@@ -47,7 +47,6 @@ namespace DeltaCompassWPF
         {
             InitializeComponent();
             DataContext = UserService.Instance;
-            btnHomePerfil.Visibility = Visibility.Collapsed;
         }
 
         #region Eventos
@@ -397,20 +396,8 @@ namespace DeltaCompassWPF
 
         private void btnCadastro_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if(btnCadastro.Visibility == Visibility.Collapsed)
-                btnHomePerfil.Visibility = Visibility.Visible;
-        }
-
-        private void btnSair_MouseEnter(object sender, MouseEventArgs e)
-        {
-            gridSair.Background = Brushes.DarkRed;
-            Cursor = Cursors.Hand;
-        }
-
-        private void btnSair_MouseLeave(object sender, MouseEventArgs e)
-        {
-            gridSair.Background = new SolidColorBrush(Color.FromArgb(255, 74, 74, 74));
-            Cursor = Cursors.Arrow;
+            //if(btnCadastro.Visibility == Visibility.Collapsed)
+                //btnHomePerfil.Visibility = Visibility.Visible;
         }
     }
 }

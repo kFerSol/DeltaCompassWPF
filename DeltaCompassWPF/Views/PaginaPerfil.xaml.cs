@@ -31,5 +31,17 @@ namespace DeltaCompassWPF.Views
         {
 
         }
+
+        private void btnSair_MouseEnter(object sender, MouseEventArgs e)
+        {
+            gridSair.Background = Brushes.DarkRed;
+            Cursor = Cursors.Hand;
+        }
+
+        private void btnSair_MouseLeave(object sender, MouseEventArgs e)
+        {
+            gridSair.Background = new SolidColorBrush(Color.FromArgb(255, 74, 74, 74));
+            Cursor = Cursors.Arrow;
+        }
     }
 }
