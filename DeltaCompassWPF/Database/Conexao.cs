@@ -15,7 +15,6 @@ namespace DeltaCompassWPF.Database
         private static string password = "usbw";
         private static string dbname = "Delta_Compass";
         private static MySqlConnection connection;
-        private static MySqlCommand command;
 
         public Conexao()
         {

@@ -68,6 +68,7 @@
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.7.0.2\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Pipelines, Version=5.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Pipelines.5.0.2\lib\net461\System.IO.Pipelines.dll</HintPath>
     </Reference>
@@ -108,20 +109,29 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BytesToImageBrushConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Database\Conexao.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Models\ISlotRepository.cs" />
     <Compile Include="Models\IUserRepository.cs" />
+    <Compile Include="Models\Jogo.cs" />
     <Compile Include="Models\SlotConfiguracao.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Repositories\Authentication\CustomIdentity.cs" />
     <Compile Include="Repositories\Authentication\CustomPrincipal.cs" />
     <Compile Include="Repositories\BoolVisibilityConverter.cs" />
+    <Compile Include="Models\IJogoRepository.cs" />
     <Compile Include="Repositories\InverseBoolVisibilityConverter.cs" />
+    <Compile Include="Repositories\JogoRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="Repositories\SlotRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\UserService.cs" />
     <Compile Include="ViewModels\CadastrarViewModel.cs" />
+    <Compile Include="ViewModels\ConversaoViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ConfigurarPerfilViewModel.cs" />
     <Compile Include="ViewModels\PerfilViewModel.cs" />
@@ -327,6 +337,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\search-delta.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\edit-box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\logout.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,10 +1,13 @@
 ﻿using DeltaCompassWPF.Commands;
+using DeltaCompassWPF.Helpers;
 using DeltaCompassWPF.Models;
 using DeltaCompassWPF.Repositories;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,39 +33,52 @@ namespace DeltaCompassWPF.ViewModels
             }
         }
 
+        public string Email => _currentUser.Email;
+        public string Telefone => _currentUser.Telefone;
+
         private IUserRepository _userRepository;
+        private ImageHelper _imageHelper;
 
         public ICommand SalvarConfigCommand { get; }
+        public ICommand SalvarConfigGeralCommand { get; }
         public ICommand TrocarImagemPerfilCommand { get; }
         public ICommand TrocarImagemFundoCommand { get; }
 
         public ConfigurarPerfilViewModel()
         {
             SalvarConfigCommand = new RelayCommand(ExecuteSalvarConfigCommand, CanExecuteSalvarConfigCommand);
+            SalvarConfigGeralCommand = new RelayCommand(ExecuteSalvarConfigGeralCommand, CanExecuteSalvarConfigGeralCommand);
             TrocarImagemPerfilCommand = new RelayCommand(ExecuteTrocarImagemPerfilCommand, CanExecuteTrocarImagemPerfilCommand);
             TrocarImagemFundoCommand = new RelayCommand(ExecuteTrocarImagemFundoCommand, CanExecuteTrocarImagemFundoCommand);
             _userRepository = new UserRepository();
+            _imageHelper = new ImageHelper();
             Usuario = new Usuario();
 
-            if(LoginViewModel.CurrentUser != null)
-                _currentUser = LoginViewModel.CurrentUser;
-            else
+            UserService.Instance.UserChanged += UpdateCurrentUser;
+            UserService.Instance.UserDetailsChanged += UpdateCurrentUser;
+            UpdateCurrentUser(UserService.Instance.CurrentUser);
+        }
+
+        private bool CanExecuteSalvarConfigGeralCommand(object obj)
+        {
+            return Thread.CurrentPrincipal.Identity.IsAuthenticated;
+        }
+
+        private void ExecuteSalvarConfigGeralCommand(object obj)
+        {
+            _userRepository.Edit(Usuario);
+        }
+
+        private void UpdateCurrentUser(Usuario currentUser)
+        {
+            _currentUser = currentUser ?? new Usuario
             {
-                _currentUser = new Usuario
-                {
-                    Nome = "Usuário não logado",
-                    Email = "",
-                    ApelidoPerfil = "",
-                    Biografia = "",
-                    ModeloMonitor = "",
-                    ModeloMouse = "",
-                    ResolucaoX = null,
-                    ResolucaoY = null,
-                    DpiMouse = null,
-                    ImagemPerfil = null,
-                    ImagemFundo = null
-                };
-            }
+                Email = "",
+                Telefone = "+55 (00) 00000-0000"
+            };
+
+            OnPropertyChanged(nameof(Email));
+            OnPropertyChanged(nameof(Telefone));
         }
 
         private bool CanExecuteTrocarImagemFundoCommand(object obj)
@@ -77,8 +93,9 @@ namespace DeltaCompassWPF.ViewModels
             dialog.FilterIndex = 1;
             if(dialog.ShowDialog() == true)
             {
-                byte[] imageBytes = File.ReadAllBytes(dialog.FileName);
-                _usuario.ImagemFundo = imageBytes;
+                var image = new Bitmap(dialog.FileName);
+                var resizedImage = _imageHelper.ResizeImage(image, 700, 300);
+                _usuario.ImagemFundo = _imageHelper.ConvertImageToByte(resizedImage);
             }
         }
 
@@ -94,8 +111,9 @@ namespace DeltaCompassWPF.ViewModels
             dialog.FilterIndex = 1;
             if (dialog.ShowDialog() == true)
             {
-                byte[] imageBytes = File.ReadAllBytes(dialog.FileName);
-                _usuario.ImagemPerfil = imageBytes;
+                var image = new Bitmap(dialog.FileName);
+                var resizedImage = _imageHelper.ResizeImage(image, 300, 300);
+                _usuario.ImagemPerfil = _imageHelper.ConvertImageToByte(resizedImage);
             }
         }
 

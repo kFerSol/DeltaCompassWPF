@@ -54,6 +54,16 @@
         <!--Frame que mostrará outras páginas-->
         <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" >
             <Label Foreground="White" Content="Home" FontSize="22" Margin="100, 20, 0, 0" FontFamily="\fonts\#ModeSeven"/>
+            <StackPanel x:Name="btnSair" Orientation="Horizontal" Margin="0, 25, 50, 0" HorizontalAlignment="Right" 
+                        MouseEnter="btnSair_MouseEnter" MouseLeave="btnSair_MouseLeave" Height="30" VerticalAlignment="Top">
+                <StackPanel.InputBindings>
+                    <MouseBinding Gesture="LeftClick" Command="{Binding LogoutCommand}" />
+                </StackPanel.InputBindings>
+                <Grid x:Name="gridSair" VerticalAlignment="Top" Background="#4A4A4A">
+                    <Image Source="resource/logout.png" Width="25" Height="25" Margin="2"/>
+                </Grid>
+                <Label Foreground="White" Content="Sair da Conta" FontSize="16" FontFamily="\fonts\#ModeSeven" Margin="0, 2, 0, 0"/>
+            </StackPanel>
             <Grid Margin="150, 60, 100, 40">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>

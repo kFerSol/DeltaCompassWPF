@@ -1,29 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using DeltaCompassWPF.Commands;
+﻿using DeltaCompassWPF.Commands;
 using DeltaCompassWPF.Models;
-using DeltaCompassWPF.Database;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
-using Mysqlx.Crud;
 using DeltaCompassWPF.Repositories;
+using System;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace DeltaCompassWPF.ViewModels
 {
     public class PerfilViewModel : ViewModelBase
     {
+        private SlotConfiguracao _slotConfiguracao;
         private Usuario _currentUser;
+        private ObservableCollection<SlotConfiguracao> _slots;
+        
+        public SlotConfiguracao SlotConfiguracao
+        {
+            get { return _slotConfiguracao; }
+            set
+            {
+                _slotConfiguracao = value;
+                OnPropertyChanged(nameof(SlotConfiguracao));
+            }
+        }
+
+        private ISlotRepository _slotRepository;
+
+        public ObservableCollection<SlotConfiguracao> Slots
+        {
+            get => _slots;
+            set
+            {
+                _slots = value;
+                OnPropertyChanged(nameof(Slots));
+            }
+        }
+
+        public ICommand SalvarSlotCommand { get; }
 
         public PerfilViewModel()
         {
             UserService.Instance.UserChanged += UpdateCurrentUser;
             UserService.Instance.UserDetailsChanged += UpdateCurrentUser;
             UpdateCurrentUser(UserService.Instance.CurrentUser);
+            SalvarSlotCommand = new RelayCommand(ExecuteSalvarSlotCommand, CanExecuteSalvarSlotCommand);
+            _slotRepository = new SlotRepository();
+
+            Slots = new ObservableCollection<SlotConfiguracao>
+            {
+                new SlotConfiguracao{ NomeJogo = null, ImagemJogo = null, Sensibilidade = 0, 
+                    ConfigurarCommand = new RelayCommand(AdicionarNovoSlot) }
+            };
+        }
+
+        private bool CanExecuteSalvarSlotCommand(object obj)
+        {
+            return true;
+        }
+
+        private void ExecuteSalvarSlotCommand(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AdicionarNovoSlot(object obj)
+        {
+            Slots.Add(new SlotConfiguracao { NomeJogo = "Novo Jogo", ImagemJogo = null, Sensibilidade = 0, 
+                ConfigurarCommand = new RelayCommand(AdicionarNovoSlot) });
         }
 
         private void UpdateCurrentUser(Usuario user)

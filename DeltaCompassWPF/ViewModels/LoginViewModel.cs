@@ -67,6 +67,7 @@ namespace DeltaCompassWPF.ViewModels
         public ICommand RecuperarSenhaCommand { get; }
         public ICommand MostrarSenhaCommand { get; }
         public ICommand LembrarSenhaCommand { get; }
+        public ICommand LogoutCommand { get; }
 
         public Action CloseAction { get; set; }
         public static Usuario CurrentUser { get; private set; }
@@ -76,6 +77,13 @@ namespace DeltaCompassWPF.ViewModels
             _userRepository = new UserRepository();
             LoginCommand = new RelayCommand(ExecuteLoginCommand, CanExecuteLoginCommand);
             RecuperarSenhaCommand = new RelayCommand(p => ExecuteRecuperarSenhaCommand("", ""));
+            LogoutCommand = new RelayCommand(ExecuteLogout);
+        }
+
+        private void ExecuteLogout(object obj)
+        {
+            UserService.Instance.CurrentUser = null;
+            Thread.CurrentPrincipal = null;
         }
 
         private void ExecuteLoginCommand(object obj)

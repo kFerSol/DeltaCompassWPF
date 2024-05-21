@@ -55,6 +55,8 @@ namespace DeltaCompassWPF.Views
             bordaPerfil.Visibility = Visibility.Hidden;
             scrollConfigGeral.Visibility = Visibility.Visible;
             scrollConfigPerfil.Visibility = Visibility.Collapsed;
+            bordaSalvarPerfil.Visibility = Visibility.Collapsed;
+            bordaSalvarGeral.Visibility = Visibility.Visible;
         }
 
         private void BtnConfigPerfil_Click(Object sender, RoutedEventArgs e)
@@ -63,6 +65,8 @@ namespace DeltaCompassWPF.Views
             bordaPerfil.Visibility = Visibility.Visible;
             scrollConfigGeral.Visibility = Visibility.Collapsed;
             scrollConfigPerfil.Visibility = Visibility.Visible;
+            bordaSalvarPerfil.Visibility = Visibility.Collapsed;
+            bordaSalvarGeral.Visibility = Visibility.Visible;
         }
 
         private void bordaSalvarPerfil_MouseEnter(object sender, MouseEventArgs e)
@@ -105,6 +109,36 @@ namespace DeltaCompassWPF.Views
             bordaSalvarImagemPerfil.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
             btnSalvarImagemPerfil.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
             this.Cursor = Cursors.Arrow;
+        }
+
+        private void btnTelefone_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(lblTelefone.Visibility == Visibility.Visible)
+            {
+                lblTelefone.Visibility = Visibility.Collapsed;
+                txtTelefone.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lblTelefone.Visibility = Visibility.Visible;
+                txtTelefone.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnTelefone_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Hand;
+        }
+
+        private void btnTelefone_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
+
+        private void btnSalvarGeral_Click(object sender, RoutedEventArgs e)
+        {
+            txtTelefone.Visibility = Visibility.Collapsed;
+            lblTelefone.Visibility = Visibility.Visible;
         }
     }
 }

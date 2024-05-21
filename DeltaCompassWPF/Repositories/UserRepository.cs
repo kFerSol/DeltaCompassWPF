@@ -82,7 +82,8 @@ namespace DeltaCompassWPF.Repositories
                     campos.Add("nr_resolucaoX = @ResolucaoX");
                 if (usuario.DpiMouse != null && usuario.DpiMouse != 0)
                     campos.Add("dpi_usuario = @DpiMouse");
-
+                if (!string.IsNullOrEmpty(usuario.Telefone))
+                    campos.Add("nr_telefone = @Telefone");
                 if (usuario.ImagemPerfil != null)
                     campos.Add("img_perfil = @ImagemPerfil");
                 if (usuario.ImagemFundo != null)
@@ -93,21 +94,29 @@ namespace DeltaCompassWPF.Repositories
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Email", usuario.Email);
-                    command.Parameters.AddWithValue("@Apelido", usuario.ApelidoPerfil);
-                    command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
-                    command.Parameters.AddWithValue("@Biografia", usuario.Biografia);
-                    command.Parameters.AddWithValue("@DpiMouse", usuario.DpiMouse);
-                    command.Parameters.AddWithValue("@ModeloMonitor", usuario.ModeloMonitor);
-                    command.Parameters.AddWithValue("@ModeloMouse", usuario.ModeloMouse);
-                    command.Parameters.AddWithValue("@ResolucaoY", usuario.ResolucaoY);
-                    command.Parameters.AddWithValue("@ResolucaoX", usuario.ResolucaoX);
-                    command.Parameters.AddWithValue("@Id", usuario.Id);
-
+                    if (usuario.Email != null || usuario.ApelidoPerfil != "")
+                        command.Parameters.AddWithValue("@Email", usuario.Email);
+                    if (usuario.ApelidoPerfil != null || usuario.ApelidoPerfil != "")
+                        command.Parameters.AddWithValue("@Apelido", usuario.ApelidoPerfil);
+                    if (usuario.Telefone != null || usuario.Telefone != "")
+                        command.Parameters.AddWithValue("@Telefone", usuario.Telefone);
+                    if (usuario.Biografia != null || usuario.Biografia != "")
+                        command.Parameters.AddWithValue("@Biografia", usuario.Biografia);
+                    if (usuario.DpiMouse != null)
+                        command.Parameters.AddWithValue("@DpiMouse", usuario.DpiMouse);
+                    if (usuario.ModeloMonitor != null || usuario.ModeloMonitor != "")
+                        command.Parameters.AddWithValue("@ModeloMonitor", usuario.ModeloMonitor);
+                    if (usuario.ModeloMouse != null || usuario.ModeloMouse != "")
+                        command.Parameters.AddWithValue("@ModeloMouse", usuario.ModeloMouse);
+                    if (usuario.ResolucaoY != null)
+                        command.Parameters.AddWithValue("@ResolucaoY", usuario.ResolucaoY);
+                    if (usuario.ResolucaoX != null)
+                        command.Parameters.AddWithValue("@ResolucaoX", usuario.ResolucaoX);
                     if (usuario.ImagemPerfil != null)
                         command.Parameters.AddWithValue("@ImagemPerfil", usuario.ImagemPerfil);
                     if (usuario.ImagemFundo != null)
                         command.Parameters.AddWithValue("@ImagemFundo", usuario.ImagemFundo);
+                    command.Parameters.AddWithValue("@Id", usuario.Id);
                     command.ExecuteNonQuery();
                 }
             }
@@ -116,6 +125,8 @@ namespace DeltaCompassWPF.Repositories
                 currentUser.ApelidoPerfil = usuario.ApelidoPerfil;
             if (!string.IsNullOrEmpty(usuario.Biografia))
                 currentUser.Biografia = usuario.Biografia;
+            if (!string.IsNullOrEmpty(usuario.Telefone))
+                currentUser.Telefone = usuario.Telefone;
             if (!string.IsNullOrEmpty(usuario.ModeloMonitor))
                 currentUser.ModeloMonitor = usuario.ModeloMonitor;
             if (!string.IsNullOrEmpty(usuario.ModeloMouse))
@@ -176,6 +187,39 @@ namespace DeltaCompassWPF.Repositories
         public void remove(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<SlotConfiguracao> GetSensibilidadeByUserId(int userId)
+        {
+            var sensibilidades = new List<SlotConfiguracao>();
+
+            using(var connection = GetConnection())
+            using(var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = @"
+                    SELECT s.vl_sensibilidade, s.cd_jogos, j.nm_jogo
+                    FROM tb_sensibilidade s
+                    JOIN tb_jogos j ON s.cd_jogos = j.id_jogos
+                    WHERE s.cd_usuario = @UserId";
+                command.Parameters.AddWithValue("@UserId", userId);
+
+                using(var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var sensibilidade = new SlotConfiguracao
+                        {
+                            Sensibilidade = reader.GetInt32("vl_sensibilidade"),
+                            JogoId = reader.GetInt32("cd_jogos"),
+                            NomeJogo = reader.GetString("nm_jogo")
+                        };
+                        sensibilidades.Add(sensibilidade);
+                    }
+                }
+            }
+            return sensibilidades;
         }
 
         public Usuario GetInformacoesAutenticadas(string nome)

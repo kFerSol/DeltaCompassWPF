@@ -153,8 +153,8 @@
                                     <Label Content="E-mail" FontFamily="..\fonts\#Poppins" FontSize="14" Foreground="White" Margin="5"
                                            FontWeight="Bold" HorizontalAlignment="Center"/>
                                 </Border>
-                                <Label Content="{Binding Email}" FontFamily="..\fonts\#Poppins" Foreground="White" Margin="10,5"
-                                       FontSize="14" FontWeight="Thin"/>
+                                <TextBlock Text="{Binding Email}" FontFamily="..\fonts\#Poppins" Foreground="White" Margin="10, 0, 0, 0"
+                                       FontSize="14" FontWeight="Thin" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Border BorderBrush="#2E2BC2" BorderThickness="1.5"/>
                             <StackPanel Orientation="Horizontal">
@@ -162,8 +162,21 @@
                                     <Label Content="Telefone" FontFamily="..\fonts\#Poppins" FontSize="14" Foreground="White" Margin="5"
                                            FontWeight="Bold" HorizontalAlignment="Center"/>
                                 </Border>
-                                <Label Content="+55 (00) 00000-0000" FontFamily="..\fonts\#Poppins" Foreground="White" Margin="10,5"
-                                       FontSize="14" FontWeight="Thin"/>
+                                <Grid>
+                                    <TextBlock x:Name="lblTelefone" Text="{Binding Telefone}" FontFamily="..\fonts\#Poppins" 
+                                               Foreground="White" Margin="10, 0, 0, 0" VerticalAlignment="Center" FontSize="14" FontWeight="Thin"/>
+                                    <TextBox x:Name="txtTelefone" Margin="5, 0, 0, 0" Width="200" Background="Transparent" FontFamily="../fonts/#Poppins"
+                                             FontSize="14" Height="auto" Foreground="White" VerticalAlignment="Center" Padding="3" FontWeight="Thin"
+                                             BorderBrush="#2E2BC2" Visibility="Collapsed" Text="{Binding Usuario.Telefone}"
+                                             MaxLength="11"/>
+                                </Grid>
+                                <Border x:Name="btnTelefone" Width="25" Height="25" CornerRadius="0, 0, 15, 0"
+                                        MouseDown="btnTelefone_MouseDown" Margin="10, 0, 0, 0"
+                                        MouseEnter="btnTelefone_MouseEnter" MouseLeave="btnTelefone_MouseLeave">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="../resource/edit-box.png"/>
+                                    </Border.Background>
+                                </Border>
                             </StackPanel>
                         </StackPanel>
                     </Border>
@@ -214,7 +227,7 @@
             <StackPanel Width="auto" HorizontalAlignment="Left">
                 <Label Content="Foto de Perfil" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"/>
                 <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0">
-                    <Border BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="100" Width="100" Height="100"
+                    <Border x:Name="imagemPerfil" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="100" Width="100" Height="100"
                             Background="{Binding Usuario.ImagemPerfil, Converter={StaticResource BytesToImageBrushConverter}}">
                     </Border>
                     <Border x:Name="bordaSalvarImagemPerfil" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
@@ -253,7 +266,7 @@
                 <Label Content="Plano de Fundo" FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16"
                        Margin="0, 20, 0, 0"/>
                 <StackPanel Orientation="Horizontal">
-                    <Border BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" Width="250" Height="80"
+                    <Border x:Name="imagemFundo" BorderBrush="#2E2BC2" BorderThickness="1.5" CornerRadius="15" Width="250" Height="80"
                             Background="{Binding Usuario.ImagemFundo, Converter={StaticResource BytesToImageBrushConverter}}">
                     </Border>
                     <Border x:Name="bordaSalvarFundo" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
@@ -440,36 +453,71 @@
                 </Grid>
             </StackPanel>
         </ScrollViewer>
-        <Border x:Name="bordaSalvarPerfil" Grid.Row="2" Grid.Column="1" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
-                VerticalAlignment="Bottom" Height="auto" Width="140" Margin="0, 0, 20, 20" Background="#2E2BC2"
-                MouseEnter="bordaSalvarPerfil_MouseEnter" MouseLeave="bordaSalvarPerfil_MouseLeave">
-            <Button x:Name="btnSalvarPerfil" 
-                    ToolTip="Salvar Alterações" 
-                    Background="Transparent" 
-                    Command="{Binding SalvarConfigCommand}">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#101010" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                        <ContentPresenter HorizontalAlignment="Center" 
-                                                          VerticalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#16145C" 
-                                                    TargetName="Border"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-                <Label Content="Salvar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
-            </Button>
-        </Border>
+        <Grid Height="auto" Width="140" Margin="0, 0, 20, 20" Grid.Row="2" Grid.Column="1" >
+            <Border x:Name="bordaSalvarPerfil" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
+                    VerticalAlignment="Bottom" Background="#2E2BC2"
+                    MouseEnter="bordaSalvarPerfil_MouseEnter" MouseLeave="bordaSalvarPerfil_MouseLeave" Visibility="Collapsed">
+                <Button x:Name="btnSalvarPerfil" 
+                        ToolTip="Salvar Alterações" 
+                        Background="Transparent" 
+                        Command="{Binding SalvarConfigCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#16145C" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Salvar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
+                </Button>
+            </Border>
+
+            <Border x:Name="bordaSalvarGeral" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
+                    VerticalAlignment="Bottom" Background="#2E2BC2"
+                    MouseEnter="bordaSalvarPerfil_MouseEnter" MouseLeave="bordaSalvarPerfil_MouseLeave" Visibility="Visible">
+                <Button x:Name="btnSalvarGeral" 
+                        ToolTip="Salvar Alterações" 
+                        Background="Transparent" 
+                        Command="{Binding SalvarConfigGeralCommand}"
+                        Click="btnSalvarGeral_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#101010" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#16145C" 
+                                                        TargetName="Border"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Label Content="Salvar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
+                </Button>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

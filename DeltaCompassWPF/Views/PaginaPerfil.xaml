@@ -13,6 +13,20 @@
 
     <Page.Resources>
         <converters:BytesToImageBrushConverter x:Key="BytesToImageBrushConverter"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <DataTemplate x:Key="ConfiguracaoSlotTemplate">
+            <Border Width="130" Height="130" BorderBrush="#2E2BC2" BorderThickness="2" CornerRadius="10">
+                <StackPanel>
+                    <Button Command="{Binding ConfigurarCommand}" Visibility="{Binding NomeJogo, Converter={StaticResource NullToVisibilityConverter}}">
+                        <StackPanel>
+                            <Image Source="{Binding ImagemJogo, Converter={StaticResource BytesToImageBrushConverter}}" Width="50" Height="50"
+                                   Visibility="{Binding ImagemJogo, Converter={StaticResource NullToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding NomeJogo}" Visibility="{Binding NomeJogo, Converter={StaticResource NullToVisibilityConverter}}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
     </Page.Resources>
     
     <Grid>
@@ -34,11 +48,7 @@
 
         <!--Foto de fundo-->
         <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1" Grid.Row="0">
-            <Rectangle>
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="{Binding ImagemFundo, Converter={StaticResource BytesToImageBrushConverter}}"/>
-                </Rectangle.Fill>
-            </Rectangle>
+            <Border Background="{Binding ImagemFundo, Converter={StaticResource BytesToImageBrushConverter}}"></Border>
         </Grid>
 
         <!--Quadradão que fica no fundo-->
@@ -52,29 +62,14 @@
 
         <!--Lugar onde ficará os slots de configurações-->
         <ScrollViewer Grid.Row="3" Grid.Column="2" Grid.RowSpan="4" Margin="0, 0, 40, 15" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Slots}">
+            <ItemsControl ItemsSource="{Binding Slots}" ItemTemplate="{StaticResource ConfiguracaoSlotTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal"/>
+                        <WrapPanel />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Grid.Row="0" Grid.Column="0" Background="#141414" BorderThickness="2" 
-                                BorderBrush="#2E2BC2" CornerRadius="25" Margin="10">
-                            <Image Source="{Binding LogoJogo}"/>
-                        </Border>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding IsAddButton}" Value="True">
-                                
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <Button Grid.Column="2" Grid.Row="6" Content="Adicionar Slot" Command="{Binding AddSlot}"
-                Click="Button_Click"/>
 
         <!--Nome do usuário-->
         <Grid Grid.Row="3" Grid.Column="1">
@@ -155,14 +150,14 @@
 
         <!--Foto de perfil-->
         <Grid Grid.RowSpan="3" Grid.Column="1" Grid.Row="0">
-            <Border Margin="0, 25, 0, 0" Height="140" Width="140" BorderBrush="Black" BorderThickness="2"
-                    CornerRadius="100">
-                <Ellipse>
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{Binding ImagemPerfil, Converter={StaticResource BytesToImageBrushConverter}}"/>
-                    </Ellipse.Fill>
-                </Ellipse>
-            </Border>
+            <Grid>
+                <Border x:Name="picPerfil" Margin="0, 25, 0, 0" Height="140" Width="140" BorderBrush="#2E2BC2" BorderThickness="1"
+                        CornerRadius="100" Background="LightGray">
+                </Border>
+                <Border Margin="0, 25, 0, 0" Height="140" Width="140" BorderBrush="#2E2BC2" BorderThickness="1"
+                        CornerRadius="100" Background="{Binding ImagemPerfil, Converter={StaticResource BytesToImageBrushConverter}}">
+                </Border>
+            </Grid>
         </Grid>
 
         <!--Botão de editar-->
