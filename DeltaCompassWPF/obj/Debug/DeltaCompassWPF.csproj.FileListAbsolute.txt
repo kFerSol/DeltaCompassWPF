@@ -385,3 +385,5 @@ C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao5\DeltaCompassWP
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao5\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCompassWPF.pdb
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao5\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\BindablePasswordBox.g.cs
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao5\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\BindablePasswordBox.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\BindablePasswordBox.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\BindablePasswordBox.baml
