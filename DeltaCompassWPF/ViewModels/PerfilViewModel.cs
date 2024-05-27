@@ -10,19 +10,8 @@ namespace DeltaCompassWPF.ViewModels
 {
     public class PerfilViewModel : ViewModelBase
     {
-        private SlotConfiguracao _slotConfiguracao;
         private Usuario _currentUser;
         private ObservableCollection<SlotConfiguracao> _slots;
-
-        public SlotConfiguracao SlotConfiguracao
-        {
-            get { return _slotConfiguracao; }
-            set
-            {
-                _slotConfiguracao = value;
-                OnPropertyChanged(nameof(SlotConfiguracao));
-            }
-        }
 
         private ISlotRepository _slotRepository;
 
@@ -51,7 +40,7 @@ namespace DeltaCompassWPF.ViewModels
             UserService.Instance.UserDetailsChanged += UpdateCurrentUser;
             _userService.UserChanged += OnUserChanged;
 
-            SalvarSlotCommand = new RelayCommand(ExecuteSalvarSlotCommand, CanExecuteSalvarSlotCommand);
+            SalvarSlotCommand = new RelayCommand(ExecuteSalvarSlotCommand);
             LogoutCommand = new RelayCommand(ExecuteLogout);
 
             _slotRepository = new SlotRepository();
@@ -109,14 +98,9 @@ namespace DeltaCompassWPF.ViewModels
             OnPropertyChanged(nameof(CurrentUser));
         }
 
-        private bool CanExecuteSalvarSlotCommand(object obj)
-        {
-            return true;
-        }
-
         private void ExecuteSalvarSlotCommand(object obj)
         {
-            throw new NotImplementedException();
+            _slotRepository.Add(_slots, _currentUser.Id, 3);
         }
 
         public void AdicionarNovoSlot(object obj)
@@ -176,5 +160,9 @@ namespace DeltaCompassWPF.ViewModels
         public int? Dpi => _currentUser.DpiMouse;
         public byte[] ImagemPerfil => _currentUser.ImagemPerfil;
         public byte[] ImagemFundo => _currentUser.ImagemFundo;
+
+        public string NomeJogo { get; set; }
+        public string ImagemJogo { get; set; }
+        public string Sensibilidade { get; set; }
     }
 }

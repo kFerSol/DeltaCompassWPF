@@ -384,6 +384,7 @@ namespace DeltaCompassWPF
             JanelaCadastro jc = new JanelaCadastro();
             jc.Owner = this;
             jc.Show();
+            var viewModel = this.DataContext as CadastrarViewModel;
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -393,11 +394,5 @@ namespace DeltaCompassWPF
             jl.Show();
         }
         #endregion
-
-        private void btnCadastro_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            //if(btnCadastro.Visibility == Visibility.Collapsed)
-                //btnHomePerfil.Visibility = Visibility.Visible;
-        }
     }
 }

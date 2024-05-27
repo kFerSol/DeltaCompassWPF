@@ -94,7 +94,7 @@
 
                     <Image Source="..\resource\delta-logo.png" Width="50" Margin="20, 0, 0, 0"/>
                 </StackPanel>
-                <ListBox ItemsSource="{Binding Sensibilidades}" Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+                <!--<ListBox ItemsSource="{Binding Sensibilidades}" Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -103,7 +103,7 @@
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                </ListBox>
+                </ListBox>-->
             </StackPanel>
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">

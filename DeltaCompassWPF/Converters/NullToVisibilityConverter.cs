@@ -13,7 +13,9 @@ namespace DeltaCompassWPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null ? Visibility.Hidden : Visibility.Visible;
+            bool invert = parameter != null && parameter.ToString() == "Invert";
+            bool isNull = value == null;
+            return (isNull && !invert) || (!isNull && invert) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

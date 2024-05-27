@@ -43,5 +43,10 @@ namespace DeltaCompassWPF.Views
             gridSair.Background = new SolidColorBrush(Color.FromArgb(255, 74, 74, 74));
             Cursor = Cursors.Arrow;
         }
+
+        private void btnSlot_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("fjkdsajldk");
+        }
     }
 }

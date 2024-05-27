@@ -10,7 +10,7 @@ namespace DeltaCompassWPF.Models
     public interface IUserRepository
     {
         bool AuthenticateUser(NetworkCredential credential);
-        void Add(Usuario usuario);
+        void Add(Usuario usuario, string hashSenha);
         void Edit(Usuario usuario);
         void remove (int id);
         Usuario GetById(int id);

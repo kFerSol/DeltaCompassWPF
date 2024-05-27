@@ -17,12 +17,14 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="ConfiguracaoSlotTemplate">
             <Border Width="130" Height="130" BorderBrush="#2E2BC2" BorderThickness="2" CornerRadius="10">
-                <StackPanel>
-                    <Button Command="{Binding ConfigurarCommand}" Visibility="{Binding NomeJogo, Converter={StaticResource NullToVisibilityConverter}}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="btnSlot" Width="100" Height="100" Click="btnSlot_Click"
+                            Command="{Binding ConfigurarCommand}" Visibility="{Binding NomeJogo, Converter={StaticResource BoolToVisibilityConverter}}">
                         <StackPanel>
-                            <Image Source="{Binding ImagemJogo, Converter={StaticResource BytesToImageBrushConverter}}" Width="50" Height="50"
-                                   Visibility="{Binding IsLoggedIn, Converter={StaticResource NullToVisibilityConverter}}"/>
-                            <TextBlock Text="{Binding NomeJogo}" Visibility="{Binding IsLoggedIn, Converter={StaticResource NullToVisibilityConverter}}"/>
+                            <Image Source="../resource/delta-logo.png" Width="50" Height="50"
+                                   Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"/>
+                            <TextBlock Text="aoaooao" Foreground="White" 
+                                       Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -150,7 +152,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="center">
                     <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
-                            Padding="0, 0, 0, 0" Content="Mouse: "/>
+                            Padding="0, 0, 0, 0" Content="Resolução: "/>
                     <TextBlock Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
                                Padding="0, 0, 0, 0" Text="{Binding ResolucaoX}"/>
                     <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 

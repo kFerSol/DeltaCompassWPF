@@ -41,9 +41,9 @@ namespace DeltaCompassWPF.Repositories
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Console.Write("{0}", ex);
             }
 
             return jogos;

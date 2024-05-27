@@ -1,4 +1,5 @@
 ﻿using DeltaCompassWPF.Commands;
+using DeltaCompassWPF.Helpers;
 using DeltaCompassWPF.Models;
 using DeltaCompassWPF.Repositories;
 using DeltaCompassWPF.Repositories.Authentication;
@@ -84,22 +85,26 @@ namespace DeltaCompassWPF.ViewModels
             if (isValidUser)
             {
                 var user = _userRepository.GetInformacoesAutenticadas(Username);
-                if(user == null)
+                if (user != null && PasswordHelper.VerifyPassword(Password, user.Senha))
                 {
-                    ErrorMessage = "Erro ao obter os detalhes do usuário.";
+                    int userId = _userRepository.GetUserId(Username);
+                    var identity = new CustomIdentity(Username, userId);
+                    var principal = new CustomPrincipal(identity);
+                    Thread.CurrentPrincipal = principal;
+                    UserService.Instance.CurrentUser = user;
+
+                    var perfilPagina = new PaginaPerfil();
+
+                    ((MainWindow)Application.Current.MainWindow).main.Navigate(perfilPagina);
+
+                    CloseAction?.Invoke();
+                
+                }
+                else
+                {
+                    ErrorMessage = "*Nome de usuário ou senha inválida.";
                     return;
                 }
-                int userId = _userRepository.GetUserId(Username);
-                var identity = new CustomIdentity(Username, userId);
-                var principal = new CustomPrincipal(identity);
-                Thread.CurrentPrincipal = principal;
-                UserService.Instance.CurrentUser = user;
-
-                var perfilPagina = new PaginaPerfil();
-
-                ((MainWindow)Application.Current.MainWindow).main.Navigate(perfilPagina);
-
-                CloseAction?.Invoke();
             }
             else
             {

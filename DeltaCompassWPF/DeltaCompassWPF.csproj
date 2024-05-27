@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net-Next.4.0.3\lib\net472\BCrypt.Net-Next.dll</HintPath>
+    </Reference>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>..\packages\BouncyCastle.Cryptography.2.2.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
@@ -115,6 +118,7 @@
     <Compile Include="Database\Conexao.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Models\ISlotRepository.cs" />
     <Compile Include="Models\IUserRepository.cs" />
     <Compile Include="Models\Jogo.cs" />
@@ -135,12 +139,16 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ConfigurarPerfilViewModel.cs" />
     <Compile Include="ViewModels\PerfilViewModel.cs" />
+    <Compile Include="ViewModels\SlotViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\JanelaCadastro.xaml.cs">
       <DependentUpon>JanelaCadastro.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\JanelaLogin.xaml.cs">
       <DependentUpon>JanelaLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JanelaSalvarSensibilidade.xaml.cs">
+      <DependentUpon>JanelaSalvarSensibilidade.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PaginaBuscas.xaml.cs">
       <DependentUpon>PaginaBuscas.xaml</DependentUpon>
@@ -172,6 +180,9 @@
     <Compile Include="Views\UserControls\ControlButton.xaml.cs">
       <DependentUpon>ControlButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\ControlNotificacao.xaml.cs">
+      <DependentUpon>ControlNotificacao.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\ControlTextBox.xaml.cs">
       <DependentUpon>ControlTextBox.xaml</DependentUpon>
     </Compile>
@@ -195,6 +206,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\JanelaLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JanelaSalvarSensibilidade.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\ControlButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ControlNotificacao.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -343,6 +362,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\close.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
