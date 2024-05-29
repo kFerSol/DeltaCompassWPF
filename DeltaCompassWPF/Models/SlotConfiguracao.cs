@@ -10,7 +10,8 @@ namespace DeltaCompassWPF.Models
 {
     public class SlotConfiguracao
     {
-        public int Id { get; set; }
+        public int IdUser { get; set; }
+        public int IdJogo { get; set; }
         public string Nome { get; set; }
         public double Sensibilidade { get; set; }
         public string Imagem { get; set; }

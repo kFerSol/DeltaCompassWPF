@@ -29,7 +29,7 @@ namespace DeltaCompassWPF.Repositories
                     command.Connection = connection;
                     command.CommandText = "INSERT INTO tb_sensibilidade(vl_sensibilidade, cd_usuario, cd_jogos) " +
                         "VALUES(@Sensibilidade, @IdUsuario, @IdJogo)";
-                    command.Parameters.Add("@Sensibilidade", MySqlDbType.VarChar).Value = slot.Sensibilidade;
+                    //command.Parameters.Add("@Sensibilidade", MySqlDbType.VarChar).Value = slot.Sensibilidade;
                     command.Parameters.Add("@IdUsuario", MySqlDbType.Int64).Value = idUsuario;
                     command.Parameters.Add("@IdJogo", MySqlDbType.Int64).Value = idJogo;
                     command.ExecuteNonQuery();

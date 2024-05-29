@@ -40,15 +40,15 @@ namespace DeltaCompassWPF.ViewModels
             UserService.Instance.UserDetailsChanged += UpdateCurrentUser;
             _userService.UserChanged += OnUserChanged;
 
-            SalvarSlotCommand = new RelayCommand(ExecuteSalvarSlotCommand);
+            //SalvarSlotCommand = new RelayCommand(ExecuteSalvarSlotCommand);
             LogoutCommand = new RelayCommand(ExecuteLogout);
 
             _slotRepository = new SlotRepository();
 
             Slots = new ObservableCollection<SlotConfiguracao>
             {
-                new SlotConfiguracao{ NomeJogo = null, ImagemJogo = null, Sensibilidade = 0,
-                    ConfigurarCommand = new RelayCommand(AdicionarNovoSlot) }
+                //new SlotConfiguracao{ NomeJogo = null, ImagemJogo = null, Sensibilidade = 0,
+                    //ConfigurarCommand = new RelayCommand(AdicionarNovoSlot) }
             };
 
             UpdateCurrentUser(UserService.Instance.CurrentUser);
@@ -105,8 +105,8 @@ namespace DeltaCompassWPF.ViewModels
 
         public void AdicionarNovoSlot(object obj)
         {
-            Slots.Add(new SlotConfiguracao { NomeJogo = "Novo Jogo", ImagemJogo = null, Sensibilidade = 0, 
-                ConfigurarCommand = new RelayCommand(AdicionarNovoSlot) });
+            //Slots.Add(new SlotConfiguracao { NomeJogo = "Novo Jogo", ImagemJogo = null, Sensibilidade = 0, 
+                //ConfigurarCommand = new RelayCommand(AdicionarNovoSlot) });
         }
 
         private void UpdateCurrentUser(Usuario user)

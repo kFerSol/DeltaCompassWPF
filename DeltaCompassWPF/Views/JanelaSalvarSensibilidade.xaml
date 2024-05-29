@@ -4,11 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeltaCompassWPF.Views"
+        xmlns:viewmodel="clr-namespace:DeltaCompassWPF.ViewModels"
         mc:Ignorable="d"
         Title="JanelaSalvarSensibilidade" Height="300" Width="400" WindowStartupLocation="CenterOwner"
         MouseLeftButtonDown="janela_MouseLeftButtonDown" WindowStyle="None"
         Background="#313131" ResizeMode="NoResize" AllowsTransparency="True"
         x:Name="janela">
+
+    <Window.DataContext>
+        <viewmodel:SlotViewModel/>
+    </Window.DataContext>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -46,14 +52,14 @@
                               ItemsSource="{Binding Jogos}"
                               DisplayMemberPath="Nome"
                               SelectedValuePath="Id"
-                              SelectedValue="{Binding JogoSelecionado1.Nome, Mode=TwoWay}">
+                              SelectedValue="{Binding JogoSelecionado.Nome, Mode=TwoWay}">
                     </ComboBox>
                 </Grid>
             </Border>
 
             <Border x:Name="bordaAplicar" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" 
                     BorderBrush="#2E2BC2" VerticalAlignment="Bottom" Height="auto" Width="150">
-                <Button x:Name="btnAplicar" ToolTip="Trocar jogos" Background="#2E2BC2">
+                <Button x:Name="btnAplicar" ToolTip="Trocar jogos" Background="#2E2BC2" Command="{Binding SalvarSensibilidadeCommand}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#101010" />

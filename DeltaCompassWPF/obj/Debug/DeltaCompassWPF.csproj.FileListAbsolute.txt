@@ -469,3 +469,9 @@ C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao6\DeltaCompassWP
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao6\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlNotificacao.baml
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao6\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaSalvarSensibilidade.g.cs
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao6\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaSalvarSensibilidade.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaSalvarSensibilidade.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlNotificacao.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\BCrypt.Net-Next.dll
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\bin\Debug\BCrypt.Net-Next.xml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaSalvarSensibilidade.baml
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\UserControls\ControlNotificacao.baml

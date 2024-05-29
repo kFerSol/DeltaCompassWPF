@@ -56,7 +56,7 @@ namespace DeltaCompassWPF.ViewModels
             set
             {
                 _jogoSelecionado1 = value;
-                AtualizarSensibilidadeAtual();
+                //AtualizarSensibilidadeAtual();
                 OnPropertyChanged(nameof(JogoSelecionado1));
                 Console.WriteLine("JogoSelecionado atualizado: " + (value?.Nome ?? "null"));
                 AtualizarResultado();
@@ -159,7 +159,7 @@ namespace DeltaCompassWPF.ViewModels
         {
             if(JogoSelecionado1 != null && Sensibilidades != null)
             {
-                SensibilidadeAtual = Sensibilidades.FirstOrDefault(s => s.JogoId == JogoSelecionado1.Id);
+                //SensibilidadeAtual = Sensibilidades.FirstOrDefault(s => s.JogoId == JogoSelecionado1.Id);
             }
             else
             {

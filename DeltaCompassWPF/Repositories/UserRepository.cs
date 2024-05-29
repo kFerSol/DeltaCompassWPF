@@ -255,8 +255,8 @@ namespace DeltaCompassWPF.Repositories
                             var sensibilidade = new SlotConfiguracao
                             {
                                 Sensibilidade = reader.GetInt32("vl_sensibilidade"),
-                                JogoId = reader.GetInt32("cd_jogos"),
-                                NomeJogo = reader.GetString("nm_jogo")
+                                IdJogo = reader.GetInt32("cd_jogos"),
+                                Nome = reader.GetString("nm_jogo")
                             };
                             sensibilidades.Add(sensibilidade);
                         }
