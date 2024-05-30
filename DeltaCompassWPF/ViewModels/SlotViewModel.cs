@@ -4,6 +4,7 @@ using DeltaCompassWPF.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,7 +51,44 @@ namespace DeltaCompassWPF.ViewModels
 
         private void ExecuteSalvarSensCommand(object obj)
         {
-            throw new NotImplementedException();
+            switch (_jogoSelecionado.Nome)
+            {
+                case "Counter Strike 2":
+                    string filename = @"\sens.cfg";
+                    string config = "sensitivity";
+
+                    DriveInfo[] discos = DriveInfo.GetDrives();
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string path = Path.Combine(disco.RootDirectory.FullName, "Program Files (x86)", "Steam", "steamapps", "common", "Counter-Strike Global Offensive", "game", "csgo", "cfg");
+                            if (Directory.Exists(path))
+                            {
+                                ProcurarSens(filename, path);
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        public static string ProcurarSens(string caminhoArquivo, string configDesejada)
+        {
+            string[] linhas = File.ReadAllLines(caminhoArquivo);
+            foreach (string linha in linhas)
+            {
+                if (linha.Contains(configDesejada))
+                {
+                    string[] palavras = linha.Split(' ', (char)StringSplitOptions.RemoveEmptyEntries); 
+                    if (palavras.Length > 1)
+                    {
+                        string sens = palavras[1];
+                        return sens;
+                    }
+                }
+            }
+            return null;
         }
     }
 }
