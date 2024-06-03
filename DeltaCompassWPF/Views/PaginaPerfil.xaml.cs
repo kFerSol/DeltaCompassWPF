@@ -27,11 +27,6 @@ namespace DeltaCompassWPF.Views
             DataContext = new PerfilViewModel();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void btnSair_MouseEnter(object sender, MouseEventArgs e)
         {
             gridSair.Background = Brushes.DarkRed;
@@ -47,6 +42,15 @@ namespace DeltaCompassWPF.Views
         private void btnSlot_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("fjkdsajldk");
+        }
+
+        private void BtnJanelaSlot_Click(object sender, RoutedEventArgs e)
+        {
+            Window mainWindow = Window.GetWindow(this);
+            JanelaSalvarSensibilidade jss = new JanelaSalvarSensibilidade();
+            jss.Owner = mainWindow;
+            jss.Show();
+            var viewmodel = this.DataContext as SlotViewModel;
         }
     }
 }

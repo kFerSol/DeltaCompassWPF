@@ -15,21 +15,7 @@
         <converters:BytesToImageBrushConverter x:Key="BytesToImageBrushConverter"/>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        <DataTemplate x:Key="ConfiguracaoSlotTemplate">
-            <Border Width="130" Height="130" BorderBrush="#2E2BC2" BorderThickness="2" CornerRadius="10">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button x:Name="btnSlot" Width="100" Height="100" Click="btnSlot_Click"
-                            Command="{Binding ConfigurarCommand}" Visibility="{Binding NomeJogo, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <StackPanel>
-                            <Image Source="../resource/delta-logo.png" Width="50" Height="50"
-                                   Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"/>
-                            <TextBlock Text="aoaooao" Foreground="White" 
-                                       Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-            </Border>
-        </DataTemplate>
+
     </Page.Resources>
 
     <Page.DataContext>
@@ -82,14 +68,50 @@
         </StackPanel>
 
         <!--Lugar onde ficará os slots de configurações-->
-        <ScrollViewer Grid.Row="3" Grid.Column="2" Grid.RowSpan="4" Margin="0, 0, 40, 15" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Slots}" ItemTemplate="{StaticResource ConfiguracaoSlotTemplate}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+        <ScrollViewer Grid.Row="3" Grid.Column="2" Grid.RowSpan="4" Margin="0, 0, 40, 15" 
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <ItemsControl ItemsSource="{Binding Slots}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="2" BorderBrush="#2E2BC2" Width="130" Height="130"
+                                    Padding="3" CornerRadius="10" Margin="20, 20, 0, 0">
+                                <StackPanel>
+                                    <Image Source="{Binding Imagem}" Width="50" Height="50"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Border BorderThickness="2" BorderBrush="#2E2BC2" Width="130" Height="130"
+                        Padding="3" CornerRadius="10" Margin="20, 20, 0, 0">
+                    <Button x:Name="btnJanelaSlot" BorderThickness="0" Foreground="Transparent" 
+                            Click="BtnJanelaSlot_Click">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#161616" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#101010" 
+                                                            TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Image Source="../resource/plus-delta.png" Width="50"/>
+                    </Button>
+                </Border>
+            </StackPanel>
         </ScrollViewer>
 
         <!--Nome do usuário-->

@@ -9,7 +9,7 @@ namespace DeltaCompassWPF.Models
 {
     public interface ISlotRepository
     {
-        void Add(ObservableCollection<SlotConfiguracao> slot, int idUsuario, int idJogo);
+        void Add(SlotConfiguracao slot);
         void Remove(SlotConfiguracao slot, int idUsuario);
         void Edit(int idUsuario);
     }

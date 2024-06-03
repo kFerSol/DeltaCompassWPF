@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DeltaCompassWPF.Models;
+using DeltaCompassWPF.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

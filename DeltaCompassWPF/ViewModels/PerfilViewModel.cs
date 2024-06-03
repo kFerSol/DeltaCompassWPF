@@ -30,7 +30,7 @@ namespace DeltaCompassWPF.ViewModels
         public Usuario CurrentUser => _userService.CurrentUser;
         public bool IsLoggedIn => _userService.IsLoggedIn;
 
-        public ICommand SalvarSlotCommand { get; }
+        public ICommand AbrirSlotCommand { get; }
         public ICommand LogoutCommand { get; }
 
         public PerfilViewModel()
@@ -40,15 +40,14 @@ namespace DeltaCompassWPF.ViewModels
             UserService.Instance.UserDetailsChanged += UpdateCurrentUser;
             _userService.UserChanged += OnUserChanged;
 
-            //SalvarSlotCommand = new RelayCommand(ExecuteSalvarSlotCommand);
+            //AbrirSlotCommand = new RelayCommand(ExecuteAbrirSlotCommand);
             LogoutCommand = new RelayCommand(ExecuteLogout);
 
             _slotRepository = new SlotRepository();
 
             Slots = new ObservableCollection<SlotConfiguracao>
             {
-                //new SlotConfiguracao{ NomeJogo = null, ImagemJogo = null, Sensibilidade = 0,
-                    //ConfigurarCommand = new RelayCommand(AdicionarNovoSlot) }
+                new SlotConfiguracao{ Nome = null, Imagem = null, Sensibilidade = 0 }
             };
 
             UpdateCurrentUser(UserService.Instance.CurrentUser);
@@ -98,15 +97,15 @@ namespace DeltaCompassWPF.ViewModels
             OnPropertyChanged(nameof(CurrentUser));
         }
 
-        private void ExecuteSalvarSlotCommand(object obj)
+        private void ExecuteAbrirSlotCommand(object obj)
         {
-            _slotRepository.Add(_slots, _currentUser.Id, 3);
+
+            //_slotRepository.Add(_slots, _currentUser.Id, 3);
         }
 
         public void AdicionarNovoSlot(object obj)
         {
-            //Slots.Add(new SlotConfiguracao { NomeJogo = "Novo Jogo", ImagemJogo = null, Sensibilidade = 0, 
-                //ConfigurarCommand = new RelayCommand(AdicionarNovoSlot) });
+            Slots.Add(new SlotConfiguracao { Nome = "Novo Jogo", Imagem = null, Sensibilidade = 0 });
         }
 
         private void UpdateCurrentUser(Usuario user)
