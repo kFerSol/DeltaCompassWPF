@@ -33,6 +33,7 @@ namespace DeltaCompassWPF.Repositories
         }
 
         public bool IsLoggedIn => _currentUser != null;
+
         public void Logout()
         {
             CurrentUser = null;

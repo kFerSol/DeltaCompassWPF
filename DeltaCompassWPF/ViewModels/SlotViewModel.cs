@@ -19,7 +19,9 @@ namespace DeltaCompassWPF.ViewModels
         private Jogo _jogoSelecionado;
         private SlotConfiguracao _slot;
         private ObservableCollection<SlotConfiguracao> _sensibilidades;
-        private Usuario _currentUser;
+        private double _sensibilidade;
+        private bool _sensManual = false;
+
 
         private IJogoRepository _jogoRepository;
         private ISlotRepository _slotRepository;
@@ -28,6 +30,26 @@ namespace DeltaCompassWPF.ViewModels
 
         public ObservableCollection<Jogo> Jogos { get; set; }
         public Usuario CurrentUser => _userService.CurrentUser;
+
+        public bool SensManual
+        {
+            get => _sensManual;
+            set
+            {
+                _sensManual = value;
+                OnPropertyChanged(nameof(SensManual));
+            }
+        }
+
+        public double Sensibilidade
+        {
+            get => _sensibilidade;
+            set
+            {
+                _sensibilidade = value;
+                OnPropertyChanged(nameof(Sensibilidade));
+            }
+        }
 
         public Jogo JogoSelecionado
         {
@@ -141,7 +163,7 @@ namespace DeltaCompassWPF.ViewModels
                     }
                     break;
                 case "Apex Legends":
-                    filename = "settings.cfg";
+                    filename = "etec\\settings.cfg";
                     config = "mouse_sensitivity";
 
                     discos = DriveInfo.GetDrives();
@@ -156,6 +178,19 @@ namespace DeltaCompassWPF.ViewModels
                                 _slot = new SlotConfiguracao
                                 {
                                     Sensibilidade = double.Parse(ProcurarSens(caminhoArquivo, config), CultureInfo.InvariantCulture),
+                                    Imagem = "../resource/apex-logo.png",
+                                    Nome = "Apex Legends",
+                                    IdUser = CurrentUser.Id,
+                                    IdJogo = 1
+                                };
+                                _slotRepository.Add(_slot);
+                            }
+                            else
+                            {
+                                _sensManual = true;
+                                _slot = new SlotConfiguracao
+                                {
+                                    Sensibilidade = Sensibilidade,
                                     Imagem = "../resource/apex-logo.png",
                                     Nome = "Apex Legends",
                                     IdUser = CurrentUser.Id,
