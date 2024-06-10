@@ -65,37 +65,37 @@
                                           Margin="0, 20, 0, 0"
                                           Placeholder="Confirme a senha."/>
             
-            <RadioButton Content="Concordo com os termos de usuário." Foreground="White" FontFamily="../fonts/#Poppins"
-                         HorizontalAlignment="Center" Margin="0, 10, 0, 0"/>
-
-            <Border x:Name="bordaCadastrar" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
-                    VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="34" Width="140" Margin="0, 10, 0, 5"
+            <CheckBox Content="Concordo com os termos de usuário." Foreground="White" FontFamily="../fonts/#Poppins"
+                      HorizontalAlignment="Center" Margin="0, 10, 0, 0"/>
+            <Button x:Name="btnConfirmar" ToolTip="Cadastrar conta" Background="#2E2BC2" Command="{Binding CadastrarCommand}"
+                    BorderThickness="0" Height="30" Width="140" Margin="0, 10, 0, 5"
                     MouseEnter="bordaCadastrar_MouseEnter" MouseLeave="bordaCadastrar_MouseLeave">
-                <Button x:Name="btnCadastrar" Background="#2E2BC2" Command="{Binding CadastrarCommand}">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Background" Value="#101010" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                              VerticalAlignment="Center"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#16145C" 
-                                                        TargetName="Border"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                    <Label Content="Cadastrar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
-                </Button>
-            </Border>
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#101010" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="Border" BorderBrush="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#16145C" 
+                                                    TargetName="Border"/>
+                                            <Setter Property="BorderBrush" Value="#16145C" 
+                                                    TargetName="Border"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <Label Content="Cadastrar" FontFamily="..\fonts\#ModeSeven" Foreground="White" 
+                       FontSize="15"/>
+            </Button>
+            
             <TextBlock Text="{Binding ErrorMessage}" Foreground="PaleVioletRed" FontSize="12" 
                        HorizontalAlignment="Center"/>
 

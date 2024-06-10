@@ -5,36 +5,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DeltaCompassWPF.Views.UserControls"
              mc:Ignorable="d" >
-    <Grid>
-        <Border x:Name="btnBorda" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
-                VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="auto" Width="{Binding Largura}" Margin="0, 0, 20, 20"
-                MouseEnter="btnBorda_MouseEnter" MouseLeave="btnBorda_MouseLeave">
-            <Button x:Name="botao" ToolTip="Trocar jogos" Background="#2E2BC2" MouseEnter="BtnCursor_MouseEnter" 
-                    MouseLeave="BtnCursor_MouseLeave">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#101010" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                        <ContentPresenter HorizontalAlignment="Center" 
-                                                          VerticalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#16145C" 
-                                                    TargetName="Border"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-                <Label Content="{Binding BtnTexto}" FontFamily="..\..\fonts\#ModeSeven" Foreground="White" FontSize="15"
-                       Width="{Binding Largura}"/>
-            </Button>
-        </Border>
-    </Grid>
+    <Button x:Name="botao" ToolTip="{Binding CustomToolTip}" Background="#2E2BC2" Command="{Binding Command}"
+            IsEnabled="{Binding JogoSelecionado, RelativeSource={RelativeSource AncestorType=UserControl}}" BorderThickness="0" Height="30" Width="150"
+            MouseEnter="bordaAplicar_MouseEnter" MouseLeave="bordaAplicar_MouseLeave">
+        <Button.Style>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="#101010" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Border" BorderBrush="{TemplateBinding Background}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
+                                    CornerRadius="10">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#16145C" TargetName="Border"/>
+                                    <Setter Property="BorderBrush" Value="#16145C" TargetName="Border"/>
+                                </Trigger>
+                                <DataTrigger Binding="{Binding JogoSelecionado, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="{x:Null}">
+                                    <Setter Property="Background" Value="Gray" TargetName="Border"/>
+                                    <Setter Property="BorderBrush" Value="Gray" TargetName="Border"/>
+                                </DataTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Button.Style>
+        <Label Content="{Binding LabelContent}" FontFamily="..\..\fonts\#ModeSeven" Foreground="White" 
+           FontSize="15"/>
+    </Button>
 </UserControl>

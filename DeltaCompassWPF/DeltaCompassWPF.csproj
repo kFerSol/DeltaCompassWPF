@@ -366,5 +366,14 @@
   <ItemGroup>
     <Resource Include="Resource\close.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\chevron-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\valorant-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\upload.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

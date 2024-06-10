@@ -109,6 +109,7 @@ namespace DeltaCompassWPF.ViewModels
             else
             {
                 ErrorMessage = "*Nome de usuário ou senha inválida.";
+                return;
             }
         }
 

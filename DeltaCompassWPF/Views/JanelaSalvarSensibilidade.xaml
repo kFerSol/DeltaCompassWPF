@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeltaCompassWPF.Views"
+        xmlns:usercontrol="clr-namespace:DeltaCompassWPF.Views.UserControls"
         xmlns:viewmodel="clr-namespace:DeltaCompassWPF.ViewModels"
         xmlns:converter="clr-namespace:DeltaCompassWPF.Converters"
         mc:Ignorable="d"
@@ -18,6 +19,14 @@
 
     <Window.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <Style x:Key="GrayButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Gray" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightGray" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     
     <Grid>
@@ -33,78 +42,190 @@
             <DockPanel Background="#101010" LastChildFill="False">
                 <TextBlock Text="Salvar Configuração" Foreground="White" FontFamily="../fonts/#ModeSeven"
                            FontSize="16" VerticalAlignment="Center" Margin="15, 0, 0, 0"/>
-                <Grid DockPanel.Dock="Right">
+                <Grid DockPanel.Dock="Right" MouseDown="btnFechar_MouseDown">
                     <Rectangle x:Name="btnFechar" Width="35" Height="auto"/>
                     <Image Source="..\resource\close.png" MouseEnter="btnFechar_MouseEnter" 
-                           MouseLeave="btnFechar_MouseLeave" MouseDown="btnFechar_MouseDown"
+                           MouseLeave="btnFechar_MouseLeave"
                            Width="20"/>
                 </Grid>
             </DockPanel>
         </Border>
 
+        <Grid x:Name="btnVoltar" Grid.Row="1" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"
+              Margin="10" MouseEnter="btnVoltar_MouseEnter" MouseLeave="btnVoltar_MouseLeave"
+              Visibility="{Binding SensManual, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+            <Button Command="{Binding VoltarCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#313131" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                          VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#262626" 
+                                                    TargetName="Border"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <Image Source="../resource/chevron-left.png"/>
+            </Button>
+        </Grid>
+        
+        <!--
+            Visibility="{Binding SensManual, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"
+        -->
+
         <StackPanel Grid.Row="1" VerticalAlignment="Center"
-                    Visibility="{Binding SensManual, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+                    Visibility="{Binding SensManual, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" HorizontalAlignment="Center">
+            <TextBlock Text="Arquivo não encontrado." Foreground="PaleVioletRed" FontSize="14" 
+                       FontFamily="../fonts/#Poppins" HorizontalAlignment="Center"
+                       VerticalAlignment="Center" Margin="0, 0, 0, 5"
+                       Visibility="{Binding MessagemErro, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
             <Border BorderBrush="#2E2BC2" BorderThickness="2" Width="100" Height="100">
                 <Border.Background>
-                    <ImageBrush ImageSource="../resource/delta-logo.png"/>
+                    <ImageBrush ImageSource="{Binding LogoPath}"/>
                 </Border.Background>
             </Border>
 
-            <TextBox FontFamily="..\fonts\#Poppins" Foreground="Black" Padding="3" Margin="0, 10"
-                     FontSize="16" VerticalAlignment="Center" Width="80" BorderBrush="#2E2BC2"
-                     Text="{Binding DPIMouse}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Ajuste a sensibilidade: " Foreground="White" FontSize="16" FontFamily="../fonts/#Poppins"
+                           VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
+                <TextBox FontFamily="..\fonts\#Poppins" Foreground="Black" Padding="3" Margin="0, 10"
+                         FontSize="16" VerticalAlignment="Center" Width="60" BorderBrush="#2E2BC2"
+                         Text="{Binding Sensibilidade}"/>
+            </StackPanel>
+
+            <Button x:Name="btnConfirmar2" ToolTip="Trocar jogos" Background="#2E2BC2" Command="{Binding SalvarSensibilidadeCommand}"
+                    IsEnabled="{Binding JogoSelecionado}" BorderThickness="0" Height="30" Width="150"
+                    MouseEnter="bordaConfirmar_MouseEnter" MouseLeave="bordaConfirmar_MouseLeave">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#101010" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="Border" BorderBrush="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#16145C" 
+                                        TargetName="Border"/>
+                                            <Setter Property="BorderBrush" Value="#16145C" 
+                                        TargetName="Border"/>
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False">
+                                            <Setter Property="Background" Value="Gray" TargetName="Border"/>
+                                            <Setter Property="BorderBrush" Value="Gray" TargetName="Border"/>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <Label Content="Confirmar" FontFamily="..\fonts\#ModeSeven" Foreground="White" 
+                       FontSize="15"/>
+            </Button>
         </StackPanel>
 
         <StackPanel Grid.Row="1" VerticalAlignment="Center"
                     Visibility="{Binding SensManual, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
             <Border BorderBrush="#2E2BC2" BorderThickness="2" Width="100" Height="100">
                 <Border.Background>
-                    <ImageBrush ImageSource="../resource/delta-logo.png"/>
+                    <ImageBrush ImageSource="{Binding LogoPath}"/>
                 </Border.Background>
             </Border>
 
-            <Border Background="White" BorderBrush="#2E2BC2" BorderThickness="2" CornerRadius="15" 
-                    VerticalAlignment="Center" Width="240" Height="auto" Margin="0, 10">
-                <Grid>
-                    <ComboBox x:Name="comBoxJogo"
-                              FontFamily="..\fonts\#Poppins" Foreground="Black" FontSize="16"
-                              Margin="5, 3" BorderThickness="0"
-                              ItemsSource="{Binding Jogos}"
-                              DisplayMemberPath="Nome"
-                              SelectedValuePath="Id"
-                              SelectedItem="{Binding JogoSelecionado, Mode=TwoWay}">
-                    </ComboBox>
-                </Grid>
-            </Border>
+            <StackPanel Orientation="Horizontal" Margin="0, 10" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Border x:Name="btnUploadAuto" Width="35" Height="35" Margin="0, 0, 5, 0" BorderThickness="1.5" BorderBrush="#2E2BC2"
+                        MouseEnter="btnVoltar_MouseEnter" MouseLeave="btnVoltar_MouseLeave" ToolTip="Selecionar manualmente o arquivo do jogo">
+                    <Button Command="{Binding SelecionarArquivoCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#101010" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#16145C" 
+                                                            TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Image Source="../resource/upload.png"/>
+                    </Button>
+                </Border>
+                <Border Background="White" BorderBrush="#2E2BC2" BorderThickness="2" CornerRadius="15" 
+                        Width="240" Height="auto">
+                    <Grid>
+                        <ComboBox x:Name="comBoxJogo"
+                                  FontFamily="..\fonts\#Poppins" Foreground="Black" FontSize="16"
+                                  Margin="5, 3" BorderThickness="0"
+                                  ItemsSource="{Binding Jogos}"
+                                  DisplayMemberPath="Nome"
+                                  SelectedValuePath="Id"
+                                  SelectedItem="{Binding JogoSelecionado, Mode=TwoWay}">
+                        </ComboBox>
+                    </Grid>
+                </Border>
+            </StackPanel>
 
-            <Border x:Name="bordaAplicar" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" 
-                    BorderBrush="#2E2BC2" VerticalAlignment="Bottom" Height="auto" Width="150">
-                <Button x:Name="btnConfirmar" ToolTip="Trocar jogos" Background="#2E2BC2" Command="{Binding SalvarSensibilidadeCommand}">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Background" Value="#101010" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                  VerticalAlignment="Center"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#16145C" 
-                                            TargetName="Border"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                    <Label Content="Confirmar" FontFamily="..\fonts\#ModeSeven" Foreground="White" 
-                           FontSize="15"/>
-                </Button>
-            </Border>
+            <Button x:Name="btnConfirmar" ToolTip="Trocar jogos" Background="#2E2BC2" Command="{Binding SalvarSensibilidadeCommand}"
+                    IsEnabled="{Binding JogoSelecionado}" BorderThickness="0" Height="30" Width="150"
+                    MouseEnter="bordaAplicar_MouseEnter" MouseLeave="bordaAplicar_MouseLeave">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#101010" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="Border" BorderBrush="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#16145C" 
+                                                    TargetName="Border"/>
+                                            <Setter Property="BorderBrush" Value="#16145C" 
+                                                    TargetName="Border"/>
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False">
+                                            <Setter Property="Background" Value="Gray" TargetName="Border"/>
+                                            <Setter Property="BorderBrush" Value="Gray" TargetName="Border"/>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <Label Content="Confirmar" FontFamily="..\fonts\#ModeSeven" Foreground="White" 
+                       FontSize="15"/>
+            </Button>
+            
+            <TextBlock Text="Clique aqui, para salvar manualmente a sensibilidade." Foreground="White" FontSize="12" FontFamily="../fonts/#Poppins"
+                       VerticalAlignment="Center" Margin="0, 5, 0, 0" HorizontalAlignment="Center" ToolTip="Salvar manualmente"
+                       MouseDown="TextBlock_MouseLeftButtonUp" x:Name="txtManual" MouseEnter="txtManual_MouseEnter" MouseLeave="txtManual_MouseLeave"/>
         </StackPanel>
     </Grid>
 </Window>

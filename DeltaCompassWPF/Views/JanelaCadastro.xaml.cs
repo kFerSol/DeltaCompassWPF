@@ -54,15 +54,13 @@ namespace DeltaCompassWPF.Views
 
         private void bordaCadastrar_MouseEnter(object sender, MouseEventArgs e)
         {
-            bordaCadastrar.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
-            btnCadastrar.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
+            btnConfirmar.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
             this.Cursor = Cursors.Hand;
         }
 
         private void bordaCadastrar_MouseLeave(object sender, MouseEventArgs e)
         {
-            bordaCadastrar.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
-            btnCadastrar.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
+            btnConfirmar.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
             this.Cursor = Cursors.Arrow;
         }
 

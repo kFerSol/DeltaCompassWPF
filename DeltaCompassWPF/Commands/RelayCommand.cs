@@ -39,5 +39,10 @@ namespace DeltaCompassWPF.Commands
         {
             _Execute(parameter);
         }
+
+        public void RaiseCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
     }
 }
