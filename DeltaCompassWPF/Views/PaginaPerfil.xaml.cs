@@ -41,7 +41,10 @@ namespace DeltaCompassWPF.Views
 
         private void btnSlot_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("fjkdsajldk");
+            Window mainWindow = Window.GetWindow(this);
+            JanelaAbrirSlot jbs = new JanelaAbrirSlot();
+            jbs.Owner = mainWindow;
+            jbs.Show();
         }
 
         private void BtnJanelaSlot_Click(object sender, RoutedEventArgs e)
@@ -51,6 +54,11 @@ namespace DeltaCompassWPF.Views
             jss.Owner = mainWindow;
             jss.Show();
             var viewmodel = this.DataContext as SlotViewModel;
+        }
+
+        private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
         }
     }
 }

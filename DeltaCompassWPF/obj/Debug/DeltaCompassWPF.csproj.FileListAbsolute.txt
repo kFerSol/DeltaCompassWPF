@@ -639,3 +639,5 @@ C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao8\DeltaCompassWP
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao8\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCom.3B420105.Up2Date
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao8\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCompassWPF.exe
 C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao8\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\DeltaCompassWPF.pdb
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaAbrirSlot.g.cs
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\Views\JanelaAbrirSlot.baml

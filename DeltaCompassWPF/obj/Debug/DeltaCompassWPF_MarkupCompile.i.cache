@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao8\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\obj\Debug\
 DeltaCompassWPF
 none
 false
 DEBUG;TRACE
-C:\Users\Kaua\OneDrive\Área de Trabalho\DeltaCompassTrue\versao8\DeltaCompassWPF\DeltaCompassWPF\App.xaml
-171431955881
+C:\Users\etec\Desktop\DeltaCompassWPF\DeltaCompassWPF\App.xaml
+18-1307744424
 
-521950043414
-351316885662
-MainWindow.xaml;Views\JanelaCadastro.xaml;Views\JanelaLogin.xaml;Views\JanelaSalvarSensibilidade.xaml;Views\PaginaBuscas.xaml;Views\PaginaConfiguracao.xaml;Views\PaginaConversao.xaml;Views\PaginaCriacaoCla.xaml;Views\PaginaPerfil.xaml;Views\PaginaPerfilCla.xaml;Views\PaginaPerfilOutro.xaml;Views\PaginaSuporte.xaml;Views\UserControls\BindablePasswordBox.xaml;Views\UserControls\ControlButton.xaml;Views\UserControls\ControlNotificacao.xaml;Views\UserControls\ControlTextBox.xaml;Views\UserControls\ControlTextboxPesquisa.xaml;
+531439528219
+35-319325684
+MainWindow.xaml;Views\JanelaAbrirSlot.xaml;Views\JanelaCadastro.xaml;Views\JanelaLogin.xaml;Views\JanelaSalvarSensibilidade.xaml;Views\PaginaBuscas.xaml;Views\PaginaConfiguracao.xaml;Views\PaginaConversao.xaml;Views\PaginaCriacaoCla.xaml;Views\PaginaPerfil.xaml;Views\PaginaPerfilCla.xaml;Views\PaginaPerfilOutro.xaml;Views\PaginaSuporte.xaml;Views\UserControls\BindablePasswordBox.xaml;Views\UserControls\ControlButton.xaml;Views\UserControls\ControlNotificacao.xaml;Views\UserControls\ControlTextBox.xaml;Views\UserControls\ControlTextboxPesquisa.xaml;
 
-True
+False
 

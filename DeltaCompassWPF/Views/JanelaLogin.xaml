@@ -58,7 +58,7 @@
 
             <Label Content="Esqueci minha senha" Foreground="White" FontSize="12" HorizontalAlignment="Center"/>
 
-            <Button x:Name="btnConfirmar" ToolTip="Entrar em uma conta" Background="#2E2BC2" Command="{Binding CadastrarCommand}"
+            <Button x:Name="btnConfirmar" ToolTip="Entrar em uma conta" Background="#2E2BC2" Command="{Binding LoginCommand}"
                     BorderThickness="0" Height="30" Width="140" Margin="0, 10, 0, 20"
                     MouseEnter="bordaEntrar_MouseEnter" MouseLeave="bordaEntrar_MouseLeave">
                 <Button.Style>

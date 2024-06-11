@@ -141,6 +141,9 @@
     <Compile Include="ViewModels\PerfilViewModel.cs" />
     <Compile Include="ViewModels\SlotViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\JanelaAbrirSlot.xaml.cs">
+      <DependentUpon>JanelaAbrirSlot.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\JanelaCadastro.xaml.cs">
       <DependentUpon>JanelaCadastro.xaml</DependentUpon>
     </Compile>
@@ -201,6 +204,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\JanelaAbrirSlot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\JanelaCadastro.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -374,6 +381,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\upload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\trash.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

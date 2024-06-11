@@ -155,6 +155,7 @@ namespace DeltaCompassWPF.ViewModels
                 }
             }
         }
+          
 
         private string GetConfigKey(string gameName)
         {

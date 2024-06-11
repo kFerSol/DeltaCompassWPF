@@ -316,5 +316,27 @@ namespace DeltaCompassWPF.Repositories
                 return null;
             }
         }
+
+        /*public SlotConfiguracao GetSensByUserId(Usuario user)
+        {
+            try
+            {
+                using (var connection = GetConnection())
+                using (var command = new MySqlCommand())
+                {
+                    connection.Open();
+                    command.Connection = connection;
+                    command.CommandText = "SELECT * FROM tb_sensibilidade" +
+                        "WHERE id_usuario = @UserID";
+                    command.Parameters.AddWithValue("@UserId", user.Id);
+                    
+                    using 
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("{0}", ex);
+            }
+        }*/
     }
 }
