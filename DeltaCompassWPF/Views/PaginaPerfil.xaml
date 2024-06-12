@@ -99,7 +99,7 @@
                                             </Setter>
                                         </Style>
                                     </Button.Style>
-                                    <Image Source="../resource/plus-delta.png" Width="50"/>
+                                    <Image Source="{Binding Imagem}" Width="50"/>
                                 </Button>
                             </Border>
                         </DataTemplate>

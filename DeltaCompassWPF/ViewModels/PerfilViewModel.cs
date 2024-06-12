@@ -4,6 +4,8 @@ using DeltaCompassWPF.Repositories;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DeltaCompassWPF.ViewModels
@@ -12,6 +14,7 @@ namespace DeltaCompassWPF.ViewModels
     {
         private Usuario _currentUser;
         private ObservableCollection<SlotConfiguracao> _slots;
+        private readonly UserRepository _userRepository;
 
         private ISlotRepository _slotRepository;
 
@@ -37,6 +40,7 @@ namespace DeltaCompassWPF.ViewModels
             _userService = UserService.Instance;
             UserService.Instance.UserChanged += UpdateCurrentUser;
             UserService.Instance.UserDetailsChanged += UpdateCurrentUser;
+            _userRepository = new UserRepository();
             _userService.UserChanged += OnUserChanged;
             LogoutCommand = new RelayCommand(ExecuteLogout);
 
@@ -45,11 +49,26 @@ namespace DeltaCompassWPF.ViewModels
             UpdateCurrentUser(UserService.Instance.CurrentUser);
         }
 
-        private void CarregarSlot()
+        private async void CarregarSlot()
         {
             if (IsLoggedIn)
             {
-                Slots = new ObservableCollection<SlotConfiguracao>
+                var sensibilidades = await Task.Run(() => _userRepository.GetSensibilidadeByUserId(CurrentUser.Id));
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    foreach (var sensibilidade in sensibilidades)
+                    {
+                        Slots = new ObservableCollection<SlotConfiguracao>
+                        {
+                            new SlotConfiguracao
+                            {
+                                Imagem = sensibilidade.Imagem,
+                                IdUser = CurrentUser.Id
+                            }
+                        };
+                    }
+                });
+                /*Slots = new ObservableCollection<SlotConfiguracao>
                 {
                     new SlotConfiguracao
                     { 
@@ -57,7 +76,7 @@ namespace DeltaCompassWPF.ViewModels
                         Imagem = null, 
                         Sensibilidade = 0 
                     }
-                };
+                };*/
             }   
         }
 
