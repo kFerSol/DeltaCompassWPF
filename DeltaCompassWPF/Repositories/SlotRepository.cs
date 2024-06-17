@@ -41,14 +41,33 @@ namespace DeltaCompassWPF.Repositories
             }
         }
 
-        public void Remove(SlotConfiguracao slot, int idUsuario)
+        public void Remove(SlotConfiguracao slot)
         {
-            throw new NotImplementedException();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "DELETE FROM tb_sensibilidade WHERE id_sensibilidade = @IdSlot";
+                command.Parameters.Add("@IdSlot", MySqlDbType.Int64).Value = slot.IdSens;
+                command.ExecuteNonQuery();
+            }
         }
 
-        public void Edit(int idUsuario)
+        public void Edit(SlotConfiguracao slot)
         {
-            throw new NotImplementedException();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "UPDATE tb_sensibilidade " +
+                    "SET vl_sensibilidade = @NovaSens " +
+                    "WHERE id_sensibilidade = @IdSens";
+                command.Parameters.AddWithValue("@NovaSens", slot.Sensibilidade);
+                command.Parameters.AddWithValue("@IdSens", slot.IdSens);
+                command.ExecuteNonQuery();
+            }
         }
     }
 }

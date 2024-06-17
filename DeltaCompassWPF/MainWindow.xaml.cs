@@ -384,7 +384,6 @@ namespace DeltaCompassWPF
             JanelaCadastro jc = new JanelaCadastro();
             jc.Owner = this;
             jc.Show();
-            var viewModel = this.DataContext as CadastrarViewModel;
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)

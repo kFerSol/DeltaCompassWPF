@@ -1,4 +1,4 @@
-﻿using DeltaCompassWPF.Commands;
+﻿ using DeltaCompassWPF.Commands;
 using DeltaCompassWPF.Models;
 using DeltaCompassWPF.Repositories;
 using Google.Protobuf.WellKnownTypes;
@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace DeltaCompassWPF.ViewModels
 {
@@ -25,8 +26,10 @@ namespace DeltaCompassWPF.ViewModels
         private SlotConfiguracao _slot;
         private ObservableCollection<SlotConfiguracao> _sensibilidades;
         private double _sensibilidade;
+        private double _novaSensibilidade;
         private bool _sensManual = false;
         private bool _messagemErro;
+        private bool _isEditing;
 
         private IJogoRepository _jogoRepository;
         private ISlotRepository _slotRepository;
@@ -35,6 +38,26 @@ namespace DeltaCompassWPF.ViewModels
 
         public ObservableCollection<Jogo> Jogos { get; set; }
         public Usuario CurrentUser => _userService.CurrentUser;
+
+        public bool IsEditing
+        {
+            get => _isEditing;
+            set
+            {
+                _isEditing = value;
+                OnPropertyChanged(nameof(IsEditing));
+            }
+        }
+
+        public double NovaSensibilidade
+        {
+            get => _novaSensibilidade;
+            set
+            {
+                _novaSensibilidade = value;
+                OnPropertyChanged(nameof(NovaSensibilidade));
+            }
+        }
 
         public bool MessagemErro
         {
@@ -74,7 +97,7 @@ namespace DeltaCompassWPF.ViewModels
                 _jogoSelecionado = value;
                 OnPropertyChanged(nameof(JogoSelecionado));
                 OnPropertyChanged(nameof(LogoPath));
-                ((RelayCommand)SalvarSensibilidadeCommand).RaiseCanExecuteChanged();
+                ((RelayCommand<object>)SalvarSensibilidadeCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -104,6 +127,23 @@ namespace DeltaCompassWPF.ViewModels
         public ICommand SalvarSensibilidadeCommand { get; }
         public ICommand VoltarCommand { get; }
         public ICommand SelecionarArquivoCommand { get; }
+        public ICommand ExcluirSensibilidadeCommand { get; }
+        public ICommand ToggleEditarCommand { get; }
+        public ICommand SalvarEdicaoSensCommand { get; }
+        public ICommand AplicarSensCommand { get; }
+
+        public event EventHandler SlotDeleted;
+        public event EventHandler SlotAdded;
+
+        public SlotViewModel(SlotConfiguracao slot)
+        {
+            Slot = slot;
+            _slotRepository = new SlotRepository();
+            ExcluirSensibilidadeCommand = new RelayCommand<object>(ExecuteExcluirSensibilidadeCommand, CanExecuteExcluirSensCommand);
+            ToggleEditarCommand = new RelayCommand<object>(ExecuteToggleEditarCommand);
+            SalvarEdicaoSensCommand = new RelayCommand<object>(ExecuteEdicaoSensCommand);
+            AplicarSensCommand = new RelayCommand<object>(ExecuteAplicarSensCommand);
+        }
 
         public SlotViewModel()
         {
@@ -114,9 +154,9 @@ namespace DeltaCompassWPF.ViewModels
             _slotRepository = new SlotRepository();
             Jogos = new ObservableCollection<Jogo>();
             Sensibilidades = new ObservableCollection<SlotConfiguracao>();
-            SalvarSensibilidadeCommand = new RelayCommand(ExecuteSalvarSensCommand, CanExecuteSalvarSensCommand);
-            VoltarCommand = new RelayCommand(ExecuteVoltarCommand);
-            SelecionarArquivoCommand = new RelayCommand(ExecuteSelecionarArquivoCommand);
+            SalvarSensibilidadeCommand = new RelayCommand<object>(ExecuteSalvarSensCommand, CanExecuteSalvarSensCommand);
+            VoltarCommand = new RelayCommand<object>(ExecuteVoltarCommand);
+            SelecionarArquivoCommand = new RelayCommand<object>(ExecuteSelecionarArquivoCommand);
             Slot = new SlotConfiguracao()
             {
                 Nome = null,
@@ -124,6 +164,75 @@ namespace DeltaCompassWPF.ViewModels
             };
             CarregarJogos();
             CarregarSensibilidades();
+        }
+
+        private void ExecuteAplicarSensCommand(object obj)
+        {
+            switch (Slot.Nome)
+            {
+                case "Apex Legends":
+                    string filename = "Saved Games\\Respawn\\Apex\\Local\\settings.cfg";
+                    string config = "mouse_sensitivity";
+
+                    DriveInfo[] discos = DriveInfo.GetDrives();
+                    bool fileFound = false;
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string caminho = Path.Combine(disco.RootDirectory.FullName, "Users");
+                            if (Directory.Exists(caminho))
+                            {
+                                foreach (string userDir in Directory.GetDirectories(caminho))
+                                {
+                                    string userPath = Path.Combine(userDir, filename);
+                                    if (File.Exists(userPath))
+                                    {
+                                        string sens = Slot.Sensibilidade.ToString();
+                                        sens = sens.Replace(",", ".");
+                                        string sensOriginal = ProcurarSens(userPath, config);
+                                        string procurarLinha = File.ReadAllText(userPath);
+                                        procurarLinha = procurarLinha.Replace(config + " " + sensOriginal, config + " " + sens);
+                                        File.WriteAllText(userPath, procurarLinha);
+                                        Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                                        fileFound = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (fileFound)
+                                break;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void ExecuteEdicaoSensCommand(object obj)
+        {
+            if(NovaSensibilidade != 0)
+            {
+                Slot.Sensibilidade = NovaSensibilidade;
+                _slotRepository.Edit(Slot);
+                Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+            }
+        }
+
+        private void ExecuteToggleEditarCommand(object obj)
+        {
+            IsEditing = !IsEditing;
+        }
+
+        private bool CanExecuteExcluirSensCommand(object arg)
+        {
+            return Slot != null;
+        }
+
+        private void ExecuteExcluirSensibilidadeCommand(object obj)
+        {
+            _slotRepository.Remove(Slot);
+            SlotDeleted?.Invoke(this, EventArgs.Empty);
+            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
         }
 
         private void ExecuteSelecionarArquivoCommand(object obj)
@@ -150,13 +259,13 @@ namespace DeltaCompassWPF.ViewModels
                         };
 
                         _slotRepository.Add(_slot);
-                        CloseAction?.Invoke();
+                        SlotAdded?.Invoke(this, EventArgs.Empty);
+                        Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
                     }
                 }
             }
         }
           
-
         private string GetConfigKey(string gameName)
         {
             switch (gameName)
@@ -301,7 +410,8 @@ namespace DeltaCompassWPF.ViewModels
                                             IdJogo = 1
                                         };
                                         _slotRepository.Add(_slot);
-                                        CloseAction?.Invoke();
+                                        SlotAdded?.Invoke(this, EventArgs.Empty);
+                                        Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
                                         fileFound = true;
                                         break;
                                     }
@@ -324,7 +434,8 @@ namespace DeltaCompassWPF.ViewModels
                         if (Sensibilidade != 0)
                         {
                             _slotRepository.Add(_slot);
-                            CloseAction?.Invoke();
+                            SlotAdded?.Invoke(this, EventArgs.Empty);
+                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
                         }
                     }
                     else

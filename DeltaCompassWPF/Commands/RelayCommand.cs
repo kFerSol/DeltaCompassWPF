@@ -7,21 +7,20 @@ using System.Windows.Input;
 
 namespace DeltaCompassWPF.Commands
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand<T> : ICommand
     {
-        private Action<object> _Execute {  get; set; }
-        private Predicate<object> _CanExecute { get; set; }
+        private readonly Action<T> _execute;
+        private readonly Func<T, bool> _canExecute;
 
-        public RelayCommand(Action<object> ExecuteMethod)
+        public RelayCommand(Action<T> execute)
         {
-            _Execute = ExecuteMethod;
-            _CanExecute = null;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
         }
 
-        public RelayCommand(Action<object> ExecuteMethod, Predicate<object> CanExecuteMethod) 
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
+            : this(execute)
         {
-            _Execute = ExecuteMethod;
-            _CanExecute = CanExecuteMethod;
+            _canExecute = canExecute;
         }
 
         public event EventHandler CanExecuteChanged
@@ -30,14 +29,14 @@ namespace DeltaCompassWPF.Commands
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object parameter) 
+        public bool CanExecute(object parameter)
         {
-            return _CanExecute==null?true:_CanExecute(parameter);
+            return _canExecute == null || _canExecute((T)parameter);
         }
 
-        public void Execute(object parameter) 
+        public void Execute(object parameter)
         {
-            _Execute(parameter);
+            _execute((T)parameter);
         }
 
         public void RaiseCanExecuteChanged()

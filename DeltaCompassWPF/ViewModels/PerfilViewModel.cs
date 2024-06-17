@@ -1,6 +1,7 @@
 ﻿using DeltaCompassWPF.Commands;
 using DeltaCompassWPF.Models;
 using DeltaCompassWPF.Repositories;
+using DeltaCompassWPF.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -15,8 +16,6 @@ namespace DeltaCompassWPF.ViewModels
         private Usuario _currentUser;
         private ObservableCollection<SlotConfiguracao> _slots;
         private readonly UserRepository _userRepository;
-
-        private ISlotRepository _slotRepository;
 
         public ObservableCollection<SlotConfiguracao> Slots
         {
@@ -33,6 +32,8 @@ namespace DeltaCompassWPF.ViewModels
         public Usuario CurrentUser => _userService.CurrentUser;
         public bool IsLoggedIn => _userService.IsLoggedIn;
 
+        public ICommand AbrirJanelaSlotCommand { get; }
+        public ICommand AbrirSalvarSlotCommand { get; }
         public ICommand LogoutCommand { get; }
 
         public PerfilViewModel()
@@ -42,52 +43,95 @@ namespace DeltaCompassWPF.ViewModels
             UserService.Instance.UserDetailsChanged += UpdateCurrentUser;
             _userRepository = new UserRepository();
             _userService.UserChanged += OnUserChanged;
-            LogoutCommand = new RelayCommand(ExecuteLogout);
-
-            _slotRepository = new SlotRepository();
+            LogoutCommand = new RelayCommand<object>(ExecuteLogout);
+            AbrirJanelaSlotCommand = new RelayCommand<SlotConfiguracao>(ExecuteAbrirJanelaSlotCommand);
+            AbrirSalvarSlotCommand = new RelayCommand<object>(ExecuteAbrirSalvarSlotCommand, CanExecuteAbrirSalvarSlotCommand);
             CarregarSlot();
             UpdateCurrentUser(UserService.Instance.CurrentUser);
         }
 
-        private async void CarregarSlot()
+        private void ExecuteAbrirSalvarSlotCommand(object obj)
+        {
+            SlotViewModel slotViewModel = new SlotViewModel();
+            slotViewModel.SlotAdded += OnSlotUpdated;
+
+            JanelaSalvarSensibilidade janelaSalvarSensibilidade = new JanelaSalvarSensibilidade
+            {
+                DataContext = slotViewModel
+            };
+            Window mainWindow = Application.Current.MainWindow;
+
+            janelaSalvarSensibilidade.WindowStartupLocation = WindowStartupLocation.Manual;
+            janelaSalvarSensibilidade.Left = mainWindow.Left + (mainWindow.Width - janelaSalvarSensibilidade.Width) / 2;
+            janelaSalvarSensibilidade.Top = mainWindow.Top + (mainWindow.Height - janelaSalvarSensibilidade.Height) / 2;
+            janelaSalvarSensibilidade.Show();
+        }
+
+        private bool CanExecuteAbrirSalvarSlotCommand(object arg)
+        {
+            return IsLoggedIn;
+        }
+
+        private void ExecuteAbrirJanelaSlotCommand(SlotConfiguracao slot)
+        {
+            SlotViewModel slotViewModel = new SlotViewModel(slot);
+
+            slotViewModel.SlotDeleted += OnSlotDeleted;
+
+            JanelaAbrirSlot janelaAbrirSlot = new JanelaAbrirSlot
+            {
+                DataContext = slotViewModel
+            };
+            Window mainWindow = Application.Current.MainWindow;
+
+            janelaAbrirSlot.WindowStartupLocation = WindowStartupLocation.Manual;
+            janelaAbrirSlot.Left = mainWindow.Left + (mainWindow.Width - janelaAbrirSlot.Width) / 2;
+            janelaAbrirSlot.Top = mainWindow.Top + (mainWindow.Height - janelaAbrirSlot.Height) / 2;
+            janelaAbrirSlot.Show();
+        }
+
+        private void OnSlotUpdated(object sender, EventArgs e)
+        {
+            CarregarSlot();
+        }
+
+        private void OnSlotDeleted(object sender, EventArgs e)
+        {
+            CarregarSlot();
+        }
+
+        private void CarregarSlot()
         {
             if (IsLoggedIn)
             {
-                var sensibilidades = await Task.Run(() => _userRepository.GetSensibilidadeByUserId(CurrentUser.Id));
-                Application.Current.Dispatcher.Invoke(() =>
+                int userId = _userService.CurrentUser.Id;
+                var sensibilidades = _userRepository.GetSensibilidadeByUserId(userId);
+
+                if (sensibilidades != null)
                 {
-                    foreach (var sensibilidade in sensibilidades)
-                    {
-                        Slots = new ObservableCollection<SlotConfiguracao>
-                        {
-                            new SlotConfiguracao
-                            {
-                                Imagem = sensibilidade.Imagem,
-                                IdUser = CurrentUser.Id
-                            }
-                        };
-                    }
-                });
-                /*Slots = new ObservableCollection<SlotConfiguracao>
+                    Slots = new ObservableCollection<SlotConfiguracao>(sensibilidades);
+                }
+                else
                 {
-                    new SlotConfiguracao
-                    { 
-                        Nome = null, 
-                        Imagem = null, 
-                        Sensibilidade = 0 
-                    }
-                };*/
-            }   
+                    Slots = new ObservableCollection<SlotConfiguracao>();
+                }
+            }
+            else
+            {
+                Slots = new ObservableCollection<SlotConfiguracao>();
+            }
         }
 
         private void ExecuteLogout(object obj)
         {
             UserService.Instance.Logout();
             ResetUserProfile();
+            CarregarSlot();
         }
 
         private void ResetUserProfile()
         {
+            CarregarSlot();
             _currentUser = new Usuario
             {
                 Nome = "Usuário não logado",
@@ -124,13 +168,9 @@ namespace DeltaCompassWPF.ViewModels
             OnPropertyChanged(nameof(CurrentUser));
         }
 
-        public void AdicionarNovoSlot(object obj)
-        {
-            Slots.Add(new SlotConfiguracao { Nome = "Novo Jogo", Imagem = null, Sensibilidade = 0 });
-        }
-
         private void UpdateCurrentUser(Usuario user)
         {
+            CarregarSlot();
             _currentUser = user ?? new Usuario
             {
                 Nome = "Usuário não logado",

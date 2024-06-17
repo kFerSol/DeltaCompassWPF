@@ -7,6 +7,7 @@
       xmlns:Controls="clr-namespace:DeltaCompassWPF.Views.UserControls" 
       xmlns:converters="clr-namespace:DeltaCompassWPF.Converters"
       xmlns:viewmodels="clr-namespace:DeltaCompassWPF.ViewModels"
+      xmlns:helpers="clr-namespace:DeltaCompassWPF.Helpers"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Background="#1C1C1C"
@@ -14,6 +15,7 @@
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </Page.Resources>
 
     <Page.DataContext>
@@ -37,7 +39,8 @@
         <!--Botão de trocar os jogos-->
         <Grid Grid.Row="1" Grid.Column="2" Height="60" Background="#1C1C1C" Panel.ZIndex="1">
             <Button x:Name="btnTrocar" ToolTip="Trocar jogos" Background="#1C1C1C"
-                    Height="50" MouseEnter="BtnCursor_MouseEnter" MouseLeave="BtnCursor_MouseLeave">
+                    Height="50" MouseEnter="BtnCursor_MouseEnter" MouseLeave="BtnCursor_MouseLeave"
+                    Command="{Binding TrocarJogosCommand}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="#101010" />
@@ -87,12 +90,16 @@
                                       ItemsSource="{Binding Jogos}"
                                       DisplayMemberPath="Nome"
                                       SelectedValuePath="Id"
-                                      SelectedValue="{Binding JogoSelecionado1.Nome, Mode=TwoWay}">
+                                      SelectedItem="{Binding JogoSelecionado1, Mode=TwoWay}">
                             </ComboBox>
                         </Grid>
                     </Border>
 
-                    <Image Source="..\resource\delta-logo.png" Width="50" Margin="20, 0, 0, 0"/>
+                    <Border BorderBrush="#2E2BC2" BorderThickness="1" Width="60" Height="60" Margin="20, 0, 0, 0">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding LogoPath1}"/>
+                        </Border.Background>
+                    </Border>
                 </StackPanel>
                 <!--<ListBox ItemsSource="{Binding Sensibilidades}" Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
                     <ListBox.ItemTemplate>
@@ -109,22 +116,116 @@
                 <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
                     <Label Content="Mouse DPI:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
                            FontSize="16"/>
-                    <TextBox FontFamily="..\fonts\#Poppins" Foreground="Black" Padding="3"
-                             FontSize="16" VerticalAlignment="Center" Width="80" BorderBrush="#2E2BC2"
-                             Text="{Binding DPIMouse}" 
-                             Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
+                    <Grid>
+                        <TextBox FontFamily="..\fonts\#Poppins" Foreground="Black" Padding="3"
+                                 FontSize="16" VerticalAlignment="Center" Width="80" BorderBrush="#2E2BC2"
+                                 Text="{Binding DPIMouse, UpdateSourceTrigger=PropertyChanged}" 
+                                 Visibility="{Binding DpiVisibilidade, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" 
+                                   Text="{Binding DpiSalvo}" VerticalAlignment="Center"
+                                   Visibility="{Binding DpiSalvoVisibilidade, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBox FontFamily="..\fonts\#Poppins" Foreground="Black" Padding="3"
+                                 FontSize="16" VerticalAlignment="Center" Width="80" BorderBrush="#2E2BC2"
+                                 KeyDown="TextBox_KeyDown"
+                                 Text="{Binding DpiTemporaria}" helpers:AttachedBehavior.EnterCommand="{Binding SalvarDpiTemporariaCommand}"
+                                 Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
+                    </Grid>
+                    <Button Width="30" Height="30" HorizontalAlignment="Left" Margin="5, 0, 0, 0" ToolTip="Salvar sensibilidade"
+                            Command="{Binding SalvarDpiCommand}" 
+                            Visibility="{Binding DpiVisibilidade, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#101010" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#4A4A4A" 
+                                                            TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Image Source="../resource/save.png" Width="25" Height="25"/>
+                    </Button>
                 </StackPanel>
+                
+                <!--Sensibilidade-->
                 <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
                     <Label Content="Sensibilidade:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
                            FontSize="16" />
                     <Grid>
                         <TextBox FontFamily="..\fonts\#Poppins" Foreground="Black" Padding="3"
                                  FontSize="16" VerticalAlignment="Center" Width="80" BorderBrush="#2E2BC2"
-                                 Text="{Binding Sensibilidade}" 
+                                 KeyDown="TextBox_KeyDown"
+                                 Text="{Binding SensTemporaria}" helpers:AttachedBehavior.EnterCommand="{Binding SalvarSensTemporariaCommand}"
                                  Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
-                        <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" Text="{Binding JogoSelecionado1.Nome}" VerticalAlignment="Center"
-                                   Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"/>
+                        <TextBox FontFamily="..\fonts\#Poppins" Foreground="Black" Padding="3"
+                                 FontSize="16" VerticalAlignment="Center" Width="80" BorderBrush="#2E2BC2"
+                                 Text="{Binding Sensibilidade, UpdateSourceTrigger=PropertyChanged}" 
+                                 Visibility="{Binding SensVisibilidade, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" Text="{Binding SensibilidadeAtual.Sensibilidade}" VerticalAlignment="Center"
+                                   Visibility="{Binding SensSalvaVisibilidade, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </Grid>
+                    <Button Width="30" Height="30" HorizontalAlignment="Left" Margin="5, 0, 0, 0" ToolTip="Salvar sensibilidade"
+                            Command="{Binding SalvarCommand}" Visibility="{Binding SensVisibilidade, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#101010" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#4A4A4A" 
+                                                            TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Image Source="../resource/save.png" Width="25" Height="25"/>
+                    </Button>
+                    <Button Width="30" Height="30" HorizontalAlignment="Right" Margin="5, 0, 0, 0" ToolTip="Trocar sensibilidade"
+                            Command="{Binding AlternarSensCommand}"
+                            Visibility="{Binding AlternarSensVisibilidade, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#101010" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#4A4A4A" 
+                                                            TargetName="Border"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Image Source="../resource/switch.png" Width="25" Height="25"/>
+                    </Button>
                 </StackPanel>
                 <Label Content="Resolução:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
                        FontSize="16" Margin="0, 0, 0, 10"/>
@@ -148,7 +249,7 @@
                                       Margin="5, 3" BorderThickness="0"
                                       ItemsSource="{Binding Jogos}"
                                       SelectedValuePath="Id"
-                                      SelectedValue="{Binding JogoSelecionado2.Nome, Mode=TwoWay}">
+                                      SelectedItem="{Binding JogoSelecionado2, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Nome}"/>
@@ -157,14 +258,24 @@
                             </ComboBox>
                         </Grid>
                     </Border>
-                    <Image Source="..\resource\delta-logo.png" Width="50" Margin="20, 0, 0, 0"/>
+                    <Border BorderBrush="#2E2BC2" BorderThickness="1" Width="60" Height="60" Margin="20, 0, 0, 0">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding LogoPath2}"/>
+                        </Border.Background>
+                    </Border>
                 </StackPanel>
             </StackPanel>
             <StackPanel>
                 <Label Content="Mouse DPI:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
                        FontSize="16" Margin="0, 0, 0, 10"/>
-                <Label Content="Sensibilidade:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
-                       FontSize="16" Margin="0, 0, 0, 10"/>
+                
+                <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                    <Label Content="Sensibilidade:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
+                           FontSize="16" />
+                    <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" 
+                               Text="{Binding Resultado}" VerticalAlignment="Center"/>
+                </StackPanel>
+                
                 <Label Content="Resolução:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
                        FontSize="16" Margin="0, 0, 0, 10"/>
                 <Label Content="Proporção:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
@@ -175,34 +286,35 @@
         </StackPanel>
 
         <!--Botão de aplicar a conversão-->
-        <Border x:Name="bordaAplicar" Grid.Row="3" Grid.Column="3" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
-                VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="34" Width="140" Margin="0, 0, 20, 20"
-                MouseEnter="BordaAplicar_MouseEnter" MouseLeave="BordaAplicar_MouseLeave">
-            <Button x:Name="btnAplicar" ToolTip="Trocar jogos" Background="#2E2BC2" MouseEnter="BtnCursor_MouseEnter" 
-                    MouseLeave="BtnCursor_MouseLeave">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#101010" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                        <ContentPresenter HorizontalAlignment="Center" 
-                                                          VerticalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#16145C" 
-                                                    TargetName="Border"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-                <Label Content="Aplicar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
-            </Button>
-        </Border>
+        <Button x:Name="btnAplicar" ToolTip="Aplicar sensibilidade" Background="#2E2BC2"
+                BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                Height="34" Width="140" Margin="0, 0, 20, 20" Grid.Row="3" Grid.Column="3"
+                MouseEnter="BordaAplicar_MouseEnter" MouseLeave="BordaAplicar_MouseLeave"
+                Command="{Binding AplicarSensCommand}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#101010" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="Border" BorderBrush="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#16145C" 
+                                                TargetName="Border"/>
+                                        <Setter Property="BorderBrush" Value="#16145C" 
+                                                TargetName="Border"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+            <Label Content="Aplicar" FontFamily="..\fonts\#ModeSeven" Foreground="White" 
+                   FontSize="15"/>
+        </Button>
     </Grid>
 </Page>

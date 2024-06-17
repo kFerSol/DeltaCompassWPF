@@ -11,12 +11,18 @@ namespace DeltaCompassWPF.Helpers
 {
     public static class PasswordHelper
     {
+        // Recebe uma variável "SecureString" de qualquer arquivo no projeto.
         public static string HashPassword(SecureString password)
         {
+            // Cria uma variável que transforma a senha em string.
             var passwordString = SecureStringToString(password);
+            /* Cria uma instância para criptografia sha256 e
+               atribui ela para a variável "sha256".*/
             using (var sha256 = SHA256.Create())
             {
+                // Calcula o Hash da senha em string.
                 var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(passwordString));
+                // retorna o resultado da criptografia.
                 return Convert.ToBase64String(hashedBytes);
             }
         }

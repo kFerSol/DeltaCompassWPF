@@ -46,10 +46,10 @@ namespace DeltaCompassWPF.ViewModels
 
         public ConfigurarPerfilViewModel()
         {
-            SalvarConfigCommand = new RelayCommand(ExecuteSalvarConfigCommand, CanExecuteSalvarConfigCommand);
-            SalvarConfigGeralCommand = new RelayCommand(ExecuteSalvarConfigGeralCommand, CanExecuteSalvarConfigGeralCommand);
-            TrocarImagemPerfilCommand = new RelayCommand(ExecuteTrocarImagemPerfilCommand, CanExecuteTrocarImagemPerfilCommand);
-            TrocarImagemFundoCommand = new RelayCommand(ExecuteTrocarImagemFundoCommand, CanExecuteTrocarImagemFundoCommand);
+            SalvarConfigCommand = new RelayCommand<object>(ExecuteSalvarConfigCommand, CanExecuteSalvarConfigCommand);
+            SalvarConfigGeralCommand = new RelayCommand<object>(ExecuteSalvarConfigGeralCommand, CanExecuteSalvarConfigGeralCommand);
+            TrocarImagemPerfilCommand = new RelayCommand<object>(ExecuteTrocarImagemPerfilCommand, CanExecuteTrocarImagemPerfilCommand);
+            TrocarImagemFundoCommand = new RelayCommand<object>(ExecuteTrocarImagemFundoCommand, CanExecuteTrocarImagemFundoCommand);
             _userRepository = new UserRepository();
             _imageHelper = new ImageHelper();
             Usuario = new Usuario();

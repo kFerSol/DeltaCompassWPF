@@ -79,7 +79,7 @@ namespace DeltaCompassWPF.ViewModels
         public CadastrarViewModel()
         {
             userRepository = new UserRepository();
-            CadastrarCommand = new RelayCommand(ExecuteCadastroCommand, CanExecuteCadastroCommand);
+            CadastrarCommand = new RelayCommand<object>(ExecuteCadastroCommand, CanExecuteCadastroCommand);
         }
 
         private bool CanExecuteCadastroCommand(object obj)
@@ -94,22 +94,33 @@ namespace DeltaCompassWPF.ViewModels
         {
             try
             {
+                /* Recebe em duas propriedades "Password" que recebe a senha e 
+                   "PasswordConfirm" que recebe a confirmação da senha.
+                   Após isso, compara se as duas propriedades tem são iguais */
                 if (!Password.SecureStringEqual(PasswordConfirm))
                 {
+                    // Se não for, ele mostra essa mensagem para o usuário.
                     ErrorMessage = "*Senhas digitadas são diferentes.";
                     return;
                 }
 
+                // Se for, ele adiciona as informações digitada pelo usuário nessa variável.
                 var usuario = new Usuario
                 {
                     Nome = Username,
                     Email = Email
                 };
+                /* O software então pega a senha digitada pelo usuário e transforma em Hash.
+                   Após isso ele adiciona a senha em forma de Hash para a variável "senhaHash" */
                 var senhaHash = PasswordHelper.HashPassword(Password);
 
+                /* Adiciona as informações que estão na variável "usuario" e a 
+                   senha que está na variável "senhaHash" para o banco de dados, 
+                   através de um repositório. */
                 userRepository.Add(usuario, senhaHash);
                 CloseAction?.Invoke();
 
+                // Mostra uma notificação de que a conta foi cadastrada.
                 MostrarNotificacao("Conta Cadastrada!");
             }
             catch(Exception ex)

@@ -75,8 +75,8 @@ namespace DeltaCompassWPF.ViewModels
         public LoginViewModel()
         {
             _userRepository = new UserRepository();
-            LoginCommand = new RelayCommand(ExecuteLoginCommand, CanExecuteLoginCommand);
-            RecuperarSenhaCommand = new RelayCommand(p => ExecuteRecuperarSenhaCommand("", ""));
+            LoginCommand = new RelayCommand<object>(ExecuteLoginCommand, CanExecuteLoginCommand);
+            RecuperarSenhaCommand = new RelayCommand<object>(p => ExecuteRecuperarSenhaCommand("", ""));
         }
 
         private void ExecuteLoginCommand(object obj)

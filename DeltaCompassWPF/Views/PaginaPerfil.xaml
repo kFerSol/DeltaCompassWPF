@@ -15,7 +15,7 @@
         <converters:BytesToImageBrushConverter x:Key="BytesToImageBrushConverter"/>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-
+        <converters:GameNameToImageConverter x:Key="GameNameToImageConverter"/>
     </Page.Resources>
 
     <Page.DataContext>
@@ -70,14 +70,20 @@
         <!--Lugar onde ficará os slots de configurações-->
         <ScrollViewer Grid.Row="3" Grid.Column="2" Grid.RowSpan="4" Margin="0, 0, 40, 15" 
                       VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <WrapPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <ItemsControl ItemsSource="{Binding Slots}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="2" BorderBrush="#2E2BC2" Width="130" Height="130"
                                     Padding="3" CornerRadius="10" Margin="20, 20, 0, 0" MouseDown="ItemsControl_MouseDown">
                                 <Button x:Name="btnJanelaSlot" BorderThickness="0" Foreground="Transparent" 
-                                        Click="btnSlot_Click">
+                                        Command="{Binding DataContext.AbrirJanelaSlotCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding}">
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}">
                                             <Setter Property="Background" Value="#161616" />
@@ -99,7 +105,7 @@
                                             </Setter>
                                         </Style>
                                     </Button.Style>
-                                    <Image Source="{Binding Imagem}" Width="50"/>
+                                    <Image Source="{Binding Nome, Converter={StaticResource GameNameToImageConverter}}" Width="50" Height="50"/>
                                 </Button>
                             </Border>
                         </DataTemplate>
@@ -109,7 +115,7 @@
                 <Border BorderThickness="2" BorderBrush="#2E2BC2" Width="130" Height="130"
                         Padding="3" CornerRadius="10" Margin="20, 20, 0, 0">
                     <Button x:Name="btnJanelaSlot" BorderThickness="0" Foreground="Transparent" 
-                            Click="BtnJanelaSlot_Click">
+                            Command="{Binding AbrirSalvarSlotCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#161616" />
@@ -134,34 +140,45 @@
                         <Image Source="../resource/plus-delta.png" Width="50"/>
                     </Button>
                 </Border>
-            </StackPanel>
+            </WrapPanel>
         </ScrollViewer>
 
+        <!--Página de perfil-->
+        <!--Para a responsividade, dividimos toda a UI do software em linhas e colunas-->
+
         <!--Nome do usuário-->
-        <Grid Grid.Row="3" Grid.Column="1">
-            <StackPanel>
+        <Grid Grid.Row="3" Grid.Column="1"> <!--Grid que define em qual linha e coluna 
+                                                esses elementos se encontram.
+                                                Nesse caso, na "linha 3" e "coluna 1".-->
+            
+            <StackPanel> <!--Paínel que engloba toda a região de nome do usuário.-->
                 <Border BorderThickness="0, 0, 0, 0.5" BorderBrush="White" Width="160">
                     <TextBlock Text="{Binding Apelido}" Foreground="white" FontFamily="..\fonts\#Poppins" 
                            FontWeight="Thin" FontSize="15" HorizontalAlignment="center" Padding="0, 2, 0, 0"/>
                 </Border>
-                <Label Content="Clã" Foreground="White" FontFamily="..\fonts\#Poppins" FontWeight="Thin" FontSize="13" 
+                <Label Content="Clã" Foreground="White" FontFamily="..\fonts\#Poppins" 
+                       FontWeight="Thin" FontSize="13" 
                        HorizontalAlignment="center"/>
             </StackPanel>
         </Grid>
         
         <!--Seguidores e seguindo-->
-        <Grid Grid.Row="4" Grid.Column="1">
+        <Grid Grid.Row="4" Grid.Column="1"> <!--Essa Grid separa a região de seguidores.-->
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="100" Foreground="White" FontFamily="..\fonts\#Poppins" FontWeight="Bold" 
+                    <Label Content="100" Foreground="White" FontFamily="..\fonts\#Poppins" 
+                           FontWeight="Bold" 
                            FontSize="15" HorizontalAlignment="center" Padding="0"/>
-                    <Label Content="Seguidores" Foreground="White" FontFamily="..\fonts\#Poppins" FontWeight="Thin" 
+                    <Label Content="Seguidores" Foreground="White" FontFamily="..\fonts\#Poppins" 
+                           FontWeight="Thin" 
                            FontSize="13" Padding="0" HorizontalAlignment="center"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="60, 0, 0, 0">
-                    <Label Content="100" Foreground="White" FontFamily="..\fonts\#Poppins" FontWeight="Bold" FontSize="15" 
+                    <Label Content="100" Foreground="White" FontFamily="..\fonts\#Poppins" 
+                           FontWeight="Bold" FontSize="15" 
                            HorizontalAlignment="center" Padding="0"/>
-                    <Label Content="Seguindo" Foreground="White" FontFamily="..\fonts\#Poppins" FontWeight="Thin" 
+                    <Label Content="Seguindo" Foreground="White" FontFamily="..\fonts\#Poppins" 
+                           FontWeight="Thin" 
                            FontSize="13" Padding="0" HorizontalAlignment="center"/>
                 </StackPanel>
             </StackPanel>
@@ -173,7 +190,8 @@
                 <Label Foreground="white" FontFamily="..\fonts\#Poppins" FontWeight="Regular" FontSize="15" 
                        HorizontalAlignment="center" Padding="0, 2, 0, 0" Content="Biografia"/>
                 <TextBlock Foreground="White" FontSize="13" FontFamily="..\fonts\#Poppins" FontWeight="Thin"
-                           HorizontalAlignment="Center" TextAlignment="Center" Padding="0" Text="{Binding Biografia}"
+                           HorizontalAlignment="Center" TextAlignment="Center" Padding="0" 
+                           Text="{Binding Biografia}"
                            TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>

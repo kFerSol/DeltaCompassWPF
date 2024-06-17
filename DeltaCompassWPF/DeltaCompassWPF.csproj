@@ -114,9 +114,11 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BytesToImageBrushConverter.cs" />
+    <Compile Include="Converters\GameNameToImageConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Database\Conexao.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />
+    <Compile Include="Helpers\AttachedBehavior.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Models\ISlotRepository.cs" />
@@ -143,6 +145,9 @@
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\JanelaAbrirSlot.xaml.cs">
       <DependentUpon>JanelaAbrirSlot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JanelaAviso.xaml.cs">
+      <DependentUpon>JanelaAviso.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\JanelaCadastro.xaml.cs">
       <DependentUpon>JanelaCadastro.xaml</DependentUpon>
@@ -205,6 +210,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\JanelaAbrirSlot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JanelaAviso.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -384,6 +393,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\switch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\copy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

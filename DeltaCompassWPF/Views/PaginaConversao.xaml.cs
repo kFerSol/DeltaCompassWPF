@@ -39,16 +39,27 @@ namespace DeltaCompassWPF.Views
 
         private void BordaAplicar_MouseEnter(object sender, MouseEventArgs e)
         {
-            bordaAplicar.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
             btnAplicar.Background = new SolidColorBrush(Color.FromArgb(250, 22, 20, 92));
             this.Cursor = Cursors.Hand;
         }
 
         private void BordaAplicar_MouseLeave(object sender, MouseEventArgs e)
         {
-            bordaAplicar.BorderBrush = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
             btnAplicar.Background = new SolidColorBrush(Color.FromArgb(250, 46, 43, 194));
             this.Cursor = Cursors.Arrow;
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var textBox = sender as TextBox;
+                if (textBox != null)
+                {
+                    TraversalRequest request = new TraversalRequest(FocusNavigationDirection.Next);
+                    textBox.MoveFocus(request);
+                }
+            }
         }
     }
 }

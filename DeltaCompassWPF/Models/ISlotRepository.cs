@@ -10,7 +10,7 @@ namespace DeltaCompassWPF.Models
     public interface ISlotRepository
     {
         void Add(SlotConfiguracao slot);
-        void Remove(SlotConfiguracao slot, int idUsuario);
-        void Edit(int idUsuario);
+        void Remove(SlotConfiguracao slot);
+        void Edit(SlotConfiguracao slot);
     }
 }

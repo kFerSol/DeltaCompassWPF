@@ -242,7 +242,7 @@ namespace DeltaCompassWPF.Repositories
                     connection.Open();
                     command.Connection = connection;
                     command.CommandText = @"
-                    SELECT s.vl_sensibilidade, s.cd_jogos, j.nm_jogo
+                    SELECT s.id_sensibilidade, s.vl_sensibilidade, s.cd_jogos, j.nm_jogo
                     FROM tb_sensibilidade s
                     JOIN tb_jogos j ON s.cd_jogos = j.id_jogos
                     WHERE s.cd_usuario = @UserId";
@@ -254,7 +254,8 @@ namespace DeltaCompassWPF.Repositories
                         {
                             var sensibilidade = new SlotConfiguracao
                             {
-                                Sensibilidade = reader.GetInt32("vl_sensibilidade"),
+                                IdSens = reader.GetInt32("id_sensibilidade"),
+                                Sensibilidade = reader.GetDouble("vl_sensibilidade"),
                                 IdJogo = reader.GetInt32("cd_jogos"),
                                 Nome = reader.GetString("nm_jogo")
                             };
@@ -316,27 +317,5 @@ namespace DeltaCompassWPF.Repositories
                 return null;
             }
         }
-
-        /*public SlotConfiguracao GetSensByUserId(Usuario user)
-        {
-            try
-            {
-                using (var connection = GetConnection())
-                using (var command = new MySqlCommand())
-                {
-                    connection.Open();
-                    command.Connection = connection;
-                    command.CommandText = "SELECT * FROM tb_sensibilidade" +
-                        "WHERE id_usuario = @UserID";
-                    command.Parameters.AddWithValue("@UserId", user.Id);
-                    
-                    using 
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine("{0}", ex);
-            }
-        }*/
     }
 }
