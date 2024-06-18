@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeltaCompassWPF.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,6 +53,27 @@ namespace DeltaCompassWPF.Views
         private void btnExcluir_MouseLeave(object sender, MouseEventArgs e)
         {
             this.Cursor = Cursors.Arrow;
+        }
+
+        private void TextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                NumericTextBoxBehavior.Attach(textBox);
+            }
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                e.Handled = !IsTextAllowed(e.Text);
+            }
+        }
+
+        private bool IsTextAllowed(string text)
+        {
+            return double.TryParse(text, out _) || text == "," || text == ".";
         }
     }
 }

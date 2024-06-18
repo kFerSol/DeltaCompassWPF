@@ -19,5 +19,6 @@ namespace DeltaCompassWPF.Models
         IEnumerable<Usuario> GetByAll();
         IEnumerable<SlotConfiguracao> GetSensibilidadeByUserId(int userId);
         int GetUserId(string nome);
+        List<Usuario> GetAllUsers(); 
     }
 }

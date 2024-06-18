@@ -24,7 +24,6 @@ namespace DeltaCompassWPF.Views
         public PaginaPerfil()
         {
             InitializeComponent();
-            DataContext = new PerfilViewModel();
         }
 
         private void btnSair_MouseEnter(object sender, MouseEventArgs e)

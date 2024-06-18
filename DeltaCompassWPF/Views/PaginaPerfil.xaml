@@ -105,7 +105,11 @@
                                             </Setter>
                                         </Style>
                                     </Button.Style>
-                                    <Image Source="{Binding Nome, Converter={StaticResource GameNameToImageConverter}}" Width="50" Height="50"/>
+                                    <Border BorderThickness="0"  Width="50" Height="50">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding Nome, Converter={StaticResource GameNameToImageConverter}}"/>
+                                        </Border.Background>
+                                    </Border>
                                 </Button>
                             </Border>
                         </DataTemplate>

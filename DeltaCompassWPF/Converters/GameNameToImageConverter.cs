@@ -20,36 +20,32 @@ namespace DeltaCompassWPF.Converters
 
             string imagePath;
 
-            if (gameName == "Apex Legends")
+            switch (gameName)
             {
-                imagePath = "../resource/apex-logo.png";
-            }
-            else if (gameName == "Counter Strike 2")
-            {
-                imagePath = "../resource/cslogo.png";
-            }
-            else if (gameName == "Call of Duty MWIII")
-            {
-                imagePath = "../resource/MWIII.png";
-            }
-            else if (gameName == "Portal 2")
-            {
-                imagePath = "../resource/portal-logo.png";
-            }
-            else if (gameName == "Rainbow Six Siege")
-            {
-                imagePath = "../resource/rainbow-logo.jpg";
-            }
-            else if (gameName == "Valorant")
-            {
-                imagePath = "../resource/valorant-logo.png";
-            }
-            else
-            {
-                imagePath = "../resource/delta-logo.png"; 
+                case "Apex Legends":
+                    imagePath = "pack://application:,,,/resource/apex-logo.png";
+                    break;
+                case "Counter Strike 2":
+                    imagePath = "pack://application:,,,/resource/cslogo.png";
+                    break;
+                case "Call of Duty MWIII":
+                    imagePath = "pack://application:,,,/resource/MWIII-logo.png";
+                    break;
+                case "Portal 2":
+                    imagePath = "pack://application:,,,/resource/portal-logo.png";
+                    break;
+                case "Rainbow Six Siege":
+                    imagePath = "pack://application:,,,/resource/rainbow-logo.jpg";
+                    break;
+                case "Valorant":
+                    imagePath = "pack://application:,,,/resource/valorant-logo.png";
+                    break;
+                default:
+                    imagePath = "pack://application:,,,/resource/delta-logo.png";
+                    break;
             }
 
-            return new BitmapImage(new Uri(imagePath, UriKind.Relative));
+            return new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)

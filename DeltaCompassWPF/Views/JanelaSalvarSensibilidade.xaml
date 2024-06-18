@@ -18,6 +18,7 @@
     </Window.DataContext>
 
     <Window.Resources>
+        <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <Style x:Key="GrayButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Gray" />
@@ -86,10 +87,10 @@
 
         <StackPanel Grid.Row="1" VerticalAlignment="Center"
                     Visibility="{Binding SensManual, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" HorizontalAlignment="Center">
-            <TextBlock Text="Arquivo não encontrado." Foreground="PaleVioletRed" FontSize="14" 
+            <TextBlock Text="{Binding MessagemErro}" Foreground="PaleVioletRed" FontSize="14" 
                        FontFamily="../fonts/#Poppins" HorizontalAlignment="Center"
                        VerticalAlignment="Center" Margin="0, 0, 0, 5"
-                       Visibility="{Binding MessagemErro, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                       Visibility="{Binding MessagemErro, Converter={StaticResource StringToVisibilityConverter}}"/>
 
             <Border BorderBrush="#2E2BC2" BorderThickness="2" Width="100" Height="100">
                 <Border.Background>

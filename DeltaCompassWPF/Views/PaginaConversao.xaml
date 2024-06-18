@@ -16,6 +16,15 @@
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <Style x:Key="StatusTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="PaleVioletRed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSensitivityApplied}" Value="True">
+                    <Setter Property="Foreground" Value="LightGreen"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
 
     <Page.DataContext>
@@ -227,10 +236,21 @@
                         <Image Source="../resource/switch.png" Width="25" Height="25"/>
                     </Button>
                 </StackPanel>
-                <Label Content="Resolução:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
-                       FontSize="16" Margin="0, 0, 0, 10"/>
-                <Label Content="Proporção:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
-                       FontSize="16" Margin="0, 0, 0, 10"/>
+                <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                    <Label Content="Resolução:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
+                           FontSize="16"/>
+                    <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" 
+                               Text="{Binding CurrentUser.ResolucaoX}" VerticalAlignment="Center"/>
+                    <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" 
+                               Text="x" VerticalAlignment="Center"
+                               Visibility="{Binding CurrentUser.ResolucaoX, Converter={StaticResource NullToVisibilityConverter}}"/>
+                    <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" 
+                               Text="{Binding CurrentUser.ResolucaoY}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                    <Label Content="Proporção:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
+                           FontSize="16"/>
+                </StackPanel>
                 <Label Content="Polegadas do Monitor:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White"
                        FontSize="16" Margin="0, 0, 0, 10"/>
             </StackPanel>
@@ -266,13 +286,17 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel>
-                <Label Content="Mouse DPI:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
-                       FontSize="16" Margin="0, 0, 0, 10"/>
-                
+                <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+                    <Label Content="Mouse DPI:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
+                           FontSize="16"/>
+                    <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" 
+                               Text="{Binding DPIMouse}" VerticalAlignment="Center"/>
+                </StackPanel>
+
                 <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
                     <Label Content="Sensibilidade:" FontWeight="Thin" FontFamily="..\fonts\#Poppins" Foreground="White" 
                            FontSize="16" />
-                    <TextBlock FontFamily="..\fonts\#Poppins" Foreground="White" FontSize="16" 
+                    <TextBlock FontFamily="..\fonts\#Poppins" FontSize="16" Style="{StaticResource StatusTextStyle}"
                                Text="{Binding Resultado}" VerticalAlignment="Center"/>
                 </StackPanel>
                 
@@ -286,35 +310,41 @@
         </StackPanel>
 
         <!--Botão de aplicar a conversão-->
-        <Button x:Name="btnAplicar" ToolTip="Aplicar sensibilidade" Background="#2E2BC2"
-                BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
-                Height="34" Width="140" Margin="0, 0, 20, 20" Grid.Row="3" Grid.Column="3"
-                MouseEnter="BordaAplicar_MouseEnter" MouseLeave="BordaAplicar_MouseLeave"
-                Command="{Binding AplicarSensCommand}">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#101010" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border x:Name="Border" BorderBrush="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#16145C" 
-                                                TargetName="Border"/>
-                                        <Setter Property="BorderBrush" Value="#16145C" 
-                                                TargetName="Border"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-            <Label Content="Aplicar" FontFamily="..\fonts\#ModeSeven" Foreground="White" 
-                   FontSize="15"/>
-        </Button>
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="3"
+                    Margin="0, 0, 20, 20" >
+            <Label Content="{Binding MessageError}" FontWeight="Thin" FontFamily="..\fonts\#Poppins"
+                   FontSize="14" Foreground="PaleVioletRed" 
+                   Visibility="{Binding MessageError, Converter={StaticResource StringToVisibilityConverter}}"/>
+            <Button x:Name="btnAplicar" ToolTip="Aplicar sensibilidade" Background="#2E2BC2"
+                    BorderThickness="0" HorizontalAlignment="Right"
+                    Height="34" Width="140" 
+                    MouseEnter="BordaAplicar_MouseEnter" MouseLeave="BordaAplicar_MouseLeave"
+                    Command="{Binding AplicarSensCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#101010" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="Border" BorderBrush="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#16145C" 
+                                                    TargetName="Border"/>
+                                            <Setter Property="BorderBrush" Value="#16145C" 
+                                                    TargetName="Border"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <Label Content="Aplicar" FontFamily="..\fonts\#ModeSeven" Foreground="White" 
+                       FontSize="15"/>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

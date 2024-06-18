@@ -317,5 +317,33 @@ namespace DeltaCompassWPF.Repositories
                 return null;
             }
         }
+
+        public List<Usuario> GetAllUsers()
+        {
+            var usuarios = new List<Usuario>();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT id_usuario, nm_cadastro, img_perfil FROM tb_usuario";
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var usuario = new Usuario
+                        {
+                            Id = reader.GetInt32("id_usuario"),
+                            Nome = reader.GetString("nm_cadastro"),
+                            ImagemPerfil = reader.IsDBNull(reader.GetOrdinal("img_perfil")) ? null : (byte[])reader["img_perfil"]
+                        };
+                        usuarios.Add(usuario);
+                    }
+                }
+            }
+
+            return usuarios;
+        }
     }
 }

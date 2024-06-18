@@ -116,10 +116,12 @@
     <Compile Include="Converters\BytesToImageBrushConverter.cs" />
     <Compile Include="Converters\GameNameToImageConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Database\Conexao.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="Helpers\AttachedBehavior.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Helpers\NumericTextBoxBehavior.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Models\ISlotRepository.cs" />
     <Compile Include="Models\IUserRepository.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Repositories\SlotRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\UserService.cs" />
+    <Compile Include="ViewModels\BuscasViewModel.cs" />
     <Compile Include="ViewModels\CadastrarViewModel.cs" />
     <Compile Include="ViewModels\ConversaoViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />

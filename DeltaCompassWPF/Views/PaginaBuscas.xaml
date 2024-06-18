@@ -4,12 +4,17 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DeltaCompassWPF.Views"
+      xmlns:viewmodel="clr-namespace:DeltaCompassWPF.ViewModels"
       xmlns:controls="clr-namespace:DeltaCompassWPF.Views.UserControls"
       xmlns:converters="clr-namespace:DeltaCompassWPF.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Background="#1C1C1C"
       Title="PaginaBuscas">
+
+    <Page.DataContext>
+        <viewmodel:BuscasViewModel/>
+    </Page.DataContext>
 
     <Page.Resources>
         <ResourceDictionary>
@@ -130,13 +135,55 @@
             <Image Source="..\resource\filter-deltaw.png" Width="40"/>
             <controls:ControlTextboxPesquisa/>
         </StackPanel>
-        <ScrollViewer Grid.Row="1" Grid.Column="1" Width="500" HorizontalAlignment="Left" Margin="20, 20, 20, 40"
-                      VerticalScrollBarVisibility="Auto">
+        <ScrollViewer HorizontalAlignment="Right" Margin="20, 20"
+                      VerticalScrollBarVisibility="Visible" Width="550" Grid.Row="1" Grid.Column="1">
             <ScrollViewer.Resources>
                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomScrollBarStyle}"/>
             </ScrollViewer.Resources>
             <Border Background="#272727" CornerRadius="15" BorderThickness="2" 
-                    BorderBrush="#2E2BC2" Width="450"/>
+                    BorderBrush="#2E2BC2" Margin="25, 0" Padding="2, 9">
+                <ListBox ItemsSource="{Binding Usuarios}" Width="500" Background="#272727"
+                         BorderThickness="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Padding" Value="5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Grid>
+                                            <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter/>
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0,1"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#161616"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Margin="10" Height="50" Width="50" BorderBrush="#2E2BC2" 
+                                        BorderThickness="1" CornerRadius="100"
+                                        Background="{Binding ImagemPerfil, Converter={StaticResource BytesToImageBrushConverter}}"/>
+                                <TextBlock Text="{Binding Nome}" VerticalAlignment="Center" Foreground="White"
+                                            FontFamily="../fonts/#Poppins" FontSize="14" FontWeight="Light"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
         </ScrollViewer>
     </Grid>
 </Page>

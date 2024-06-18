@@ -1,6 +1,7 @@
 ﻿ using DeltaCompassWPF.Commands;
 using DeltaCompassWPF.Models;
 using DeltaCompassWPF.Repositories;
+using DeltaCompassWPF.Views.UserControls;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Win32;
 using System;
@@ -11,11 +12,13 @@ using System.IO;
 using System.Linq;
 using System.Security.RightsManagement;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace DeltaCompassWPF.ViewModels
@@ -25,10 +28,10 @@ namespace DeltaCompassWPF.ViewModels
         private Jogo _jogoSelecionado;
         private SlotConfiguracao _slot;
         private ObservableCollection<SlotConfiguracao> _sensibilidades;
-        private double _sensibilidade;
-        private double _novaSensibilidade;
+        private string _sensibilidade;
+        private string _novaSensibilidade;
         private bool _sensManual = false;
-        private bool _messagemErro;
+        private string _messagemErro;
         private bool _isEditing;
 
         private IJogoRepository _jogoRepository;
@@ -49,7 +52,7 @@ namespace DeltaCompassWPF.ViewModels
             }
         }
 
-        public double NovaSensibilidade
+        public string NovaSensibilidade
         {
             get => _novaSensibilidade;
             set
@@ -59,7 +62,7 @@ namespace DeltaCompassWPF.ViewModels
             }
         }
 
-        public bool MessagemErro
+        public string MessagemErro
         {
             get => _messagemErro;
             set
@@ -79,7 +82,7 @@ namespace DeltaCompassWPF.ViewModels
             }
         }
 
-        public double Sensibilidade
+        public string Sensibilidade
         {
             get => _sensibilidade;
             set
@@ -166,16 +169,47 @@ namespace DeltaCompassWPF.ViewModels
             CarregarSensibilidades();
         }
 
+        private void MostrarNotificacao(string v)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var notification = new ControlNotificacao { Message = v };
+                var mainWindow = Application.Current.MainWindow as MainWindow;
+                if (mainWindow != null)
+                {
+                    var notificationContainer = mainWindow.NotificationContainer;
+                    notificationContainer.Children.Add(notification);
+
+                    var slideInAnimation = mainWindow.FindResource("SlideInAnimation") as Storyboard;
+                    if (slideInAnimation != null)
+                    {
+                        Storyboard.SetTarget(slideInAnimation, notification);
+                        slideInAnimation.Begin();
+                    }
+
+                    Task.Delay(3000).ContinueWith(_ =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            notificationContainer.Children.Remove(notification);
+                        });
+                    });
+                }
+            });
+        }
+
         private void ExecuteAplicarSensCommand(object obj)
         {
+            string filename, config;
+            bool fileFound = false;
+            DriveInfo[] discos = DriveInfo.GetDrives();
+
             switch (Slot.Nome)
             {
                 case "Apex Legends":
-                    string filename = "Saved Games\\Respawn\\Apex\\Local\\settings.cfg";
-                    string config = "mouse_sensitivity";
+                    filename = "Saved Games\\Respawn\\Apex\\Local\\settings.cfg";
+                    config = "mouse_sensitivity";
 
-                    DriveInfo[] discos = DriveInfo.GetDrives();
-                    bool fileFound = false;
                     foreach (DriveInfo disco in discos)
                     {
                         if (disco.IsReady && disco.DriveType == DriveType.Fixed)
@@ -196,6 +230,7 @@ namespace DeltaCompassWPF.ViewModels
                                         File.WriteAllText(userPath, procurarLinha);
                                         Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
                                         fileFound = true;
+                                        MostrarNotificacao("Sensibilidade Aplicada!");
                                         break;
                                     }
                                 }
@@ -204,18 +239,190 @@ namespace DeltaCompassWPF.ViewModels
                                 break;
                         }
                     }
+                    if (!fileFound)
+                    {
+                        MessagemErro = "Não foi possível encontrar o arquivo de configuração!" +
+                            " Por favor, insira manualmente essa sensibilidade ao seu jogo.";
+                    }
+                    break;
+
+                case "Rainbow Six Siege":
+                    filename = "GameSettings.ini";
+                    config = "MouseSensitivityMultiplierUnit";
+
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string caminho = Path.Combine(disco.RootDirectory.FullName, "Users");
+                            if (Directory.Exists(caminho))
+                            {
+                                foreach (string userDir in Directory.GetDirectories(caminho))
+                                {
+                                    string userPath = Path.Combine(caminho, userDir, "Documents", "My Games", "Rainbow Six - Siege");
+                                    if (Directory.Exists(userPath))
+                                    {
+                                        string filePath = ProcurarCaminho(filename, userPath);
+                                        if (File.Exists(filePath))
+                                        {
+                                            string sens = Slot.Sensibilidade.ToString();
+                                            sens = sens.Replace(",", ".");
+                                            string sensOriginal = ProcurarSens(filePath, config);
+                                            string procurarLinha = File.ReadAllText(filePath);
+                                            procurarLinha = procurarLinha.Replace(config + "=" + sensOriginal, config + "=" + sens);
+                                            File.WriteAllText(userPath, procurarLinha);
+                                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                                            fileFound = true;
+                                            MostrarNotificacao("Sensibilidade Aplicada!");
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            if (fileFound)
+                                break;
+                        }
+                    }
+                    if (!fileFound)
+                    {
+                        MessagemErro = "Não foi possível encontrar o arquivo de configuração!" +
+                            " Por favor, insira manualmente essa sensibilidade ao seu jogo.";
+                    }
+                    break;
+
+                case "Call of Duty MWIII":
+                    filename = "gamerprofile.0.BASE.cst";
+                    config = "MouseHorizontalSensibility:0.0";
+
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string caminho = Path.Combine(disco.RootDirectory.FullName, "Users");
+                            if (Directory.Exists(caminho))
+                            {
+                                foreach (string userDir in Directory.GetDirectories(caminho))
+                                {
+                                    string userPath = Path.Combine(caminho, userDir, "Documents", "Call of Duty", "players");
+                                    if (Directory.Exists(userPath))
+                                    {
+                                        string filePath = ProcurarCaminho(filename, userPath);
+                                        if (File.Exists(filePath))
+                                        {
+                                            string sens = Slot.Sensibilidade.ToString();
+                                            sens = sens.Replace(",", ".");
+                                            string sensOriginal = ProcurarSens(filePath, config);
+                                            string procurarLinha = File.ReadAllText(filePath);
+                                            procurarLinha = procurarLinha.Replace(config + " = " + sensOriginal, config + " = \"" + sens + "\"");
+                                            File.WriteAllText(filePath, procurarLinha);
+                                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                                            fileFound = true;
+                                            MostrarNotificacao("Sensibilidade Aplicada!");
+                                            break;
+                                        }
+                                    }
+                                    if (fileFound)
+                                        break;
+                                }
+                            }
+                        }
+                        if (fileFound)
+                            break;
+                    }
+                    if (!fileFound)
+                    {
+                        MessagemErro = "Não foi possível encontrar o arquivo de configuração!" +
+                            " Por favor, insira manualmente essa sensibilidade ao seu jogo.";
+                    }
+                    break;
+
+                case "Counter Strike 2":
+                    filename = @"cs2_user_convars_0_slot0.vcfg";
+                    config = "\"sensitivity\"";
+
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string caminho = Path.Combine(disco.RootDirectory.FullName, "Program Files (x86)", "Steam", "userdata");
+                            string filePath = ProcurarCaminho(filename, caminho);
+                            if (File.Exists(filePath))
+                            {
+                                string sens = Slot.Sensibilidade.ToString(CultureInfo.InvariantCulture);
+                                string fileContent = File.ReadAllText(filePath);
+
+                                string pattern = $@"{config}\s*""[^""]*""";
+                                string replacement = $"{config} \"{sens}\"";
+
+                                string newContent = Regex.Replace(fileContent, pattern, replacement);
+
+                                File.WriteAllText(filePath, newContent);
+                                Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                                fileFound = true;
+                                MostrarNotificacao("Sensibilidade Aplicada!");
+                                break;
+                            }
+                            if (fileFound)
+                                break;
+                        }
+                    }
+                    if (!fileFound)
+                    {
+                        MessagemErro = "Não foi possível encontrar o arquivo de configuração!" +
+                            " Por favor, insira manualmente essa sensibilidade ao seu jogo.";
+                    }
+                    break;
+
+                case "Portal 2":
+                    filename = "config.cfg";
+                    config = "sensitivity";
+
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string caminho = Path.Combine(disco.RootDirectory.FullName, "Program Files (x86)", "Steam", "steamapps", "common", "Portal 2", "portal2", "cfg");
+                            string filePath = ProcurarCaminho(filename, caminho);
+                            if (File.Exists(filePath))
+                            {
+                                string sens = Slot.Sensibilidade.ToString();
+                                sens = sens.Replace(",", ".");
+                                string sensOriginal = ProcurarSens(filePath, config);
+                                string procurarLinha = File.ReadAllText(filePath);
+                                procurarLinha = procurarLinha.Replace(config + " " + sensOriginal, "sensitivity \"" + sens + "\"");
+                                File.WriteAllText(filePath, procurarLinha);
+                                Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                                fileFound = true;
+                                MostrarNotificacao("Sensibilidade Aplicada!");
+                                break;
+                            }
+                            if (fileFound)
+                                break;
+                        }
+                    }
+                    if (!fileFound)
+                    {
+                        MessagemErro = "Não foi possível encontrar o arquivo de configuração!" +
+                            " Por favor, insira manualmente essa sensibilidade ao seu jogo.";
+                    }
+                    break;
+
+                case "Valorant":
+                    if (!fileFound)
+                    {
+                        MessagemErro = "Não temos permissão para alterar o arquivo de configuração!" +
+                            " Por favor, insira manualmente essa sensibilidade ao seu jogo.";
+                    }
                     break;
             }
         }
 
         private void ExecuteEdicaoSensCommand(object obj)
-        {
-            if(NovaSensibilidade != 0)
-            {
-                Slot.Sensibilidade = NovaSensibilidade;
-                _slotRepository.Edit(Slot);
-                Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
-            }
+        { 
+            Slot.Sensibilidade = double.Parse(NovaSensibilidade);
+            _slotRepository.Edit(Slot);
+            MostrarNotificacao("Sensibilidade Salva!");
+            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
         }
 
         private void ExecuteToggleEditarCommand(object obj)
@@ -290,7 +497,7 @@ namespace DeltaCompassWPF.ViewModels
         public void AtivarSensManual()
         {
             SensManual = true;
-            MessagemErro = false;
+            MessagemErro = null;
         }
 
         private string GetLogo(string nomeJogo)
@@ -364,33 +571,20 @@ namespace DeltaCompassWPF.ViewModels
         {
             string filename;
             string config;
+            bool fileFound = false;
+            DriveInfo[] discos = DriveInfo.GetDrives();
+
             switch (_jogoSelecionado.Nome)
             {
-                case "Counter Strike 2":
-                    //filename = @"\sens.cfg";
-                    config = "sensitivity";
-
-                    DriveInfo[] discos = DriveInfo.GetDrives();
-                    foreach (DriveInfo disco in discos)
-                    {
-                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
-                        {
-                            string path = Path.Combine(disco.RootDirectory.FullName, "Program Files (x86)", "Steam", "steamapps", "common", "Counter-Strike Global Offensive", "game", "csgo", "cfg");
-                            if (Directory.Exists(path))
-                            {
-                                _slot.Sensibilidade = double.Parse(ProcurarSens(path, config));
-                            }
-                        }
-                    }
-                    break;
                 case "Apex Legends":
-                    filename = "\\Saved Games\\Respawn\\Apex\\Local\\settings.cfg";
+                    filename = "Saved Games\\Respawn\\Apex\\Local\\settings.cfg";
                     config = "mouse_sensitivity";
 
                     discos = DriveInfo.GetDrives();
-                    bool fileFound = false;
                     foreach (DriveInfo disco in discos)
                     {
+                        if (SensManual) break;
+
                         if (disco.IsReady && disco.DriveType == DriveType.Fixed)
                         {
                             string caminho = Path.Combine(disco.RootDirectory.FullName, "Users");
@@ -413,6 +607,7 @@ namespace DeltaCompassWPF.ViewModels
                                         SlotAdded?.Invoke(this, EventArgs.Empty);
                                         Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
                                         fileFound = true;
+                                        MostrarNotificacao("Sensibilidade Salva!");
                                         break;
                                     }
                                 }
@@ -425,24 +620,313 @@ namespace DeltaCompassWPF.ViewModels
                     {
                         _slot = new SlotConfiguracao
                         {
-                            Sensibilidade = Sensibilidade,
+                            Sensibilidade = double.Parse(Sensibilidade),
                             Imagem = "../resource/apex-logo.png",
                             Nome = "Apex Legends",
                             IdUser = CurrentUser.Id,
                             IdJogo = 1
                         };
-                        if (Sensibilidade != 0)
+                        if (double.Parse(Sensibilidade) != 0)
                         {
                             _slotRepository.Add(_slot);
                             SlotAdded?.Invoke(this, EventArgs.Empty);
                             Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                            MostrarNotificacao("Sensibilidade Salva!");
                         }
                     }
                     else
                     {
                         if (!fileFound)
-                            MessagemErro = true;
+                            MessagemErro = "Arquivo não encontrado!";
                         SensManual = true;
+                    }
+                    break;
+
+                case "Rainbow Six Siege":
+                    filename = "GameSettings.ini";
+                    config = "MouseSensitivityMultiplierUnit";
+
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (SensManual) break;
+
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string caminho = Path.Combine(disco.RootDirectory.FullName, "Users");
+                            if (Directory.Exists(caminho))
+                            {
+                                foreach (string userDir in Directory.GetDirectories(caminho))
+                                {
+                                    string userPath = Path.Combine(caminho, userDir, "Documents", "My Games", "Rainbow Six - Siege");
+                                    if (Directory.Exists(userPath))
+                                    {
+                                        string filePath = ProcurarCaminho(filename, userPath);
+                                        if (File.Exists(filePath))
+                                        {
+                                            _slot = new SlotConfiguracao
+                                            {
+                                                Sensibilidade = double.Parse(ProcurarSens(filePath, config), CultureInfo.InvariantCulture),
+                                                Imagem = "../resource/rainbow-logo.jpg",
+                                                Nome = "Rainbow Six Siege",
+                                                IdUser = CurrentUser.Id,
+                                                IdJogo = 5
+                                            };
+                                            _slotRepository.Add(_slot);
+                                            SlotAdded?.Invoke(this, EventArgs.Empty);
+                                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                                            fileFound = true;
+                                            MostrarNotificacao("Sensibilidade Salva!");
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            if (fileFound)
+                                break;
+                        }
+                    }
+                    if (SensManual == true)
+                    {
+                        _slot = new SlotConfiguracao
+                        {
+                            Sensibilidade = double.Parse(Sensibilidade),
+                            Imagem = "../resource/rainbow-logo.jpg",
+                            Nome = "Rainbow Six Siege",
+                            IdUser = CurrentUser.Id,
+                            IdJogo = 5
+                        };
+                        if (double.Parse(Sensibilidade) != 0)
+                        {
+                            _slotRepository.Add(_slot);
+                            SlotAdded?.Invoke(this, EventArgs.Empty);
+                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                            MostrarNotificacao("Sensibilidade Salva!");
+                        }
+                    }
+                    else
+                    {
+                        if (!fileFound)
+                            MessagemErro = "Arquivo não encontrado!";
+                        SensManual = true;
+                    }
+                    break;
+
+                case "Call of Duty MWIII":
+                    filename = "gamerprofile.0.BASE.cst";
+                    config = "MouseHorizontalSensibility:0.0";
+
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (SensManual) break;
+
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string caminho = Path.Combine(disco.RootDirectory.FullName, "Users");
+                            if (Directory.Exists(caminho))
+                            {
+                                foreach (string userDir in Directory.GetDirectories(caminho))
+                                {
+                                    string userPath = Path.Combine(caminho, userDir, "Documents", "Call of Duty", "players");
+                                    if (Directory.Exists(userPath))
+                                    {
+                                        string filePath = ProcurarCaminho(filename, userPath);
+                                        if (File.Exists(filePath))
+                                        {
+                                            _slot = new SlotConfiguracao
+                                            {
+                                                Sensibilidade = double.Parse(ProcurarSens(filePath, config).Trim('"'), CultureInfo.InvariantCulture),
+                                                Imagem = "../resource/MWIII-logo.png",
+                                                Nome = "Call of Duty MWIII",
+                                                IdUser = CurrentUser.Id,
+                                                IdJogo = 2
+                                            };
+                                            _slotRepository.Add(_slot);
+                                            SlotAdded?.Invoke(this, EventArgs.Empty);
+                                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                                            fileFound = true;
+                                            MostrarNotificacao("Sensibilidade Salva!");
+                                            break;
+                                        }
+                                    }
+                                    if (fileFound)
+                                        break;
+                                }
+                            }
+                        }
+                        if (fileFound)
+                            break;
+                    }
+                    if (SensManual == true)
+                    {
+                        _slot = new SlotConfiguracao
+                        {
+                            Sensibilidade = double.Parse(Sensibilidade),
+                            Imagem = "../resource/MWIII-logo.png",
+                            Nome = "Call of Duty MWIII",
+                            IdUser = CurrentUser.Id,
+                            IdJogo = 2
+                        };
+                        if (double.Parse(Sensibilidade) != 0)
+                        {
+                            _slotRepository.Add(_slot);
+                            SlotAdded?.Invoke(this, EventArgs.Empty);
+                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                            MostrarNotificacao("Sensibilidade Salva!");
+                        }
+                    }
+                    else
+                    {
+                        if (!fileFound)
+                            MessagemErro = "Arquivo não encontrado!";
+                        SensManual = true;
+                    }
+                    break;
+
+                case "Counter Strike 2":
+                    filename = @"cs2_user_convars_0_slot0.vcfg";
+                    config = "\"sensitivity\"";
+
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (SensManual) break;
+
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string caminho = Path.Combine(disco.RootDirectory.FullName, "Program Files (x86)", "Steam", "userdata");
+                            string filePath = ProcurarCaminho(filename, caminho);
+                            if (File.Exists(filePath))
+                            {
+                                string sens = ProcurarSens(filePath, config);
+                                if (sens != null && sens != "")
+                                {
+                                    _slot = new SlotConfiguracao
+                                    {
+                                        Sensibilidade = double.Parse(sens.Trim('"'), CultureInfo.InvariantCulture),
+                                        Imagem = "../resource/cslogo.png",
+                                        Nome = "Counter Strike 2",
+                                        IdUser = CurrentUser.Id,
+                                        IdJogo = 3
+                                    };
+                                    _slotRepository.Add(_slot);
+                                    SlotAdded?.Invoke(this, EventArgs.Empty);
+                                    Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                                    fileFound = true;
+                                    MostrarNotificacao("Sensibilidade Salva!");
+                                    break;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            if (fileFound)
+                                break;
+                        }
+                    }
+                    if (SensManual == true)
+                    {
+                        _slot = new SlotConfiguracao
+                        {
+                            Sensibilidade = double.Parse(Sensibilidade),
+                            Imagem = "../resource/cslogo.png",
+                            Nome = "Counter Strike 2",
+                            IdUser = CurrentUser.Id,
+                            IdJogo = 3
+                        };
+                        if (double.Parse(Sensibilidade) != 0)
+                        {
+                            _slotRepository.Add(_slot);
+                            SlotAdded?.Invoke(this, EventArgs.Empty);
+                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                            MostrarNotificacao("Sensibilidade Salva!");
+                        }
+                    }
+                    else
+                    {
+                        if (!fileFound)
+                            MessagemErro = "Arquivo não encontrado!";
+                        SensManual = true;
+                    }
+                    break;
+
+                case "Portal 2":
+                    filename = "config.cfg";
+                    config = "sensitivity";
+
+                    foreach (DriveInfo disco in discos)
+                    {
+                        if (SensManual) break;
+
+                        if (disco.IsReady && disco.DriveType == DriveType.Fixed)
+                        {
+                            string caminho = Path.Combine(disco.RootDirectory.FullName, "Program Files (x86)", "Steam", "steamapps", "common", "Portal 2", "portal2", "cfg");
+                            string filePath = ProcurarCaminho(filename, caminho);
+                            if (File.Exists(filePath))
+                            {
+                                _slot = new SlotConfiguracao
+                                {
+                                    Sensibilidade = double.Parse(ProcurarSens(filePath, config), CultureInfo.InvariantCulture),
+                                    Imagem = "../resource/portal-logo.png",
+                                    Nome = "Portal 2",
+                                    IdUser = CurrentUser.Id,
+                                    IdJogo = 4
+                                };
+                                _slotRepository.Add(_slot);
+                                SlotAdded?.Invoke(this, EventArgs.Empty);
+                                Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                                fileFound = true;
+                                MostrarNotificacao("Sensibilidade Salva!");
+                                break;
+                            }
+                            if (fileFound)
+                                break;
+                        }
+                    }
+                    if (SensManual == true)
+                    {
+                        _slot = new SlotConfiguracao
+                        {
+                            Sensibilidade = double.Parse(Sensibilidade),
+                            Imagem = "../resource/portal-logo.png",
+                            Nome = "Portal 2",
+                            IdUser = CurrentUser.Id,
+                            IdJogo = 4
+                        };
+                        if (double.Parse(Sensibilidade) != 0)
+                        {
+                            _slotRepository.Add(_slot);
+                            SlotAdded?.Invoke(this, EventArgs.Empty);
+                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                            MostrarNotificacao("Sensibilidade Salva!");
+                        }
+                    }
+                    else
+                    {
+                        if (!fileFound)
+                            MessagemErro = "Arquivo não encontrado!";
+                        SensManual = true;
+                    }
+                    break;
+
+                case "Valorant":
+                    SensManual = true;
+                    if (SensManual == true)
+                    {
+                        _slot = new SlotConfiguracao
+                        {
+                            Sensibilidade = double.Parse(Sensibilidade),
+                            Imagem = "../resource/valorant-logo.png",
+                            Nome = "Valorant",
+                            IdUser = CurrentUser.Id,
+                            IdJogo = 6
+                        };
+                        if (double.Parse(Sensibilidade) != 0)
+                        {
+                            _slotRepository.Add(_slot);
+                            SlotAdded?.Invoke(this, EventArgs.Empty);
+                            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+                            MostrarNotificacao("Sensibilidade Salva!");
+                        }
                     }
                     break;
             }
@@ -491,10 +975,29 @@ namespace DeltaCompassWPF.ViewModels
             {
                 if (linha.Contains(configDesejada))
                 {
+                    if (configDesejada == "\"sensitivity\"") 
+                    {
+                        string linhaSemEspacosExtras = System.Text.RegularExpressions.Regex.Replace(linha, @"\s+", " ");
+
+                        string[] palavrasCs = linhaSemEspacosExtras.Split(' ');
+
+                        int index = Array.IndexOf(palavrasCs, configDesejada);
+
+                        if (index != -1 && index + 1 < palavrasCs.Length)
+                        {
+                            string sens = palavrasCs[index + 1];
+                            return sens;
+                        }
+                    }
+
                     string[] palavras = linha.Split(' ', (char)StringSplitOptions.RemoveEmptyEntries); 
                     if (palavras.Length > 1)
                     {
-                        string sens = palavras[1];
+                        string sens;
+                        if (palavras[1] == "=")
+                            sens = palavras[2];
+                        else
+                            sens = palavras[1];
                         return sens;
                     }
                 }

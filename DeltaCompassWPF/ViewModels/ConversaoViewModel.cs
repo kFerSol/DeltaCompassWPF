@@ -2,16 +2,20 @@
 using DeltaCompassWPF.Models;
 using DeltaCompassWPF.Repositories;
 using DeltaCompassWPF.Views;
+using DeltaCompassWPF.Views.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace DeltaCompassWPF.ViewModels
 {
@@ -21,7 +25,7 @@ namespace DeltaCompassWPF.ViewModels
 
         private Jogo _jogoSelecionado1;
         private Jogo _jogoSelecionado2;
-        private double _sensibilidade;
+        private string _sensibilidade;
         private int _dpiMouse;
         private ObservableCollection<SlotConfiguracao> _sensibilidades;
         private SlotConfiguracao _sensibilidadeAtual;
@@ -35,9 +39,31 @@ namespace DeltaCompassWPF.ViewModels
         private bool _dpiSalvoVisibilidade;
         private int _dpiSalvo;
         private double _resultado;
-        private double _sensTemporaria;
+        private string _sensTemporaria;
         private int _dpiTemporaria;
+        private string _messageError;
+        private bool _isSensitivityApplied;
         
+        public bool IsSensitivityApplied
+        {
+            get { return _isSensitivityApplied; }
+            set
+            {
+                _isSensitivityApplied = value;
+                OnPropertyChanged(nameof(IsSensitivityApplied));
+            }
+        }
+
+        public string MessageError
+        {
+            get { return _messageError; }
+            set 
+            {
+                _messageError = value;
+                OnPropertyChanged(nameof(MessageError));
+            }
+        }
+
         public int DpiTemporaria
         {
             get { return _dpiTemporaria; }
@@ -49,7 +75,7 @@ namespace DeltaCompassWPF.ViewModels
             }
         }
 
-        public double SensTemporaria
+        public string SensTemporaria
         {
             get { return _sensTemporaria; }
             set 
@@ -189,10 +215,11 @@ namespace DeltaCompassWPF.ViewModels
                 _jogoSelecionado2 = value;
                 OnPropertyChanged(nameof(JogoSelecionado2));
                 OnPropertyChanged(nameof(LogoPath2));
+                AtualizarSensStatus(false);
                 AtualizarResultado();
             }
         }
-        public double Sensibilidade
+        public string Sensibilidade
         {
             get => _sensibilidade;
             set
@@ -230,6 +257,8 @@ namespace DeltaCompassWPF.ViewModels
         public ICommand AplicarSensCommand { get; }
         public ICommand CopiarSensCommand { get; }
 
+        public event EventHandler SlotSalvo;
+
         public ConversaoViewModel()
         {
             _userRepository = new UserRepository();
@@ -249,6 +278,41 @@ namespace DeltaCompassWPF.ViewModels
             CopiarSensCommand = new RelayCommand<object>(ExecuteCopiarSensCommand);
             CarregarJogos();
             CarregarSensibilidades();
+        }
+
+        private void AtualizarSensStatus(bool isApplied)
+        {
+            IsSensitivityApplied = isApplied;
+        }
+
+        private void MostrarNotificacao(string v)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var notification = new ControlNotificacao { Message = v };
+                var mainWindow = Application.Current.MainWindow as MainWindow;
+                if (mainWindow != null)
+                {
+                    var notificationContainer = mainWindow.NotificationContainer;
+                    notificationContainer.Children.Add(notification);
+
+                    var slideInAnimation = mainWindow.FindResource("SlideInAnimation") as Storyboard;
+                    if (slideInAnimation != null)
+                    {
+                        Storyboard.SetTarget(slideInAnimation, notification);
+                        slideInAnimation.Begin();
+                    }
+
+                    Task.Delay(3000).ContinueWith(_ =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            notificationContainer.Children.Remove(notification);
+                        });
+                    });
+                }
+                AtualizarSensStatus(true);
+            });
         }
 
         private void ExecuteCopiarSensCommand(object obj)
@@ -302,6 +366,8 @@ namespace DeltaCompassWPF.ViewModels
                                         string procurarLinha = File.ReadAllText(userPath);
                                         procurarLinha = procurarLinha.Replace(config + " " + sensOriginal, config + " " + sens);
                                         File.WriteAllText(userPath, procurarLinha);
+                                        MostrarNotificacao("Sensibilidade Aplicada!");
+                                        MessageError = null;
                                         fileFound = true;
                                         break;
                                     }
@@ -311,9 +377,14 @@ namespace DeltaCompassWPF.ViewModels
                                 break;
                         }
                     }
+                    AtualizarSensStatus(fileFound);
+                    if (!fileFound)
+                    {
+                        MessageError = "Arquivo não encontrado.";
+                    }
                     break;
 
-                /*case "Rainbow Six Siege":
+                case "Rainbow Six Siege":
                     filename = "GameSettings.ini";
                     config = "MouseSensitivityMultiplierUnit";
 
@@ -336,14 +407,26 @@ namespace DeltaCompassWPF.ViewModels
                                             sens = sens.Replace(",", ".");
                                             string sensOriginal = ProcurarSens(filePath, config);
                                             string procurarLinha = File.ReadAllText(filePath);
-                                            procurarLinha = procurarLinha.Replace(config + "=" + sensOriginal);
+                                            procurarLinha = procurarLinha.Replace(config + "=" + sensOriginal, config + "=" + sens);
+                                            File.WriteAllText(userPath, procurarLinha);
+                                            MostrarNotificacao("Sensibilidade Aplicada!");
+                                            MessageError = null;
+                                            fileFound = true;
+                                            break;
                                         }
                                     }
                                 }
                             }
+                            if (fileFound)
+                                break;
                         }
                     }
-                break;*/
+                    AtualizarSensStatus(fileFound);
+                    if (!fileFound)
+                    {
+                        MessageError = "Sensibilidade não encontrada.";
+                    }
+                    break;
 
                 case "Call of Duty MWIII":
                     filename = "gamerprofile.0.BASE.cst";
@@ -370,6 +453,8 @@ namespace DeltaCompassWPF.ViewModels
                                             string procurarLinha = File.ReadAllText(filePath);
                                             procurarLinha = procurarLinha.Replace(config + " = " + sensOriginal, config + " = \"" + sens + "\"");
                                             File.WriteAllText(filePath, procurarLinha);
+                                            MostrarNotificacao("Sensibilidade Aplicada!");
+                                            MessageError = null;
                                             fileFound = true;
                                             break;
                                         }
@@ -382,10 +467,16 @@ namespace DeltaCompassWPF.ViewModels
                         if (fileFound)
                             break;
                     }
+                    AtualizarSensStatus(fileFound);
+                    if (!fileFound)
+                    {
+                        MessageError = "Sensibilidade não encontrada.";
+                    }
                     break;
+
                 case "Counter Strike 2":
                     filename = @"cs2_user_convars_0_slot0.vcfg";
-                    config = "sensitivity";
+                    config = "\"sensitivity\"";
 
                     foreach (DriveInfo disco in discos)
                     {
@@ -395,12 +486,17 @@ namespace DeltaCompassWPF.ViewModels
                             string filePath = ProcurarCaminho(filename, caminho);
                             if (File.Exists(filePath))
                             {
-                                string sens = Resultado.ToString();
-                                sens = sens.Replace(",", ".");
-                                string sensOriginal = ProcurarSens(filePath, config);
-                                string procurarLinha = File.ReadAllText(filePath);
-                                procurarLinha = procurarLinha.Replace(config + " " + sensOriginal, "sensitivity \"" + sens + "\"");
-                                File.WriteAllText(filePath, procurarLinha);
+                                string sens = Resultado.ToString(CultureInfo.InvariantCulture);
+                                string fileContent = File.ReadAllText(filePath);
+
+                                string pattern = $@"{config}\s*""[^""]*""";
+                                string replacement = $"{config} \"{sens}\"";
+
+                                string newContent = Regex.Replace(fileContent, pattern, replacement);
+
+                                File.WriteAllText(filePath, newContent);
+                                MostrarNotificacao("Sensibilidade Aplicada!");
+                                MessageError = null;
                                 fileFound = true;
                                 break;
                             }
@@ -408,7 +504,13 @@ namespace DeltaCompassWPF.ViewModels
                                 break;
                         }
                     }
+                    AtualizarSensStatus(fileFound);
+                    if (!fileFound)
+                    {
+                        MessageError = "Sensibilidade não encontrada.";
+                    }
                     break;
+
                 case "Portal 2":
                     filename = "config.cfg";
                     config = "sensitivity";
@@ -427,6 +529,8 @@ namespace DeltaCompassWPF.ViewModels
                                 string procurarLinha = File.ReadAllText(filePath);
                                 procurarLinha = procurarLinha.Replace(config + " " + sensOriginal, "sensitivity \"" + sens + "\"");
                                 File.WriteAllText(filePath, procurarLinha);
+                                MostrarNotificacao("Sensibilidade Aplicada!");
+                                MessageError = null;
                                 fileFound = true; 
                                 break;
                             }
@@ -434,7 +538,13 @@ namespace DeltaCompassWPF.ViewModels
                                 break;
                         }
                     }
+                    AtualizarSensStatus(fileFound);
+                    if (!fileFound)
+                    {
+                        MessageError = "Sensibilidade não encontrada.";
+                    }
                     break;
+
                 case "Valorant":
                     AbrirJanelaAviso(Resultado);
                     break;
@@ -483,12 +593,12 @@ namespace DeltaCompassWPF.ViewModels
                 
                 if (IsLoggedIn)
                 {
-                    sens = SensibilidadeAtual?.Sensibilidade ?? Sensibilidade;
+                    sens = SensibilidadeAtual?.Sensibilidade ?? double.Parse(Sensibilidade);
                     dpi = DpiSalvo != 0 ? DpiSalvo : DpiTemporaria;
                 }
                 else
                 {
-                    sens = SensTemporaria != 0 ? SensTemporaria : SensInserida;
+                    sens = double.Parse(SensTemporaria) != 0 ? double.Parse(SensTemporaria) : SensInserida;
                     dpi = DpiTemporaria;
                 }
 
@@ -610,19 +720,20 @@ namespace DeltaCompassWPF.ViewModels
             var novaSensibilidade = new SlotConfiguracao
             {
                 IdJogo = JogoSelecionado1.Id,
-                Sensibilidade = Sensibilidade,
+                Sensibilidade = double.Parse(Sensibilidade),
                 IdUser = CurrentUser.Id
             };
             await Task.Run(() => _slotRepository.Add(novaSensibilidade));
             CarregarSensibilidades();
             AtualizarResultado();
+            SlotSalvo?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnUserChanged(Usuario user)
         {
             OnPropertyChanged(nameof(IsLoggedIn));
             OnPropertyChanged(nameof(CurrentUser));
-            SensTemporaria = 0;
+            SensTemporaria = "0";
             DpiTemporaria = 0;
             CarregarSensibilidades();
         }
@@ -681,7 +792,7 @@ namespace DeltaCompassWPF.ViewModels
                 else
                 {
                     SensibilidadeAtual = null;
-                    Sensibilidade = 0;
+                    Sensibilidade = null;
                     SensSalvaVisibilidade = false;
                     SensVisibilidade = true;
                     AlternarSensVisibilidade = false;
@@ -690,7 +801,7 @@ namespace DeltaCompassWPF.ViewModels
             else
             {
                 SensibilidadeAtual = null;
-                Sensibilidade = 0;
+                Sensibilidade = null;
                 SensSalvaVisibilidade = false;
                 SensVisibilidade = true;
                 AlternarSensVisibilidade = false;
@@ -738,6 +849,21 @@ namespace DeltaCompassWPF.ViewModels
             {
                 if (linha.Contains(configDesejada))
                 {
+                    if (configDesejada == "\"sensitivity\"")
+                    {
+                        string linhaSemEspacosExtras = System.Text.RegularExpressions.Regex.Replace(linha, @"\s+", " ");
+
+                        string[] palavrasCs = linhaSemEspacosExtras.Split(' ');
+
+                        int index = Array.IndexOf(palavrasCs, configDesejada);
+
+                        if (index != -1 && index + 1 < palavrasCs.Length)
+                        {
+                            string sens = palavrasCs[index + 1];
+                            return sens;
+                        }
+                    }
+
                     string[] palavras = linha.Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
                     if (palavras.Length > 1)
                     {

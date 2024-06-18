@@ -16,6 +16,7 @@
     </Window.DataContext>
     <Window.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
     </Window.Resources>
     
     <Grid>
@@ -41,6 +42,9 @@
         </Border>
 
         <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Foreground="PaleVioletRed" Text="{Binding MessagemErro}" FontFamily="../fonts/#Poppins" FontSize="14" 
+                       Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" Width="300" TextAlignment="Center"
+                       Visibility="{Binding MessagemErro, Converter={StaticResource StringToVisibilityConverter}}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -53,7 +57,8 @@
                     <TextBox FontFamily="..\fonts\#Poppins" Foreground="Black" Padding="3"
                              FontSize="16" VerticalAlignment="Center" Width="80" BorderBrush="#2E2BC2"
                              Text="{Binding NovaSensibilidade, UpdateSourceTrigger=PropertyChanged}"
-                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                             Loaded="TextBox_Loaded"/>
                     <Label Foreground="White" Content="{Binding Slot.Sensibilidade}" FontFamily="../fonts/#Poppins" FontSize="16" 
                            VerticalAlignment="Center"
                            Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}"/>
