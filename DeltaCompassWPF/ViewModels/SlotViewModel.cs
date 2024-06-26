@@ -448,7 +448,7 @@ namespace DeltaCompassWPF.ViewModels
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
-                    Filter = "Config Files (*.cfg)|*.cfg|All Files (*.*)|*.*"
+                    Filter = "Config Files (*.cfg;*.cst;*.vcfg)|*.cfg;*.cst;*.vcfg|All Files (*.*)|*.*"
                 };
 
                 if (openFileDialog.ShowDialog() == true)
@@ -457,9 +457,11 @@ namespace DeltaCompassWPF.ViewModels
                     if (File.Exists(selectedFilePath))
                     {
                         string config = GetConfigKey(_jogoSelecionado.Nome);
+                        string sens = ProcurarSens(selectedFilePath, config);
+                        Console.Write(sens);
                         _slot = new SlotConfiguracao
                         {
-                            Sensibilidade = double.Parse(ProcurarSens(selectedFilePath, config), CultureInfo.InvariantCulture),
+                            Sensibilidade = double.Parse(ProcurarSens(selectedFilePath, config).Trim('"'), CultureInfo.InvariantCulture),
                             Nome = _jogoSelecionado.Nome,
                             IdUser = CurrentUser.Id,
                             IdJogo = _jogoSelecionado.Id
@@ -478,17 +480,17 @@ namespace DeltaCompassWPF.ViewModels
             switch (gameName)
             {
                 case "Counter Strike 2":
-                    return "sensitivity";
+                    return "\"sensitivity\"";
                 case "Apex Legends":
                     return "mouse_sensitivity";
                 case "Call of Duty MWIII":
-                    return "";
+                    return "MouseHorizontalSensibility:0.0";
                 case "Portal 2":
-                    return "";
+                    return "sensitivity";
                 case "Rainbow Six Siege":
-                    return "";
+                    return "sens";
                 case "Valorant":
-                    return "";
+                    return "sens";
                 default:
                     throw new ArgumentException("Jogo não suportado");
             }
@@ -884,6 +886,7 @@ namespace DeltaCompassWPF.ViewModels
                     }
                     if (SensManual == true)
                     {
+                        if (Sensibilidade == null) return;
                         _slot = new SlotConfiguracao
                         {
                             Sensibilidade = double.Parse(Sensibilidade),

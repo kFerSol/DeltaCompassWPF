@@ -84,7 +84,7 @@
                     <RowDefinition Height="1.5*"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-                <Button Background="White" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="5"
+                <Button Background="#3734BF" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave"
                         Click="btnConversao_Click">
                     <Button.Style>
@@ -99,7 +99,7 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="Gray" 
+                                                <Setter Property="Background" Value="#353483" 
                                                         TargetName="Border"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -108,11 +108,14 @@
                             </Setter>
                         </Style>
                     </Button.Style>
-                    <Label Content="Converter Sensibilidade" FontFamily="/fonts/#Poppins" FontSize="18" 
-                           FontWeight="Bold" Margin="0, 160, 0, 0"/>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Source="resource/sync-delta.png" Width="35"/>
+                        <Label Content="Converter Sensibilidade" FontFamily="/fonts/#Poppins" FontSize="18" 
+                               FontWeight="Regular" Foreground="White" Padding="2, 0"/>
+                    </StackPanel>
                 </Button>
-                
-                <Button Background="White" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Margin="5"
+
+                <Button Background="#4A48BC" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
                         Click="btnCla_Click">
                     <Button.Style>
@@ -127,7 +130,7 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="Gray" 
+                                                <Setter Property="Background" Value="#353483" 
                                                         TargetName="Border"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -136,11 +139,14 @@
                             </Setter>
                         </Style>
                     </Button.Style>
-                    <Label Content="Criar Clã" FontFamily="/fonts/#Poppins" FontSize="18" 
-                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 120, 0, 0"/>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Source="resource/shield-delta.png" Width="40"/>
+                        <Label Content="Criar Clã" FontFamily="/fonts/#Poppins" FontSize="18" 
+                               FontWeight="Regular" Foreground="White" Padding="2, 0"/>
+                    </StackPanel>
                 </Button>
 
-                <Button Background="White" Grid.Column="1" Grid.Row="0" Margin="5"
+                <Button Background="#5E5CDE" Grid.Column="1" Grid.Row="0" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
                         Click="btnBuscar_Click">
                     <Button.Style>
@@ -155,7 +161,7 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="Gray" 
+                                                <Setter Property="Background" Value="#353483" 
                                                         TargetName="Border"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -164,11 +170,14 @@
                             </Setter>
                         </Style>
                     </Button.Style>
-                    <Label Content="Procurar Outros Usuarios" FontFamily="/fonts/#Poppins" FontSize="18" 
-                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 80, 0, 0"/>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Source="resource/users-delta.png" Width="35"/>
+                        <Label Content="Buscar Usuários/Clãs" FontFamily="/fonts/#Poppins" FontSize="18" 
+                               FontWeight="Regular" Foreground="White" Padding="2, 0"/>
+                    </StackPanel>
                 </Button>
 
-                <Button x:Name="btnHomePerfil" Background="White" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Margin="5"
+                <Button x:Name="btnHomePerfil" Background="#3C3AA5" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
                         Click="btnPerfil_Click" 
                         Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
@@ -184,7 +193,7 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="Gray" 
+                                                <Setter Property="Background" Value="#353483" 
                                                         TargetName="Border"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -193,11 +202,14 @@
                             </Setter>
                         </Style>
                     </Button.Style>
-                    <Label Content="Perfil do Usuário" FontFamily="/fonts/#Poppins" FontSize="18" 
-                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 90, 0, 0"/>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Source="resource/user-delta.png" Width="35"/>
+                        <Label Content="Perfil do Usuário" FontFamily="/fonts/#Poppins" FontSize="18" 
+                               FontWeight="Regular" Foreground="White" Padding="2, 0"/>
+                    </StackPanel>
                 </Button>
 
-                <Button x:Name="btnCadastro" Background="White" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="5"
+                <Button x:Name="btnCadastro" Background="#4A48BC" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave" 
                         Click="btnCadastro_Click"
                         Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
@@ -213,7 +225,7 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="Gray" 
+                                                <Setter Property="Background" Value="#353483" 
                                                         TargetName="Border"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -222,11 +234,14 @@
                             </Setter>
                         </Style>
                     </Button.Style>
-                    <Label Content="Cadastrar Conta" FontFamily="/fonts/#Poppins" FontSize="18" 
-                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 90, 0, 0"/>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Source="resource/add-box.png" Width="35"/>
+                        <Label Content="Cadastrar Conta" FontFamily="/fonts/#Poppins" FontSize="18" 
+                               FontWeight="Regular" Foreground="White" Padding="2, 0"/>
+                    </StackPanel>
                 </Button>
 
-                <Button x:Name="btnLogin" Background="White" Grid.Column="1" Grid.Row="3" Margin="5"
+                <Button x:Name="btnLogin" Background="#6967CA" Grid.Column="1" Grid.Row="3" Margin="5"
                         BorderThickness="0" MouseEnter="sidebarBtn_MouseEnter" MouseLeave="sidebarBtn_MouseLeave"
                         Click="btnLogin_Click"
                         Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}">
@@ -242,7 +257,7 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="Gray" 
+                                                <Setter Property="Background" Value="#353483" 
                                                         TargetName="Border"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -251,8 +266,11 @@
                             </Setter>
                         </Style>
                     </Button.Style>
-                    <Label Content="Entrar na Conta" FontFamily="/fonts/#Poppins" FontSize="18" 
-                           FontWeight="Bold" DockPanel.Dock="Bottom" Margin="0, 40, 0, 0"/>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Source="resource/login.png" Width="35"/>
+                        <Label Content="Entrar na Conta" FontFamily="/fonts/#Poppins" FontSize="18" 
+                               FontWeight="Regular" Foreground="White" Padding="2, 0"/>
+                    </StackPanel>
                 </Button>
             </Grid>
             <Frame Navigated="main_Navigated" NavigationUIVisibility="Hidden" x:Name="main"/>

@@ -24,6 +24,29 @@ namespace DeltaCompassWPF.Repositories
             _userService = UserService.Instance;
         }
 
+        public void SendSuport(int id, SuporteModel suport)
+        {
+            try
+            {
+                using (var connection = GetConnection())
+                using(var command = new MySqlCommand())
+                {
+                    connection.Open();
+                    command.Connection = connection;
+                    command.CommandText = "INSERT INTO tb_suporte (ds_assunto, ds_comentario, cd_usuario)" +
+                        "VALUES (@titulo, @comentario, @IdUser)";
+                    command.Parameters.Add("@titulo", MySqlDbType.VarChar).Value = suport.Titulo;
+                    command.Parameters.Add("@comentario", MySqlDbType.VarChar).Value = suport.Comentario;
+                    command.Parameters.Add("@IdUser", MySqlDbType.VarChar).Value = id;
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.Write(ex);
+            }
+        }
+
         public void Add(Usuario usuario, string hashSenha)
         {
             try

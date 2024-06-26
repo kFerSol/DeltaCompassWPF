@@ -24,5 +24,15 @@ namespace DeltaCompassWPF.Views
         {
             InitializeComponent();
         }
+
+        private void btnAplicar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void btnAplicar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.Cursor = Cursors.Arrow;
+        }
     }
 }

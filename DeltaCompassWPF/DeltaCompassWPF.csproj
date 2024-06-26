@@ -127,6 +127,7 @@
     <Compile Include="Models\IUserRepository.cs" />
     <Compile Include="Models\Jogo.cs" />
     <Compile Include="Models\SlotConfiguracao.cs" />
+    <Compile Include="Models\SuporteModel.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Repositories\Authentication\CustomIdentity.cs" />
     <Compile Include="Repositories\Authentication\CustomPrincipal.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="ViewModels\ConfigurarPerfilViewModel.cs" />
     <Compile Include="ViewModels\PerfilViewModel.cs" />
     <Compile Include="ViewModels\SlotViewModel.cs" />
+    <Compile Include="ViewModels\SuporteViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\JanelaAbrirSlot.xaml.cs">
       <DependentUpon>JanelaAbrirSlot.xaml</DependentUpon>
@@ -405,6 +407,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\shield.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\add-box.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

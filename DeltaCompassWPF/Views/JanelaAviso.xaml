@@ -72,6 +72,7 @@
             </StackPanel>
             <Button x:Name="btnConfirmar" ToolTip="Confirmar" Background="#2E2BC2"
                     BorderThickness="0" Height="30" Width="150" Margin="0, 15, 0, 0"
+                    Click="btnConfirmar_Click"
                     MouseEnter="btnConfirmar_MouseEnter" MouseLeave="btnConfirmar_MouseLeave">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">

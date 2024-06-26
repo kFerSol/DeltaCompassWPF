@@ -454,71 +454,71 @@
             </StackPanel>
         </ScrollViewer>
         <Grid Height="auto" Width="140" Margin="0, 0, 20, 20" Grid.Row="2" Grid.Column="1" >
-            <Border x:Name="bordaSalvarPerfil" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
-                    VerticalAlignment="Bottom" Background="#2E2BC2"
-                    MouseEnter="bordaSalvarPerfil_MouseEnter" MouseLeave="bordaSalvarPerfil_MouseLeave" Visibility="Collapsed">
-                <Button x:Name="btnSalvarPerfil" 
-                        ToolTip="Salvar Alterações" 
-                        Background="Transparent" 
-                        Command="{Binding SalvarConfigCommand}">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Background" Value="#101010" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                  VerticalAlignment="Center"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#16145C" 
-                                                        TargetName="Border"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                    <Label Content="Salvar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
-                </Button>
-            </Border>
+            <Button x:Name="bordaSalvarPerfil" ToolTip="Aplicar sensibilidade" Background="#2E2BC2"
+                    BorderThickness="0" HorizontalAlignment="Right" Visibility="Collapsed"
+                    Height="34" Width="140" MouseEnter="bordaSalvarGeral_MouseEnter" 
+                    MouseLeave="bordaSalvarGeral_MouseLeave"
+                    Command="{Binding SalvarConfigCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#101010" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="Border" BorderBrush="{TemplateBinding Background}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}" 
+                                            Background="{TemplateBinding Background}" CornerRadius="10">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#16145C" 
+                                                    TargetName="Border"/>
+                                            <Setter Property="BorderBrush" Value="#16145C" 
+                                                    TargetName="Border"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <Label Content="Salvar" FontFamily="..\fonts\#ModeSeven" Foreground="White" 
+                       FontSize="15"/>
+            </Button>
 
-            <Border x:Name="bordaSalvarGeral" CornerRadius="10" BorderThickness="5" BorderBrush="#2E2BC2" 
-                    VerticalAlignment="Bottom" Background="#2E2BC2"
-                    MouseEnter="bordaSalvarGeral_MouseEnter" MouseLeave="bordaSalvarGeral_MouseLeave" Visibility="Visible">
-                <Button x:Name="btnSalvarGeral" 
-                        ToolTip="Salvar Alterações" 
-                        Background="Transparent" 
-                        Command="{Binding SalvarConfigGeralCommand}"
-                        Click="btnSalvarGeral_Click"
-                        MouseEnter="bordaSalvarGeral_MouseEnter" MouseLeave="bordaSalvarGeral_MouseLeave">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Background" Value="#101010" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                              VerticalAlignment="Center"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#16145C" 
-                                                        TargetName="Border"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                    <Label Content="Salvar" FontFamily="..\fonts\#ModeSeven" Foreground="White" FontSize="15"/>
-                </Button>
-            </Border>
+            <Button x:Name="bordaSalvarGeral" ToolTip="Aplicar sensibilidade" Background="#2E2BC2"
+                    BorderThickness="0" HorizontalAlignment="Right"
+                    Height="34" Width="140" MouseEnter="bordaSalvarGeral_MouseEnter" 
+                    MouseLeave="bordaSalvarGeral_MouseLeave" Visibility="Visible"
+                    Command="{Binding SalvarConfigGeralCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#101010" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="Border" BorderBrush="{TemplateBinding Background}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}" 
+                                            Background="{TemplateBinding Background}" CornerRadius="10">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#16145C" 
+                                        TargetName="Border"/>
+                                            <Setter Property="BorderBrush" Value="#16145C" 
+                                        TargetName="Border"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <Label Content="Salvar" FontFamily="..\fonts\#ModeSeven" Foreground="White" 
+                       FontSize="15"/>
+            </Button>
         </Grid>
     </Grid>
 </Page>

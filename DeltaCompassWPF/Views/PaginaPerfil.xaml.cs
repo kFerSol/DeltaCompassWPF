@@ -59,5 +59,10 @@ namespace DeltaCompassWPF.Views
         {
             
         }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

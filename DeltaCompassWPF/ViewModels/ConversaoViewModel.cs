@@ -80,7 +80,14 @@ namespace DeltaCompassWPF.ViewModels
             get { return _sensTemporaria; }
             set 
             {
-                _sensTemporaria = value;
+                if (!string.IsNullOrWhiteSpace(value) && double.TryParse(value, out _resultado))
+                {
+                    _sensTemporaria = value;
+                }
+                else
+                {
+                    _sensTemporaria = "0";
+                }
                 OnPropertyChanged(nameof(SensTemporaria));
                 AtualizarResultado();
             }
@@ -224,7 +231,14 @@ namespace DeltaCompassWPF.ViewModels
             get => _sensibilidade;
             set
             {
-                _sensibilidade = value;
+                if (!string.IsNullOrWhiteSpace(value) && double.TryParse(value, out _resultado))
+                {
+                    _sensibilidade = value;
+                }
+                else
+                {
+                    _sensibilidade = "0";
+                }
                 OnPropertyChanged(nameof(Sensibilidade));
             }
         }
@@ -593,11 +607,15 @@ namespace DeltaCompassWPF.ViewModels
                 
                 if (IsLoggedIn)
                 {
+                    if (Sensibilidade == null)
+                        Sensibilidade = "0";
                     sens = SensibilidadeAtual?.Sensibilidade ?? double.Parse(Sensibilidade);
                     dpi = DpiSalvo != 0 ? DpiSalvo : DpiTemporaria;
                 }
                 else
                 {
+                    if (SensTemporaria == null)
+                        SensTemporaria = "0";
                     sens = double.Parse(SensTemporaria) != 0 ? double.Parse(SensTemporaria) : SensInserida;
                     dpi = DpiTemporaria;
                 }

@@ -53,5 +53,10 @@ namespace DeltaCompassWPF.Views
         {
             this.Cursor = Cursors.Arrow;
         }
+
+        private void btnConfirmar_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

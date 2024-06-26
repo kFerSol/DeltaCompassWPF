@@ -41,6 +41,9 @@
 
         <!--Foto de fundo-->
         <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1" Grid.Row="0">
+            <Border x:Name="picfundo" Height="200" Width="800" BorderBrush="#2E2BC2" BorderThickness="1"
+                    Background="LightGray">
+            </Border>
             <Border Background="{Binding ImagemFundo, Converter={StaticResource BytesToImageBrushConverter}}"></Border>
         </Grid>
 
@@ -170,7 +173,7 @@
         <Grid Grid.Row="4" Grid.Column="1"> <!--Essa Grid separa a região de seguidores.-->
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="100" Foreground="White" FontFamily="..\fonts\#Poppins" 
+                    <Label Content="0" Foreground="White" FontFamily="..\fonts\#Poppins" 
                            FontWeight="Bold" 
                            FontSize="15" HorizontalAlignment="center" Padding="0"/>
                     <Label Content="Seguidores" Foreground="White" FontFamily="..\fonts\#Poppins" 
@@ -178,7 +181,7 @@
                            FontSize="13" Padding="0" HorizontalAlignment="center"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="60, 0, 0, 0">
-                    <Label Content="100" Foreground="White" FontFamily="..\fonts\#Poppins" 
+                    <Label Content="0" Foreground="White" FontFamily="..\fonts\#Poppins" 
                            FontWeight="Bold" FontSize="15" 
                            HorizontalAlignment="center" Padding="0"/>
                     <Label Content="Seguindo" Foreground="White" FontFamily="..\fonts\#Poppins" 
@@ -250,7 +253,8 @@
 
         <!--Botão de editar-->
         <Border BorderBrush="#2E2BC2" BorderThickness="2" CornerRadius="15" Grid.Row="0" Grid.Column="2" 
-                HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="30" Margin="10">
+                HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="30" Margin="10"
+                MouseDown="Border_MouseDown">
             <StackPanel Orientation="Horizontal">
                 <Image Source="..\resource\edit-box-delta.png" Margin="5, 0, 0, 0" Width="20" Height="20"/>
                 <Label Content="Editar" FontFamily="..\fonts\#ModeSeven" Foreground="#2E2BC2" VerticalAlignment="Center" 

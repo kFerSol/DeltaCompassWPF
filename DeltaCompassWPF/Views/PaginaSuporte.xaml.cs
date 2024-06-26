@@ -24,5 +24,31 @@ namespace DeltaCompassWPF.Views
         {
             InitializeComponent();
         }
+
+        private void btnAplicar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void btnAplicar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.Cursor = Cursors.Arrow;
+        }
+
+        private void txtDetalhes_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtDetalhes.Text != "")
+                placeDetalhes.Visibility = Visibility.Collapsed;
+            else
+                placeDetalhes.Visibility = Visibility.Visible;
+        }
+
+        private void txtAssunto_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtAssunto.Text != "")
+                placeAssunto.Visibility = Visibility.Collapsed;
+            else
+                placeAssunto.Visibility = Visibility.Visible;
+        }
     }
 }
